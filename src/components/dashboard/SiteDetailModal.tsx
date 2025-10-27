@@ -283,12 +283,12 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 					)}
 
 					{/* Action Buttons */}
-					<div className='flex gap-2 pt-2'>
+					{/* <div className='flex gap-2 pt-2'>
 						<Button className='flex-1'>Schedule Maintenance</Button>
 						<Button variant='outline' className='flex-1'>
 							View Full Report
 						</Button>
-					</div>
+					</div> */}
 				</div>
 			</DialogContent>
 		</Dialog>
