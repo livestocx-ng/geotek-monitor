@@ -21,6 +21,46 @@ interface MapPanelProps {
 	onLayerChange: (layer: string) => void;
 }
 
+const stateCoordinates: Record<string, [number, number]> = {
+	'Abia': [7.4833, 5.5333],
+	'Adamawa': [9.3333, 12.5000],
+	'Akwa Ibom': [4.9067, 7.8500],
+	'Anambra': [6.2200, 6.9333],
+	'Bauchi': [10.3158, 9.8442],
+	'Bayelsa': [4.7719, 6.0699],
+	'Benue': [7.3333, 8.5000],
+	'Borno': [11.8333, 13.1500],
+	'Cross River': [5.8700, 8.5967],
+	'Delta': [5.6800, 6.0000],
+	'Ebonyi': [6.2649, 8.0137],
+	'Edo': [6.3350, 5.6037],
+	'Ekiti': [7.7167, 5.3167],
+	'Enugu': [6.5244, 7.5106],
+	'FCT': [9.0765, 7.3986],
+	'Gombe': [10.2900, 11.1700],
+	'Imo': [5.5720, 7.0588],
+	'Jigawa': [12.2300, 9.5617],
+	'Kaduna': [10.5105, 7.4165],
+	'Kano': [12.0022, 8.5919],
+	'Katsina': [12.9908, 7.6006],
+	'Kebbi': [11.5000, 4.2000],
+	'Kogi': [7.7333, 6.7400],
+	'Kwara': [8.9667, 4.5833],
+	'Lagos': [6.5244, 3.3792],
+	'Nasarawa': [8.5400, 7.7000],
+	'Niger': [9.6100, 5.5200],
+	'Ogun': [6.9900, 3.5000],
+	'Ondo': [7.2500, 5.1950],
+	'Osun': [7.5629, 4.5200],
+	'Oyo': [8.0000, 4.0000],
+	'Plateau': [9.2182, 8.8919],
+	'Rivers': [4.8156, 6.9132],
+	'Sokoto': [13.0622, 5.2339],
+	'Taraba': [7.9833, 10.7667],
+	'Yobe': [12.2939, 11.7510],
+	'Zamfara': [12.1704, 6.6599],
+}
+
 const layers = [
 	{id: 'infrastructure', label: 'Infrastructure', icon: MapPin},
 	{id: 'quality', label: 'Water Quality', icon: Droplets},
@@ -46,6 +86,16 @@ const MapContent = ({
 	setSelectedSite: (site: WaterSite | null) => void;
 }) => {
 	const map = useMap();
+
+  useEffect(() => {
+    if (selectedState && map) {
+      const coordinates = stateCoordinates[selectedState];
+      if (coordinates) {
+        map.setCenter({lat: coordinates[0], lng: coordinates[1]});
+        map.setZoom(8);
+      }
+    }
+  }, [selectedState, map]);
 
 	useEffect(() => {
 		if (!map) return;
