@@ -1,7 +1,11 @@
-import {Droplet, Activity, Bell} from 'lucide-react';
-import {Badge} from '@/components/ui/badge';
+import {Activity, Database} from 'lucide-react';
+import {Button} from '@/components/ui/button';
+import {useState} from 'react';
+import DataRequestModal from './DataRequestModal';
 
 const DashboardHeader = () => {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	return (
 		<header className='h-16 bg-dashboard-panel border-b border-border flex items-center justify-between px-6'>
 			<div className='flex items-center gap-3'>
@@ -23,19 +27,25 @@ const DashboardHeader = () => {
 			</div>
 
 			<div className='flex items-center gap-4'>
-				<div className='flex items-center gap-2'>
+				{/* <div className='flex items-center gap-2'>
 					<Activity className='w-4 h-4 text-metric-success animate-pulse-glow' />
 					<span className='text-sm text-muted-foreground'>
 						System Online
 					</span>
-				</div>
+				</div> */}
 
-				<div className='relative'>
-					<Bell className='w-5 h-5 text-muted-foreground cursor-pointer hover:text-foreground transition-colors' />
-					<Badge className='absolute -top-1 -right-1 w-4 h-4 p-0 flex items-center justify-center bg-metric-danger text-[10px]'>
-						3
-					</Badge>
-				</div>
+				<Button
+					onClick={() => setIsModalOpen(true)}
+					className='flex items-center gap-2 bg-blue-900 hover:bg-blue-800'
+				>
+					<Database className='w-4 h-4' />
+					Request Data
+				</Button>
+
+				<DataRequestModal
+					open={isModalOpen}
+					onClose={() => setIsModalOpen(false)}
+				/>
 			</div>
 		</header>
 	);

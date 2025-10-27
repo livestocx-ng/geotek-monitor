@@ -60,7 +60,7 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 				<DialogHeader>
 					<div className='flex items-start justify-between'>
 						<div>
-							<DialogTitle className='text-xl font-bold mb-2'>
+							<DialogTitle className='text-xl font-bold mb2'>
 								{site.name}
 							</DialogTitle>
 							<DialogDescription className='text-muted-foreground'>
@@ -77,10 +77,10 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 					</div>
 				</DialogHeader>
 
-				<div className='space-y-2 mt-4'>
+				<div className='space-y-1 mt4'>
 					{/* Water Quality Metrics */}
 					<div>
-						<h4 className='text-sm font-semibold mb- flex items-center gap-2'>
+						<h4 className='text-sm font-semibold mb-3 flex items-center gap-2'>
 							<Droplets className='w-4 h-4 text-water-primary' />
 							Water Quality Metrics
 						</h4>
@@ -168,21 +168,21 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 
 					{/* Operational Metrics */}
 					<div>
-						<h4 className='text-sm font-semibold mb- flex items-center gap-2'>
+						<h4 className='text-sm font-semibold mb-3 flex items-center gap-2'>
 							<Activity className='w-4 h-4 text-primary' />
 							Operational Status
 						</h4>
 						<div className='grid grid-cols-2 gap-3'>
-							<div className='bg-background/50 rounded-lg p-3'>
-								<div className='text-xs text-muted-foreground mb-1'>
+							<div className='bg-background/50 rounded-lg p3'>
+								<div className='text-xs text-muted-foreground mb1'>
 									System Uptime
 								</div>
 								<div className='text-lg font-bold'>
 									{site.uptime}%
 								</div>
 							</div>
-							<div className='bg-background/50 rounded-lg p-3'>
-								<div className='text-xs text-muted-foreground mb-1'>
+							<div className='bg-background/50 rounded-lg p3'>
+								<div className='text-xs text-muted-foreground mb1'>
 									People Served
 								</div>
 								<div className='text-lg font-bold'>
@@ -190,8 +190,8 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 								</div>
 							</div>
 							{site.pumpType && (
-								<div className='bg-background/50 rounded-lg p-3'>
-									<div className='text-xs text-muted-foreground mb-1'>
+								<div className='bg-background/50 rounded-lg p3'>
+									<div className='text-xs text-muted-foreground mb1'>
 										Pump Type
 									</div>
 									<div className='text-sm font-bold'>
@@ -200,8 +200,8 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 								</div>
 							)}
 							{site.contamination !== undefined && (
-								<div className='bg-background/50 rounded-lg p-3'>
-									<div className='text-xs text-muted-foreground mb-1'>
+								<div className='bg-background/50 rounded-lg p3'>
+									<div className='text-xs text-muted-foreground mb1'>
 										Contamination
 									</div>
 									<div className='text-lg font-bold'>
@@ -211,7 +211,7 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 							)}
 							{site.healthRisk && (
 								<div className='bg-background/50 rounded-lg p-3'>
-									<div className='text-xs text-muted-foreground mb-1'>
+									<div className='text-xs text-muted-foreground mb1'>
 										Health Risk
 									</div>
 									<Badge
@@ -229,7 +229,7 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 							)}
 							{site.scarcity !== undefined && (
 								<div className='bg-background/50 rounded-lg p-3'>
-									<div className='text-xs text-muted-foreground mb-1'>
+									<div className='text-xs text-muted-foreground mb1'>
 										Water Scarcity
 									</div>
 									<Badge

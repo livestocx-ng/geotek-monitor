@@ -1,154 +1,154 @@
 STATES,LATITUDE,LONGTITUDE,WATER INFRASTRUCTURE POINTS,PUMP TYPE,WATER TURBIDITY,pH LEVEL,CHLORINE LEVEL,CONTAMINATION,HEALTH RISK LEVEL,DISPLAY TYPE,SCARCITY
-Adamawa,9.289875429,12.42396892,Borehole,Motorized,14.9,7.54,0.58,0.52,High,GOODWATER,TRUE
-Adamawa,9.289812322,12.4175755,Borehole,Motorized,4.1,6.6,0.85,0.35,Moderate,GROUNDWATER POTENTIAL,FALSE
-Adamawa,9.287642119,12.40932911,Borehole,Hand pump,4.3,8.28,0.82,0.49,Moderate,WATERCONTAMINATION,FALSE
-Bauchi,10.62595789,9.942856402,Borehole,Hand pump,6.1,7.34,0.65,0.33,Moderate,WATERSCARCITY,TRUE
-Bauchi,11.4504,7.2047,Borehole,Motorized,5.3,7.46,0.65,0.19,Low,GOODWATER,FALSE
-Bauchi,10.68077116,10.075329,Borehole,Motorized,4.3,7.7,0.29,0.15,Low,WATERSCARCITY,FALSE
-Bauchi,10.8815691,10.05883988,Borehole,Motorized,8.4,6.59,0.95,0.36,Moderate,WATERSCARCITY,FALSE
-Bauchi,10.95487203,10.09257246,Borehole,Motorized,13.9,8.01,0.29,0.47,High,WATERCONTAMINATION,FALSE
-Bauchi,10.29066432,9.82943891,Borehole,Hand pump,14.2,8.15,0.34,0.56,High,WATERSCARCITY,TRUE
-Borno,12.27832689,12.78873173,Borehole,Motorized,4.6,6.96,0.68,0.56,High,GROUNDWATER POTENTIAL,FALSE
-Borno,12.71437247,13.11939274,Borehole,Motorized,9,6.88,0.98,0.36,Moderate,WATERSCARCITY,FALSE
-Borno,12.32739057,13.61667274,Borehole,Motorized,14.1,6.69,0.54,0.41,High,GROUNDWATER POTENTIAL,FALSE
-Borno,11.47681168,13.92819295,Borehole,Motorized,4,6.97,0.93,0.61,High,WATERCONTAMINATION,TRUE
-Borno,10.88878598,12.50347384,Borehole,Motorized,11.6,7.18,0.46,0.36,High,GOODWATER,TRUE
-Borno,13.02887501,12.93000751,Borehole,Hand pump,9.6,6.94,0.27,0.2,Moderate,WATERCONTAMINATION,FALSE
-Borno,11.61749045,13.44597566,Borehole,Motorized,10,7.34,0.61,0.32,Moderate,GROUNDWATER POTENTIAL,FALSE
-Gombe,10.2974767,11.15707665,Borehole,Motorized,6.6,7.01,0.27,0.25,Low,GROUNDWATER POTENTIAL,TRUE
-Gombe,10.26639823,11.16016655,Borehole,Motorized,4.7,8.01,0.68,0.35,Moderate,WATERCONTAMINATION,TRUE
-Gombe,10.29270622,11.17001176,Borehole,Motorized,8.8,7.46,0.27,0.52,High,WATERCONTAMINATION,TRUE
-Gombe,10.28508835,11.15906329,Borehole,Motorized,8.5,7.43,0.4,0.38,Moderate,GROUNDWATER POTENTIAL,TRUE
-Gombe,10.28874475,11.1724142,Borehole,Motorized,12.8,7.5,0.95,0.19,High,WATERCONTAMINATION,TRUE
-Taraba,7.963066564,9.855065489,Borehole,Hand pump,14.4,7.23,0.97,0.5,High,WATERCONTAMINATION,TRUE
-Taraba,7.667175666,10.90491908,Borehole,Motorized,12.2,7.95,0.68,0.43,High,GOODWATER,FALSE
-Taraba,7.579713612,11.24883664,Borehole,Hand pump,7.1,8.14,0.9,0.17,Moderate,WATERCONTAMINATION,TRUE
-Taraba,8.319196301,10.19445781,Borehole,Hand pump,12.2,7.4,0.97,0.23,High,WATERCONTAMINATION,FALSE
-Taraba,8.822629431,10.48978355,Borehole,Hand pump,12.4,7.91,0.67,0.48,High,WATERCONTAMINATION,FALSE
-Taraba,7.894512833,10.80284354,Borehole,Motorized,6.2,6.52,0.8,0.32,Moderate,GOODWATER,FALSE
-Yobe,12.64872407,11.41172763,Borehole,Motorized,9.1,6.97,0.84,0.46,Moderate,WATERSCARCITY,FALSE
-Yobe,11.4346106,11.32383701,Borehole,Motorized,9,7.35,0.3,0.64,High,,FALSE
-Yobe,12.45610596,11.47491969,Borehole,Motorized,6.3,7.77,0.57,0.45,Moderate,WATERSCARE,TRUE
-Yobe,12.76499394,11.02457022,Borehole,Hand pump,7.4,7.92,0.93,0.2,Moderate,WATERCONTAMINATION,FALSE
-Jigawa,12.13312775,9.381443625,Borehole,Hand pump,7.2,7.86,0.8,0.56,High,GROUNDWATER POTENTIAL,TRUE
-Jigawa,12.11276844,9.470688002,Borehole,Motorized,13.1,7.32,0.25,0.27,High,WATERSCARE,TRUE
-Jigawa,12.11931268,9.323062928,Borehole,Motorized,10.6,7.02,0.42,0.4,High,WATERCONTAMINATION,FALSE
-Jigawa,12.24544553,9.447230206,Borehole,Hand pump,9.9,7.82,0.96,0.33,Moderate,WATERCONTAMINATION,FALSE
-Kaduna,10.50663656,7.434369014,Borehole,Motorized,4.2,7.86,0.3,0.36,Moderate,WATERCONTAMINATION,FALSE
-Kaduna,10.51495143,7.434315311,Borehole,Motorized,12.6,7.48,0.52,0.19,High,WATERSCARE,TRUE
-Kaduna,10.51153838,7.433796608,Borehole,Motorized,5.8,7.49,0.89,0.31,Moderate,GOODWATER,TRUE
-Kaduna,10.51465067,7.429407577,Borehole,Motorized,12.4,7.89,0.44,0.37,High,WATERSCARE,TRUE
-Kaduna,10.519043,7.433012649,Borehole,Motorized,9.5,7.01,0.98,0.37,Moderate,GROUNDWATER POTENTIAL,TRUE
-Kaduna,10.50385536,7.430607429,Borehole,Hand pump,6,8,0.48,0.46,Moderate,GROUNDWATER POTENTIAL,TRUE
-Kaduna,10.50653559,7.43851793,Borehole,Motorized,5.7,7.83,0.22,0.4,Moderate,WATERCONTAMINATION,TRUE
-Kaduna,10.50212109,7.429698791,Borehole,Motorized,7.2,7.6,0.48,0.4,Moderate,GROUNDWATER POTENTIAL,TRUE
-Kaduna,10.50283239,7.448057962,Borehole,Motorized,5.7,7.38,0.38,0.44,Moderate,WATERSCARE,TRUE
-Kaduna,10.50323709,7.437493831,Borehole,Motorized,7,8,0.95,0.52,High,GOODWATER,FALSE
-Kano,12.00484289,8.547395316,Borehole,Hand pump,6.4,7.63,0.79,0.6,High,WATERCONTAMINATION,FALSE
-Kano,11.94976373,8.523362724,Borehole,Motorized,8.6,7.44,0.32,0.6,High,GROUNDWATER POTENTIAL,TRUE
-Kano,12.00484289,8.533662406,Borehole,Motorized,8.7,8.08,0.59,0.35,Moderate,WATERCONTAMINATION,TRUE
-Kano,11.99073832,8.473924248,Borehole,Motorized,8,6.72,0.24,0.58,High,WATERCONTAMINATION,TRUE
-Kano,11.5161,7.6727,Borehole,Motorized,8.9,8.08,0.82,0.57,High,GOODWATER,FALSE
-Kano,11.2927,7.9395,Borehole,Hand pump,8,7.69,0.23,0.2,Moderate,GOODWATER,TRUE
-Kano,11.265,8.2178,Borehole,Motorized,11.8,6.87,0.81,0.53,High,WATERCONTAMINATION,TRUE
-Kano,11.3108,8.0995,Borehole,Motorized,9.6,7.11,0.87,0.33,Moderate,WATERSCARE,TRUE
-Kano,11.4209,8.1985,Borehole,Motorized,4.2,7.44,0.82,0.38,Moderate,GROUNDWATER POTENTIAL,TRUE
-Kano,11.1387,7.8194,Borehole,Motorized,6.9,7.63,0.56,0.61,High,GOODWATER,TRUE
-Katsina,12.6483,8.8181,Borehole,Motorized,6.4,6.79,0.66,0.22,Low,WATERCONTAMINATION,TRUE
-Katsina,12.4347,9.369,Borehole,Motorized,13.2,6.97,0.98,0.57,High,GROUNDWATER POTENTIAL,FALSE
-Katsina,12.3465,9.1719,Borehole,Motorized,6.8,8.01,0.29,0.49,Moderate,GOODWATER,TRUE
-Katsina,12.2836,9.0684,Borehole,Motorized,13.8,7.63,0.37,0.18,High,WATERCONTAMINATION,FALSE
-Katsina,12.6288,8.7868,Borehole,Motorized,7.1,6.72,0.34,0.3,Moderate,GOODWATER,TRUE
-Katsina,12.0633,8.8567,Borehole,Motorized,13.5,7.87,0.51,0.47,High,GOODWATER,FALSE
-Katsina,12.283,8.7928,Borehole,Motorized,13.7,7.15,0.29,0.15,High,WATERCONTAMINATION,FALSE
-Katsina,12.4527,8.7887,Borehole,Motorized,7.9,8.14,0.7,0.35,Moderate,WATERCONTAMINATION,TRUE
-Katsina,12.0789,8.8088,Borehole,Hand pump,10.3,7.3,0.54,0.51,High,WATERCONTAMINATION,FALSE
-Katsina,12.3736,9.0635,Borehole,Hand pump,14.4,6.63,0.64,0.57,High,WATERSCARE,FALSE
-Kebbi,12.1426,10.756,Borehole,Hand pump,6,7.54,0.61,0.36,Moderate,GROUNDWATER POTENTIAL,TRUE
-Kebbi,12.2737,10.8187,Borehole,Motorized,9.2,8.2,0.41,0.49,Moderate,WATERCONTAMINATION,TRUE
-Kebbi,12.3049,10.8498,Borehole,Hand pump,14.5,7.8,0.89,0.56,High,WATERSCARE,TRUE
-Kebbi,12.0437,10.8009,Borehole,Motorized,7,6.93,0.3,0.35,Moderate,WATERSCARE,TRUE
-Kebbi,11.84,10.7795,Borehole,Motorized,4.3,7.66,0.85,0.45,Moderate,WATERSCARE,TRUE
-Kebbi,11.8768,10.6929,Borehole,Hand pump,13.6,7.18,0.44,0.32,High,GROUNDWATER POTENTIAL,TRUE
-Kebbi,11.764,10.8334,Borehole,Motorized,5.5,7.14,0.92,0.34,Moderate,WATERSCARE,FALSE
-Kebbi,11.9327,10.669,Borehole,Motorized,8.8,6.53,0.85,0.49,Moderate,GROUNDWATER POTENTIAL,TRUE
-Kebbi,12.223,10.6888,Borehole,Motorized,12.1,6.84,0.49,0.43,High,GROUNDWATER POTENTIAL,FALSE
-Kebbi,11.93,10.5132,Borehole,Hand pump,12.3,8.3,0.88,0.19,High,GOODWATER,FALSE
-Sokoto,10.0358,4.4238,Borehole,Motorized,9.6,7.78,0.75,0.56,High,WATERSCARE,TRUE
-Sokoto,10.5248,4.2981,Borehole,Motorized,13.7,6.74,0.43,0.62,High,GROUNDWATER POTENTIAL,TRUE
-Sokoto,10.2458,3.9171,Borehole,Motorized,13.3,7.56,0.29,0.22,High,WATERSCARE,FALSE
-Sokoto,10.2133,4.1079,Borehole,Motorized,10.4,6.65,0.86,0.18,High,WATERSCARE,TRUE
-Sokoto,9.9829,4.407,Borehole,Motorized,10.1,7.44,0.47,0.29,High,WATERCONTAMINATION,TRUE
-Zamfara,7.0282,13.0779,Borehole,Motorized,5.3,7.13,0.71,0.38,Moderate,GROUNDWATER POTENTIAL,FALSE
-Zamfara,7.4665,13.2282,Borehole,Motorized,13.6,7.89,0.55,0.38,High,WATERSCARE,FALSE
-Benue,7.6013,8.2671,Borehole,Motorized,12.9,7.19,0.76,0.52,High,GROUNDWATER POTENTIAL,FALSE
-Benue,7.561,8.2815,Borehole,Motorized,10.8,7.88,0.92,0.53,High,GOODWATER,TRUE
-Benue,7.5206,8.2946,Borehole,Motorized,14.6,6.56,0.85,0.37,High,WATERSCARE,FALSE
-Benue,7.222,8.4629,Borehole,Motorized,11.4,6.67,0.78,0.24,High,WATERCONTAMINATION,TRUE
-Benue,7.3264,8.269,Borehole,Motorized,12.2,8.27,0.8,0.56,High,WATERSCARE,FALSE
-Benue,7.382,8.5385,Borehole,Motorized,4.7,6.99,0.4,0.56,High,WATERSCARE,FALSE
-Benue,7.6036,8.3847,Borehole,Motorized,11.7,6.77,0.4,0.31,High,WATERCONTAMINATION,TRUE
-Benue,7.0639,8.5222,Borehole,Motorized,8.6,6.98,0.28,0.58,High,GOODWATER,FALSE
-Benue,7.2384,8.522,Borehole,Hand pump,10,7.46,0.99,0.33,Moderate,GOODWATER,TRUE
-Benue,7.563,8.3986,Borehole,Hand pump,5.4,7.51,0.45,0.6,High,WATERCONTAMINATION,TRUE
-Kogi,11.1958,7.2821,Borehole,Motorized,12.9,7.93,0.49,0.65,High,WATERSCARE,FALSE
-Kogi,11.1764,7.2427,Borehole,Motorized,9.7,7.02,0.95,0.61,High,WATERSCARE,TRUE
-Kogi,11.1845,7.0541,Borehole,Motorized,5.9,6.58,0.8,0.23,Low,WATERCONTAMINATION,FALSE
-Kogi,11.2191,7.3715,Borehole,Hand pump,9.4,6.66,0.61,0.44,Moderate,GROUNDWATER POTENTIAL,FALSE
-Kwara,11.5192,4.9033,Borehole,Hand pump,6.4,8.1,0.8,0.6,High,GROUNDWATER POTENTIAL,FALSE
-Kwara,11.7207,4.8187,Borehole,Motorized,14.8,8.12,0.75,0.38,High,WATERCONTAMINATION,FALSE
-Kwara,11.5158,4.9169,Borehole,Motorized,7.3,8.12,0.21,0.47,Moderate,WATERCONTAMINATION,TRUE
-Kwara,11.3568,4.4048,Borehole,Hand pump,12.6,7.44,0.26,0.27,High,GROUNDWATER POTENTIAL,FALSE
-Nasarawa,9.079,4.8298,Borehole,Hand pump,14.2,8.11,0.24,0.54,High,WATERSCARE,FALSE
-Nasarawa,9.05,4.4771,Borehole,Motorized,11.7,7.38,0.7,0.46,High,GROUNDWATER POTENTIAL,TRUE
-Nasarawa,9.1153,4.4592,Borehole,Motorized,6,7.38,0.99,0.28,Low,GROUNDWATER POTENTIAL,TRUE
-Nasarawa,8.8851,4.99,Borehole,Hand pump,13.1,7.57,0.95,0.34,High,WATERCONTAMINATION,FALSE
-Nasarawa,8.8488,4.7676,Borehole,Motorized,7.4,6.74,0.47,0.27,Moderate,WATERSCARE,FALSE
-Nasarawa,8.9248,4.796,Borehole,Hand pump,8.4,7.85,0.51,0.18,Moderate,WATERCONTAMINATION,TRUE
-Nasarawa,9.3346,4.6519,Borehole,Motorized,8.4,7.57,0.39,0.53,High,GROUNDWATER POTENTIAL,FALSE
-Niger,10.6111,11.3313,Borehole,Hand pump,8.8,7.41,0.82,0.32,Moderate,GROUNDWATER POTENTIAL,FALSE
-Niger,10.4482,11.31,Borehole,Motorized,6.4,6.56,0.68,0.22,Low,WATERCONTAMINATION,FALSE
-Niger,10.5323,11.1918,Borehole,Motorized,7,7.23,0.6,0.2,Low,GROUNDWATER POTENTIAL,FALSE
-Niger,9.648581788,6.528522097,Borehole,Motorized,11.7,6.6,0.78,0.61,High,GROUNDWATER POTENTIAL,TRUE
-Niger,9.604029132,6.514532252,Borehole,Motorized,13.1,7.7,0.75,0.22,High,GOODWATER,FALSE
-Niger,9.613941109,6.541296793,Borehole,Hand pump,8,7.35,0.42,0.5,Moderate,GOODWATER,FALSE
-Plateau,9.864119001,8.854011872,Borehole,Motorized,4.3,7.32,0.82,0.4,Moderate,GOODWATER,FALSE
-Plateau,9.886983134,8.879798557,Borehole,Hand pump,5.6,8.13,0.33,0.56,High,GROUNDWATER POTENTIAL,FALSE
-Plateau,9.939310602,8.876188421,Borehole,Motorized,6.5,7.2,0.48,0.48,Moderate,WATERCONTAMINATION,FALSE
-Plateau,9.868183851,8.770978748,Borehole,Motorized,6.3,7.33,0.47,0.17,Low,WATERCONTAMINATION,FALSE
-Plateau,9.834568663,8.889952797,Borehole,Hand pump,8.9,6.99,0.8,0.58,High,WATERSCARE,FALSE
-Plateau,9.951418961,8.880314998,Borehole,Motorized,5.4,6.61,0.87,0.52,High,GOODWATER,TRUE
-Plateau,9.84834455,8.966732074,Borehole,Motorized,13,6.98,0.9,0.23,High,GROUNDWATER POTENTIAL,FALSE
-Plateau,9.928074729,8.901376607,Borehole,Motorized,13.1,7.13,0.21,0.31,High,WATERSCARE,FALSE
-Plateau,9.936220013,8.87844832,Borehole,Motorized,7.2,6.59,0.2,0.31,Moderate,WATERCONTAMINATION,FALSE
-Plateau,9.888238451,8.884303097,Borehole,Motorized,8.2,7.08,0.8,0.41,Moderate,GOODWATER,FALSE
-Plateau,9.952159128,8.867998854,Borehole,Hand pump,11.4,8.07,0.91,0.22,High,GROUNDWATER POTENTIAL,TRUE
-Abuja,9.023939105,7.482199722,Borehole,Motorized,14.2,7.73,0.4,0.6,High,WATERSCARE,FALSE
-Abuja,9.023520502,7.474090557,Borehole,Motorized,8,7.22,0.69,0.17,Moderate,GROUNDWATER POTENTIAL,TRUE
-Abuja,9.088151213,7.491838755,Borehole,Hand pump,12.6,6.82,0.37,0.62,High,GOODWATER,FALSE
-Abuja,9.082722134,7.469957751,Borehole,Motorized,13.3,7.9,0.98,0.46,High,WATERCONTAMINATION,TRUE
-Abuja,9.073481263,7.431550594,Borehole,Hand pump,8.6,7.72,0.39,0.23,Moderate,WATERCONTAMINATION,FALSE
-Abuja,9.066165404,7.428431231,Borehole,Motorized,5.1,7.42,0.61,0.44,Moderate,WATERSCARE,FALSE
-Abuja,9.067340616,7.473741801,Borehole,Motorized,5.6,7.53,0.94,0.48,Moderate,GROUNDWATER POTENTIAL,TRUE
-Abuja,9.032951487,7.478652369,Borehole,Motorized,9.4,7.77,0.45,0.54,High,GROUNDWATER POTENTIAL,FALSE
-Anambra,6.211,7.071,Borehole,Motorized,3.1,6.7,0.02,1.1,Low,GOODWATER,FALSE
-Anambra,6.023,6.92,Borehole,Motorized,4.8,6.2,0.03,3.55,Moderate,WATERSCARCITY,TRUE
-Anambra,6.151,6.785,Borehole,Motorized,5.3,6,0.01,4.88,High,WATERCONTAMINATION,TRUE
-Anambra,5.846,6.919,Borehole,Motorized,3.9,6.5,0.02,2.8,Moderate,GOODWATER,FALSE
-Anambra,6.081,6.93,Borehole,Motorized,2.9,6.8,0.03,1.75,Low,GOODWATER,FALSE
-Anambra,6.252,7.141,Borehole,Hand Pumped,4.7,6.1,0.02,3.9,Moderate,WATERSCARCITY,TRUE
-Anambra,6.23,7.099,Borehole,Motorized,3.3,6.6,0.01,1.3,Low,GOODWATER,FALSE
-Anambra,6.196,7.045,Borehole,Motorized,3,6.7,0.03,1.15,Low,GOODWATER,FALSE
-Anambra,6.111,7.049,Borehole,Hand Pumped,4.2,6.3,0.01,3.4,Moderate,WATERSCARCITY,TRUE
-Anambra,6.192,7.019,Borehole,Motorized,3.7,6.5,0.02,1.9,Low,GOODWATER,FALSE
-Bayelsa,4.916,6.267,Borehole,Motorized,4.5,6.3,0.02,3.8,Moderate,WATERSCARCITY,TRUE
-Bayelsa,5.033,6.25,Borehole,Motorized,3.2,6.8,0.01,2.1,Low,GOODWATER,FALSE
-Bayelsa,5.1,6.365,Borehole,Motorized,3.7,6.5,0.03,1.8,Low,GOODWATER,FALSE
-Bayelsa,5.095,6.133,Borehole,Motorized,5,6.1,0.02,4.5,High,WATERCONTAMINATION,TRUE
-Bayelsa,5.183,6.4,Borehole,Hand Pumped,2.9,6.9,0.01,1.5,Low,GOODWATER,FALSE
-Bayelsa,5.233,6.167,Borehole,Motorized,4.8,6.2,0.02,3.9,Moderate,WATERSCARCITY,TRUE
-Bayelsa,5.155,6.198,Borehole,Motorized,3.3,6.7,0.01,1.2,Low,GOODWATER,FALSE
-Bayelsa,5.034,6.26,Borehole,Motorized,3.5,6.6,0.02,1.7,Low,GOODWATER,FALSE
+Adamawa,9.29,12.42,Borehole,Motorized,14.9,7.54,0.58,0.52,High,GOODWATER,TRUE
+Adamawa,9.29,12.42,Borehole,Motorized,4.1,6.6,0.85,0.35,Moderate,GROUNDWATER POTENTIAL,FALSE
+Adamawa,9.29,12.41,Borehole,Hand pump,4.3,8.28,0.82,0.49,Moderate,WATERCONTAMINATION,FALSE
+Bauchi,10.63,9.94,Borehole,Hand pump,6.1,7.34,0.65,0.33,Moderate,WATERSCARCITY,TRUE
+Bauchi,11.45,7.2,Borehole,Motorized,5.3,7.46,0.65,0.19,Low,GOODWATER,FALSE
+Bauchi,10.68,10.08,Borehole,Motorized,4.3,7.7,0.29,0.15,Low,WATERSCARCITY,FALSE
+Bauchi,10.88,10.06,Borehole,Motorized,8.4,6.59,0.95,0.36,Moderate,WATERSCARCITY,FALSE
+Bauchi,10.95,10.09,Borehole,Motorized,13.9,8.01,0.29,0.47,High,WATERCONTAMINATION,FALSE
+Bauchi,10.29,9.83,Borehole,Hand pump,14.2,8.15,0.34,0.56,High,WATERSCARCITY,TRUE
+Borno,12.28,12.79,Borehole,Motorized,4.6,6.96,0.68,0.56,High,GROUNDWATER POTENTIAL,FALSE
+Borno,12.71,13.12,Borehole,Motorized,9,6.88,0.98,0.36,Moderate,WATERSCARCITY,FALSE
+Borno,12.33,13.62,Borehole,Motorized,14.1,6.69,0.54,0.41,High,GROUNDWATER POTENTIAL,FALSE
+Borno,11.48,13.93,Borehole,Motorized,4,6.97,0.93,0.61,High,WATERCONTAMINATION,TRUE
+Borno,10.89,12.5,Borehole,Motorized,11.6,7.18,0.46,0.36,High,GOODWATER,TRUE
+Borno,13.03,12.93,Borehole,Hand pump,9.6,6.94,0.27,0.2,Moderate,WATERCONTAMINATION,FALSE
+Borno,11.62,13.45,Borehole,Motorized,10,7.34,0.61,0.32,Moderate,GROUNDWATER POTENTIAL,FALSE
+Gombe,10.3,11.16,Borehole,Motorized,6.6,7.01,0.27,0.25,Low,GROUNDWATER POTENTIAL,TRUE
+Gombe,10.27,11.16,Borehole,Motorized,4.7,8.01,0.68,0.35,Moderate,WATERCONTAMINATION,TRUE
+Gombe,10.29,11.17,Borehole,Motorized,8.8,7.46,0.27,0.52,High,WATERCONTAMINATION,TRUE
+Gombe,10.29,11.16,Borehole,Motorized,8.5,7.43,0.4,0.38,Moderate,GROUNDWATER POTENTIAL,TRUE
+Gombe,10.29,11.17,Borehole,Motorized,12.8,7.5,0.95,0.19,High,WATERCONTAMINATION,TRUE
+Taraba,7.96,9.86,Borehole,Hand pump,14.4,7.23,0.97,0.5,High,WATERCONTAMINATION,TRUE
+Taraba,7.67,10.9,Borehole,Motorized,12.2,7.95,0.68,0.43,High,GOODWATER,FALSE
+Taraba,7.58,11.25,Borehole,Hand pump,7.1,8.14,0.9,0.17,Moderate,WATERCONTAMINATION,TRUE
+Taraba,8.32,10.19,Borehole,Hand pump,12.2,7.4,0.97,0.23,High,WATERCONTAMINATION,FALSE
+Taraba,8.82,10.49,Borehole,Hand pump,12.4,7.91,0.67,0.48,High,WATERCONTAMINATION,FALSE
+Taraba,7.89,10.8,Borehole,Motorized,6.2,6.52,0.8,0.32,Moderate,GOODWATER,FALSE
+Yobe,12.65,11.41,Borehole,Motorized,9.1,6.97,0.84,0.46,Moderate,WATERSCARCITY,FALSE
+Yobe,11.43,11.32,Borehole,Motorized,9,7.35,0.3,0.64,High,,FALSE
+Yobe,12.46,11.47,Borehole,Motorized,6.3,7.77,0.57,0.45,Moderate,WATERSCARE,TRUE
+Yobe,12.76,11.02,Borehole,Hand pump,7.4,7.92,0.93,0.2,Moderate,WATERCONTAMINATION,FALSE
+Jigawa,12.13,9.38,Borehole,Hand pump,7.2,7.86,0.8,0.56,High,GROUNDWATER POTENTIAL,TRUE
+Jigawa,12.11,9.47,Borehole,Motorized,13.1,7.32,0.25,0.27,High,WATERSCARE,TRUE
+Jigawa,12.12,9.32,Borehole,Motorized,10.6,7.02,0.42,0.4,High,WATERCONTAMINATION,FALSE
+Jigawa,12.25,9.45,Borehole,Hand pump,9.9,7.82,0.96,0.33,Moderate,WATERCONTAMINATION,FALSE
+Kaduna,10.51,7.43,Borehole,Motorized,4.2,7.86,0.3,0.36,Moderate,WATERCONTAMINATION,FALSE
+Kaduna,10.51,7.43,Borehole,Motorized,12.6,7.48,0.52,0.19,High,WATERSCARE,TRUE
+Kaduna,10.51,7.43,Borehole,Motorized,5.8,7.49,0.89,0.31,Moderate,GOODWATER,TRUE
+Kaduna,10.51,7.43,Borehole,Motorized,12.4,7.89,0.44,0.37,High,WATERSCARE,TRUE
+Kaduna,10.52,7.43,Borehole,Motorized,9.5,7.01,0.98,0.37,Moderate,GROUNDWATER POTENTIAL,TRUE
+Kaduna,10.5,7.43,Borehole,Hand pump,6,8,0.48,0.46,Moderate,GROUNDWATER POTENTIAL,TRUE
+Kaduna,10.51,7.44,Borehole,Motorized,5.7,7.83,0.22,0.4,Moderate,WATERCONTAMINATION,TRUE
+Kaduna,10.5,7.43,Borehole,Motorized,7.2,7.6,0.48,0.4,Moderate,GROUNDWATER POTENTIAL,TRUE
+Kaduna,10.5,7.45,Borehole,Motorized,5.7,7.38,0.38,0.44,Moderate,WATERSCARE,TRUE
+Kaduna,10.5,7.44,Borehole,Motorized,7,8,0.95,0.52,High,GOODWATER,FALSE
+Kano,12,8.55,Borehole,Hand pump,6.4,7.63,0.79,0.6,High,WATERCONTAMINATION,FALSE
+Kano,11.95,8.52,Borehole,Motorized,8.6,7.44,0.32,0.6,High,GROUNDWATER POTENTIAL,TRUE
+Kano,12,8.53,Borehole,Motorized,8.7,8.08,0.59,0.35,Moderate,WATERCONTAMINATION,TRUE
+Kano,11.99,8.47,Borehole,Motorized,8,6.72,0.24,0.58,High,WATERCONTAMINATION,TRUE
+Kano,11.52,7.67,Borehole,Motorized,8.9,8.08,0.82,0.57,High,GOODWATER,FALSE
+Kano,11.29,7.94,Borehole,Hand pump,8,7.69,0.23,0.2,Moderate,GOODWATER,TRUE
+Kano,11.27,8.22,Borehole,Motorized,11.8,6.87,0.81,0.53,High,WATERCONTAMINATION,TRUE
+Kano,11.31,8.1,Borehole,Motorized,9.6,7.11,0.87,0.33,Moderate,WATERSCARE,TRUE
+Kano,11.42,8.2,Borehole,Motorized,4.2,7.44,0.82,0.38,Moderate,GROUNDWATER POTENTIAL,TRUE
+Kano,11.14,7.82,Borehole,Motorized,6.9,7.63,0.56,0.61,High,GOODWATER,TRUE
+Katsina,12.65,8.82,Borehole,Motorized,6.4,6.79,0.66,0.22,Low,WATERCONTAMINATION,TRUE
+Katsina,12.43,9.37,Borehole,Motorized,13.2,6.97,0.98,0.57,High,GROUNDWATER POTENTIAL,FALSE
+Katsina,12.35,9.17,Borehole,Motorized,6.8,8.01,0.29,0.49,Moderate,GOODWATER,TRUE
+Katsina,12.28,9.07,Borehole,Motorized,13.8,7.63,0.37,0.18,High,WATERCONTAMINATION,FALSE
+Katsina,12.63,8.79,Borehole,Motorized,7.1,6.72,0.34,0.3,Moderate,GOODWATER,TRUE
+Katsina,12.06,8.86,Borehole,Motorized,13.5,7.87,0.51,0.47,High,GOODWATER,FALSE
+Katsina,12.28,8.79,Borehole,Motorized,13.7,7.15,0.29,0.15,High,WATERCONTAMINATION,FALSE
+Katsina,12.45,8.79,Borehole,Motorized,7.9,8.14,0.7,0.35,Moderate,WATERCONTAMINATION,TRUE
+Katsina,12.08,8.81,Borehole,Hand pump,10.3,7.3,0.54,0.51,High,WATERCONTAMINATION,FALSE
+Katsina,12.37,9.06,Borehole,Hand pump,14.4,6.63,0.64,0.57,High,WATERSCARE,FALSE
+Kebbi,12.14,10.76,Borehole,Hand pump,6,7.54,0.61,0.36,Moderate,GROUNDWATER POTENTIAL,TRUE
+Kebbi,12.27,10.82,Borehole,Motorized,9.2,8.2,0.41,0.49,Moderate,WATERCONTAMINATION,TRUE
+Kebbi,12.3,10.85,Borehole,Hand pump,14.5,7.8,0.89,0.56,High,WATERSCARE,TRUE
+Kebbi,12.04,10.8,Borehole,Motorized,7,6.93,0.3,0.35,Moderate,WATERSCARE,TRUE
+Kebbi,11.84,10.78,Borehole,Motorized,4.3,7.66,0.85,0.45,Moderate,WATERSCARE,TRUE
+Kebbi,11.88,10.69,Borehole,Hand pump,13.6,7.18,0.44,0.32,High,GROUNDWATER POTENTIAL,TRUE
+Kebbi,11.76,10.83,Borehole,Motorized,5.5,7.14,0.92,0.34,Moderate,WATERSCARE,FALSE
+Kebbi,11.93,10.67,Borehole,Motorized,8.8,6.53,0.85,0.49,Moderate,GROUNDWATER POTENTIAL,TRUE
+Kebbi,12.22,10.69,Borehole,Motorized,12.1,6.84,0.49,0.43,High,GROUNDWATER POTENTIAL,FALSE
+Kebbi,11.93,10.51,Borehole,Hand pump,12.3,8.3,0.88,0.19,High,GOODWATER,FALSE
+Sokoto,10.04,4.42,Borehole,Motorized,9.6,7.78,0.75,0.56,High,WATERSCARE,TRUE
+Sokoto,10.52,4.3,Borehole,Motorized,13.7,6.74,0.43,0.62,High,GROUNDWATER POTENTIAL,TRUE
+Sokoto,10.25,3.92,Borehole,Motorized,13.3,7.56,0.29,0.22,High,WATERSCARE,FALSE
+Sokoto,10.21,4.11,Borehole,Motorized,10.4,6.65,0.86,0.18,High,WATERSCARE,TRUE
+Sokoto,9.98,4.41,Borehole,Motorized,10.1,7.44,0.47,0.29,High,WATERCONTAMINATION,TRUE
+Zamfara,7.03,13.08,Borehole,Motorized,5.3,7.13,0.71,0.38,Moderate,GROUNDWATER POTENTIAL,FALSE
+Zamfara,7.47,13.23,Borehole,Motorized,13.6,7.89,0.55,0.38,High,WATERSCARE,FALSE
+Benue,7.6,8.27,Borehole,Motorized,12.9,7.19,0.76,0.52,High,GROUNDWATER POTENTIAL,FALSE
+Benue,7.56,8.28,Borehole,Motorized,10.8,7.88,0.92,0.53,High,GOODWATER,TRUE
+Benue,7.52,8.29,Borehole,Motorized,14.6,6.56,0.85,0.37,High,WATERSCARE,FALSE
+Benue,7.22,8.46,Borehole,Motorized,11.4,6.67,0.78,0.24,High,WATERCONTAMINATION,TRUE
+Benue,7.33,8.27,Borehole,Motorized,12.2,8.27,0.8,0.56,High,WATERSCARE,FALSE
+Benue,7.38,8.54,Borehole,Motorized,4.7,6.99,0.4,0.56,High,WATERSCARE,FALSE
+Benue,7.6,8.38,Borehole,Motorized,11.7,6.77,0.4,0.31,High,WATERCONTAMINATION,TRUE
+Benue,7.06,8.52,Borehole,Motorized,8.6,6.98,0.28,0.58,High,GOODWATER,FALSE
+Benue,7.24,8.52,Borehole,Hand pump,10,7.46,0.99,0.33,Moderate,GOODWATER,TRUE
+Benue,7.56,8.4,Borehole,Hand pump,5.4,7.51,0.45,0.6,High,WATERCONTAMINATION,TRUE
+Kogi,11.2,7.28,Borehole,Motorized,12.9,7.93,0.49,0.65,High,WATERSCARE,FALSE
+Kogi,11.18,7.24,Borehole,Motorized,9.7,7.02,0.95,0.61,High,WATERSCARE,TRUE
+Kogi,11.18,7.05,Borehole,Motorized,5.9,6.58,0.8,0.23,Low,WATERCONTAMINATION,FALSE
+Kogi,11.22,7.37,Borehole,Hand pump,9.4,6.66,0.61,0.44,Moderate,GROUNDWATER POTENTIAL,FALSE
+Kwara,11.52,4.9,Borehole,Hand pump,6.4,8.1,0.8,0.6,High,GROUNDWATER POTENTIAL,FALSE
+Kwara,11.72,4.82,Borehole,Motorized,14.8,8.12,0.75,0.38,High,WATERCONTAMINATION,FALSE
+Kwara,11.52,4.92,Borehole,Motorized,7.3,8.12,0.21,0.47,Moderate,WATERCONTAMINATION,TRUE
+Kwara,11.36,4.4,Borehole,Hand pump,12.6,7.44,0.26,0.27,High,GROUNDWATER POTENTIAL,FALSE
+Nasarawa,9.08,4.83,Borehole,Hand pump,14.2,8.11,0.24,0.54,High,WATERSCARE,FALSE
+Nasarawa,9.05,4.48,Borehole,Motorized,11.7,7.38,0.7,0.46,High,GROUNDWATER POTENTIAL,TRUE
+Nasarawa,9.12,4.46,Borehole,Motorized,6,7.38,0.99,0.28,Low,GROUNDWATER POTENTIAL,TRUE
+Nasarawa,8.89,4.99,Borehole,Hand pump,13.1,7.57,0.95,0.34,High,WATERCONTAMINATION,FALSE
+Nasarawa,8.85,4.77,Borehole,Motorized,7.4,6.74,0.47,0.27,Moderate,WATERSCARE,FALSE
+Nasarawa,8.92,4.8,Borehole,Hand pump,8.4,7.85,0.51,0.18,Moderate,WATERCONTAMINATION,TRUE
+Nasarawa,9.33,4.65,Borehole,Motorized,8.4,7.57,0.39,0.53,High,GROUNDWATER POTENTIAL,FALSE
+Niger,10.61,11.33,Borehole,Hand pump,8.8,7.41,0.82,0.32,Moderate,GROUNDWATER POTENTIAL,FALSE
+Niger,10.45,11.31,Borehole,Motorized,6.4,6.56,0.68,0.22,Low,WATERCONTAMINATION,FALSE
+Niger,10.53,11.19,Borehole,Motorized,7,7.23,0.6,0.2,Low,GROUNDWATER POTENTIAL,FALSE
+Niger,9.65,6.53,Borehole,Motorized,11.7,6.6,0.78,0.61,High,GROUNDWATER POTENTIAL,TRUE
+Niger,9.6,6.51,Borehole,Motorized,13.1,7.7,0.75,0.22,High,GOODWATER,FALSE
+Niger,9.61,6.54,Borehole,Hand pump,8,7.35,0.42,0.5,Moderate,GOODWATER,FALSE
+Plateau,9.86,8.85,Borehole,Motorized,4.3,7.32,0.82,0.4,Moderate,GOODWATER,FALSE
+Plateau,9.89,8.88,Borehole,Hand pump,5.6,8.13,0.33,0.56,High,GROUNDWATER POTENTIAL,FALSE
+Plateau,9.94,8.88,Borehole,Motorized,6.5,7.2,0.48,0.48,Moderate,WATERCONTAMINATION,FALSE
+Plateau,9.87,8.77,Borehole,Motorized,6.3,7.33,0.47,0.17,Low,WATERCONTAMINATION,FALSE
+Plateau,9.83,8.89,Borehole,Hand pump,8.9,6.99,0.8,0.58,High,WATERSCARE,FALSE
+Plateau,9.95,8.88,Borehole,Motorized,5.4,6.61,0.87,0.52,High,GOODWATER,TRUE
+Plateau,9.85,8.97,Borehole,Motorized,13,6.98,0.9,0.23,High,GROUNDWATER POTENTIAL,FALSE
+Plateau,9.93,8.9,Borehole,Motorized,13.1,7.13,0.21,0.31,High,WATERSCARE,FALSE
+Plateau,9.94,8.88,Borehole,Motorized,7.2,6.59,0.2,0.31,Moderate,WATERCONTAMINATION,FALSE
+Plateau,9.89,8.88,Borehole,Motorized,8.2,7.08,0.8,0.41,Moderate,GOODWATER,FALSE
+Plateau,9.95,8.87,Borehole,Hand pump,11.4,8.07,0.91,0.22,High,GROUNDWATER POTENTIAL,TRUE
+Abuja,9.02,7.48,Borehole,Motorized,14.2,7.73,0.4,0.6,High,WATERSCARE,FALSE
+Abuja,9.02,7.47,Borehole,Motorized,8,7.22,0.69,0.17,Moderate,GROUNDWATER POTENTIAL,TRUE
+Abuja,9.09,7.49,Borehole,Hand pump,12.6,6.82,0.37,0.62,High,GOODWATER,FALSE
+Abuja,9.08,7.47,Borehole,Motorized,13.3,7.9,0.98,0.46,High,WATERCONTAMINATION,TRUE
+Abuja,9.07,7.43,Borehole,Hand pump,8.6,7.72,0.39,0.23,Moderate,WATERCONTAMINATION,FALSE
+Abuja,9.07,7.43,Borehole,Motorized,5.1,7.42,0.61,0.44,Moderate,WATERSCARE,FALSE
+Abuja,9.07,7.47,Borehole,Motorized,5.6,7.53,0.94,0.48,Moderate,GROUNDWATER POTENTIAL,TRUE
+Abuja,9.03,7.48,Borehole,Motorized,9.4,7.77,0.45,0.54,High,GROUNDWATER POTENTIAL,FALSE
+Anambra,6.21,7.07,Borehole,Motorized,3.1,6.7,0.02,1.1,Low,GOODWATER,FALSE
+Anambra,6.02,6.92,Borehole,Motorized,4.8,6.2,0.03,3.55,Moderate,WATERSCARCITY,TRUE
+Anambra,6.15,6.79,Borehole,Motorized,5.3,6,0.01,4.88,High,WATERCONTAMINATION,TRUE
+Anambra,5.85,6.92,Borehole,Motorized,3.9,6.5,0.02,2.8,Moderate,GOODWATER,FALSE
+Anambra,6.08,6.93,Borehole,Motorized,2.9,6.8,0.03,1.75,Low,GOODWATER,FALSE
+Anambra,6.25,7.14,Borehole,Hand Pumped,4.7,6.1,0.02,3.9,Moderate,WATERSCARCITY,TRUE
+Anambra,6.23,7.1,Borehole,Motorized,3.3,6.6,0.01,1.3,Low,GOODWATER,FALSE
+Anambra,6.2,7.05,Borehole,Motorized,3,6.7,0.03,1.15,Low,GOODWATER,FALSE
+Anambra,6.11,7.05,Borehole,Hand Pumped,4.2,6.3,0.01,3.4,Moderate,WATERSCARCITY,TRUE
+Anambra,6.19,7.02,Borehole,Motorized,3.7,6.5,0.02,1.9,Low,GOODWATER,FALSE
+Bayelsa,4.92,6.27,Borehole,Motorized,4.5,6.3,0.02,3.8,Moderate,WATERSCARCITY,TRUE
+Bayelsa,5.03,6.25,Borehole,Motorized,3.2,6.8,0.01,2.1,Low,GOODWATER,FALSE
+Bayelsa,5.1,6.37,Borehole,Motorized,3.7,6.5,0.03,1.8,Low,GOODWATER,FALSE
+Bayelsa,5.1,6.13,Borehole,Motorized,5,6.1,0.02,4.5,High,WATERCONTAMINATION,TRUE
+Bayelsa,5.18,6.4,Borehole,Hand Pumped,2.9,6.9,0.01,1.5,Low,GOODWATER,FALSE
+Bayelsa,5.23,6.17,Borehole,Motorized,4.8,6.2,0.02,3.9,Moderate,WATERSCARCITY,TRUE
+Bayelsa,5.16,6.2,Borehole,Motorized,3.3,6.7,0.01,1.2,Low,GOODWATER,FALSE
+Bayelsa,5.03,6.26,Borehole,Motorized,3.5,6.6,0.02,1.7,Low,GOODWATER,FALSE
 Bayelsa,5,6.3,Borehole,Hand Pumped,4.7,6.3,0.03,3.5,Moderate,WATERSCARCITY,TRUE
 Bayelsa,4.95,6.34,Borehole,Motorized,4.9,6.4,0.02,4.1,Moderate,WATERSCARCITY,TRUE
 Cross River,5.16,8.37,Borehole,Motorized,4.8,6.1,0.03,4.2,Moderate,WATERSCARCITY,TRUE
@@ -162,29 +162,29 @@ Cross River,5.1,8.6,Borehole,Motorized,3.3,6.7,0.01,1.3,Low,GOODWATER,FALSE
 Cross River,5.75,8.77,Borehole,Hand Pumped,4.5,6.3,0.02,3.9,Moderate,WATERSCARCITY,TRUE
 Cross River,5.35,8.42,Borehole,Motorized,3.6,6.6,0.01,1.6,Low,GOODWATER,FALSE
 Delta,5.52,5.75,Borehole,Motorized,4.5,6.3,0.03,4.2,Moderate,WATERSCARCITY,TRUE
-Delta,6.202,6.21,Borehole,Motorized,2.8,6.6,0.01,1.8,Low,GOODWATER,FALSE
+Delta,6.2,6.21,Borehole,Motorized,2.8,6.6,0.01,1.8,Low,GOODWATER,FALSE
 Delta,6.19,6.2,Borehole,Motorized,5.1,6,0.02,3.6,Moderate,WATERSCARCITY,TRUE
 Delta,5.52,5.76,Borehole,Hand Pumped,3,6.5,0.02,1.4,Low,GOODWATER,FALSE
-Delta,6.23,6.225,Borehole,Motorized,4.9,6.2,0.03,4,Moderate,WATERSCARCITY,TRUE
+Delta,6.23,6.23,Borehole,Motorized,4.9,6.2,0.03,4,Moderate,WATERSCARCITY,TRUE
 Delta,5.52,5.52,Borehole,Motorized,2.5,6.7,0.01,1.2,Low,GOODWATER,FALSE
 Delta,5.54,6.2,Borehole,Motorized,3.4,6.6,0.02,1.6,Low,GOODWATER,FALSE
 Delta,5.89,5.89,Borehole,Motorized,3.1,6.5,0.01,1.3,Low,GOODWATER,FALSE
 Delta,6.11,5.98,Borehole,Hand Pumped,4.7,6.1,0.02,3.7,Moderate,WATERSCARCITY,TRUE
 Delta,5.55,6.23,Borehole,Motorized,3.3,6.7,0.01,1.5,Low,GOODWATER,FALSE
-Ebonyi,6.273,7.657,Borehole,Motorized,10.56,6.12,Not reported,28.6,High,WATERCONTAMINATION,FALSE
-Ebonyi,6.275,7.642,Borehole,Motorized,14.78,6.75,Not reported,15.4,Moderate,GOODWATER,FALSE
-Ebonyi,6.32,7.757,Borehole,Hand Pumped,12.25,6.5,Present,22.1,High,WATERCONTAMINATION,TRUE
+Ebonyi,6.27,7.66,Borehole,Motorized,10.56,6.12,Not reported,28.6,High,WATERCONTAMINATION,FALSE
+Ebonyi,6.28,7.64,Borehole,Motorized,14.78,6.75,Not reported,15.4,Moderate,GOODWATER,FALSE
+Ebonyi,6.32,7.76,Borehole,Hand Pumped,12.25,6.5,Present,22.1,High,WATERCONTAMINATION,TRUE
 Ebonyi,6.3,7.58,Borehole,Motorized,11.2,6.65,Not reported,18.5,Moderate,GOODWATER,FALSE
-Ebonyi,6.333,7.7,Borehole,Motorized,9,6.8,0.01,12,Moderate,GOODWATER,FALSE
+Ebonyi,6.33,7.7,Borehole,Motorized,9,6.8,0.01,12,Moderate,GOODWATER,FALSE
 Ebonyi,6.27,7.75,Borehole,Motorized,8.7,6.7,0.02,11,Moderate,GOODWATER,FALSE
 Ebonyi,6.35,7.65,Borehole,Hand Pumped,13,6.4,0.02,20,High,WATERCONTAMINATION,TRUE
 Ebonyi,6.31,7.72,Borehole,Motorized,9.5,6.75,0.01,14,Moderate,GOODWATER,FALSE
 Ebonyi,6.29,7.68,Borehole,Motorized,10,6.65,0.01,16,Moderate,GOODWATER,FALSE
 Ebonyi,6.32,7.69,Borehole,Motorized,8.9,6.7,0.01,12.5,Moderate,GOODWATER,FALSE
-Ebonyi,6.295,7.595,Borehole,Hand Pumped,12.5,6.5,Present,21,High,WATERSCARCITY,TRUE
+Ebonyi,6.3,7.6,Borehole,Hand Pumped,12.5,6.5,Present,21,High,WATERSCARCITY,TRUE
 Ebonyi,6.28,7.66,Borehole,Motorized,9.3,6.75,0.02,13,Moderate,GOODWATER,FALSE
-Ebonyi,6.271,7.714,Borehole,Motorized,9.6,6.65,0.02,15,Moderate,GOODWATER,FALSE
-Edo,6.34,5.625,Borehole,Motorized,3.2,6.6,0.02,1.8,Low,GOODWATER,FALSE
+Ebonyi,6.27,7.71,Borehole,Motorized,9.6,6.65,0.02,15,Moderate,GOODWATER,FALSE
+Edo,6.34,5.63,Borehole,Motorized,3.2,6.6,0.02,1.8,Low,GOODWATER,FALSE
 Edo,6.33,5.62,Borehole,Motorized,4.5,6.3,0.03,3.9,Moderate,WATERSCARCITY,TRUE
 Edo,7.08,6.27,Borehole,Motorized,2.9,6.8,0.01,1.5,Low,GOODWATER,FALSE
 Edo,7.05,6.18,Borehole,Motorized,3.5,6.5,0.01,1.7,Low,GOODWATER,FALSE
@@ -206,45 +206,45 @@ Enugu,6.43,7.5,Borehole,Motorized,4.8,6.3,0.02,3.8,Moderate,WATERSCARCITY,TRUE
 Enugu,6.44,7.49,Borehole,Motorized,3.3,6.7,0.01,1.5,Low,GOODWATER,FALSE
 Enugu,6.42,7.55,Borehole,Motorized,3.1,6.6,0.01,1.4,Low,GOODWATER,FALSE
 Enugu,6.5,7.6,Borehole,Motorized,5,6.2,0.03,4.2,Moderate,WATERSCARCITY,TRUE
-Ekiti,7.618,5.218,Borehole,Motorized,3.5,6.7,0.02,1.7,Low,GOODWATER,FALSE
-Ekiti,7.615,5.22,Borehole,Motorized,3.8,6.5,0.01,1.4,Low,GOODWATER,FALSE
-Ekiti,7.616,5.215,Borehole,Motorized,3.3,6.6,0.01,1.6,Low,GOODWATER,FALSE
+Ekiti,7.62,5.22,Borehole,Motorized,3.5,6.7,0.02,1.7,Low,GOODWATER,FALSE
+Ekiti,7.62,5.22,Borehole,Motorized,3.8,6.5,0.01,1.4,Low,GOODWATER,FALSE
+Ekiti,7.62,5.22,Borehole,Motorized,3.3,6.6,0.01,1.6,Low,GOODWATER,FALSE
 Ekiti,7.63,5.48,Borehole,Motorized,4.8,6.2,0.03,3.8,Moderate,WATERSCARCITY,TRUE
-Ekiti,7.632,5.475,Borehole,Hand Pumped,5,6.1,0.03,4,Moderate,WATERSCARCITY,TRUE
+Ekiti,7.63,5.48,Borehole,Hand Pumped,5,6.1,0.03,4,Moderate,WATERSCARCITY,TRUE
 Ekiti,7.58,5.3,Borehole,Motorized,3.2,6.7,0.02,1.5,Low,GOODWATER,FALSE
 Ekiti,7.59,5.27,Borehole,Motorized,3.1,6.6,0.01,1.4,Low,GOODWATER,FALSE
 Ekiti,7.55,5.34,Borehole,Motorized,3.4,6.5,0.01,1.6,Low,GOODWATER,FALSE
-Ekiti,7.525,5.41,Borehole,Motorized,3.6,6.5,0.01,1.7,Low,GOODWATER,FALSE
+Ekiti,7.53,5.41,Borehole,Motorized,3.6,6.5,0.01,1.7,Low,GOODWATER,FALSE
 Ekiti,7.52,5.38,Borehole,Motorized,4.7,6.3,0.02,3.9,Moderate,WATERSCARCITY,TRUE
 Ekiti,7.59,5.42,Borehole,Motorized,3.3,6.6,0.02,1.55,Low,GOODWATER,FALSE
 Ekiti,7.6,5.5,Borehole,Motorized,3,6.7,0.01,1.45,Low,GOODWATER,FALSE
-Lagos,6.601,3.34,Borehole,Motorized,4.5,6.3,0.02,3.8,Moderate,WATERSCARCITY,TRUE
+Lagos,6.6,3.34,Borehole,Motorized,4.5,6.3,0.02,3.8,Moderate,WATERSCARCITY,TRUE
 Lagos,6.51,3.35,Borehole,Motorized,1.8,6.8,0.01,0.9,Low,GOODWATER,FALSE
 Lagos,6.57,3.65,Borehole,Motorized,2,6.7,0.02,1.3,Low,GOODWATER,FALSE
 Lagos,6.42,2.87,Borehole,Motorized,4.8,6.1,0.03,4,Moderate,WATERSCARCITY,TRUE
-Lagos,6.52,3.555,Borehole,Motorized,2.5,6.6,0.01,1,Low,GOODWATER,FALSE
+Lagos,6.52,3.56,Borehole,Motorized,2.5,6.6,0.01,1,Low,GOODWATER,FALSE
 Lagos,6.61,3.53,Borehole,Motorized,2.8,6.7,0.01,1.2,Low,GOODWATER,FALSE
-Lagos,6.445,3.395,Borehole,Motorized,5.2,6,0.02,4.3,Moderate,WATERSCARCITY,TRUE
-Lagos,6.43,3.425,Borehole,Motorized,1.9,6.8,0.01,0.8,Low,GOODWATER,FALSE
-Lagos,6.565,3.345,Borehole,Hand Pumped,4.6,6.2,0.02,3.7,Moderate,WATERSCARCITY,TRUE
-Lagos,6.448,3.37,Borehole,Motorized,2.2,6.7,0.01,1.1,Low,GOODWATER,FALSE
-Lagos,6.534,3.33,Borehole,Motorized,4.9,6.1,0.02,4.1,Moderate,WATERSCARCITY,TRUE
-Lagos,6.582,3.325,Borehole,Motorized,2.7,6.5,0.01,1.4,Low,GOODWATER,FALSE
-Lagos,6.605,3.336,Borehole,Motorized,2.4,6.6,0.01,1.3,Low,GOODWATER,FALSE
-Ogun,6.865,3.902,Borehole,Motorized,2.8,6.7,0.01,1.1,Low,GOODWATER,FALSE
-Ogun,6.902,3.859,Borehole,Motorized,2.5,6.6,0.01,0.9,Low,GOODWATER,FALSE
-Ogun,6.888,3.83,Borehole,Motorized,4.9,6.3,0.02,3.7,Moderate,WATERSCARCITY,TRUE
-Ogun,6.957,3.942,Borehole,Motorized,5.1,6.1,0.03,4,Moderate,WATERSCARCITY,TRUE
+Lagos,6.45,3.4,Borehole,Motorized,5.2,6,0.02,4.3,Moderate,WATERSCARCITY,TRUE
+Lagos,6.43,3.43,Borehole,Motorized,1.9,6.8,0.01,0.8,Low,GOODWATER,FALSE
+Lagos,6.57,3.35,Borehole,Hand Pumped,4.6,6.2,0.02,3.7,Moderate,WATERSCARCITY,TRUE
+Lagos,6.45,3.37,Borehole,Motorized,2.2,6.7,0.01,1.1,Low,GOODWATER,FALSE
+Lagos,6.53,3.33,Borehole,Motorized,4.9,6.1,0.02,4.1,Moderate,WATERSCARCITY,TRUE
+Lagos,6.58,3.33,Borehole,Motorized,2.7,6.5,0.01,1.4,Low,GOODWATER,FALSE
+Lagos,6.61,3.34,Borehole,Motorized,2.4,6.6,0.01,1.3,Low,GOODWATER,FALSE
+Ogun,6.87,3.9,Borehole,Motorized,2.8,6.7,0.01,1.1,Low,GOODWATER,FALSE
+Ogun,6.9,3.86,Borehole,Motorized,2.5,6.6,0.01,0.9,Low,GOODWATER,FALSE
+Ogun,6.89,3.83,Borehole,Motorized,4.9,6.3,0.02,3.7,Moderate,WATERSCARCITY,TRUE
+Ogun,6.96,3.94,Borehole,Motorized,5.1,6.1,0.03,4,Moderate,WATERSCARCITY,TRUE
 Ogun,6.87,3.95,Borehole,Motorized,2.9,6.6,0.01,1.2,Low,GOODWATER,FALSE
 Ogun,6.83,3.72,Borehole,Motorized,5,6.2,0.02,3.9,Moderate,WATERSCARCITY,TRUE
-Ogun,6.825,3.65,Borehole,Motorized,4.7,6.3,0.02,3.6,Moderate,WATERSCARCITY,TRUE
+Ogun,6.83,3.65,Borehole,Motorized,4.7,6.3,0.02,3.6,Moderate,WATERSCARCITY,TRUE
 Ogun,6.85,3.67,Borehole,Motorized,2.6,6.5,0.01,1,Low,GOODWATER,FALSE
 Ogun,7.15,3.32,Borehole,Motorized,3,6.7,0.01,1.3,Low,GOODWATER,FALSE
 Ogun,6.82,3.64,Borehole,Motorized,4.8,6.2,0.02,3.8,Moderate,WATERSCARCITY,TRUE
 Ogun,6.86,3.58,Borehole,Hand Pumped,2.7,6.6,0.01,1.1,Low,GOODWATER,FALSE
 Ogun,6.8,3.6,Borehole,Motorized,3.1,6.5,0.01,1.4,Low,GOODWATER,FALSE
 Ogun,7.1,3.41,Borehole,Hand Pumped,2.9,6.6,0.01,1.2,Low,GOODWATER,FALSE
-Ondo,7.264,5.193,Borehole,Motorized,3.5,6.7,0.02,1.6,Low,GOODWATER,FALSE
+Ondo,7.26,5.19,Borehole,Motorized,3.5,6.7,0.02,1.6,Low,GOODWATER,FALSE
 Ondo,7.27,5.2,Borehole,Motorized,3.3,6.6,0.01,1.4,Low,GOODWATER,FALSE
 Ondo,7.1,5.1,Borehole,Motorized,4.8,6.3,0.03,3.9,Moderate,WATERSCARCITY,TRUE
 Ondo,7.5,5.4,Borehole,Motorized,3.2,6.7,0.02,1.5,Low,GOODWATER,FALSE
@@ -254,25 +254,25 @@ Ondo,7.52,5.41,Borehole,Hand Pumped,5,6.1,0.03,3.8,Moderate,WATERSCARCITY,TRUE
 Ondo,7.26,5.59,Borehole,Motorized,3.3,6.5,0.01,1.6,Low,GOODWATER,FALSE
 Ondo,7.32,5.52,Borehole,Motorized,3,6.7,0.01,1.4,Low,GOODWATER,FALSE
 Ondo,7.21,5.49,Borehole,Motorized,3.6,6.6,0.01,1.5,Low,GOODWATER,FALSE
-Ondo,6.94,5.561,Borehole,Motorized,4.7,6.3,0.02,3.7,Moderate,WATERSCARCITY,TRUE
+Ondo,6.94,5.56,Borehole,Motorized,4.7,6.3,0.02,3.7,Moderate,WATERSCARCITY,TRUE
 Ondo,7.25,5.46,Borehole,Motorized,3.2,6.5,0.01,1.4,Low,GOODWATER,FALSE
-Ondo,7.09,5.493,Borehole,Motorized,5.1,6.1,0.03,4.1,Moderate,WATERSCARCITY,TRUE
-Osun,7.633,4.857,Borehole,Motorized,3.8,6.5,0.01,1.2,Low,GOODWATER,FALSE
-Osun,7.633,4.183,Borehole,Motorized,5.2,6.1,0.02,4.3,Moderate,WATERSCARCITY,TRUE
-Osun,7.766,4.567,Borehole,Motorized,3.2,6.7,0.01,1.4,Low,GOODWATER,FALSE
-Osun,7.683,4.733,Borehole,Hand Pumped,3,6.6,0.01,1.3,Low,GOODWATER,FALSE
-Osun,7.666,4.283,Borehole,Motorized,4.9,6.2,0.02,3.9,Moderate,WATERSCARCITY,TRUE
-Osun,7.65,4.533,Borehole,Motorized,3.1,6.5,0.01,1.1,Low,GOODWATER,FALSE
-Osun,7.616,4.75,Borehole,Motorized,3.3,6.6,0.01,1.6,Low,GOODWATER,FALSE
-Osun,7.9,4.364,Borehole,Motorized,5,6,0.03,4.1,Moderate,WATERSCARCITY,TRUE
-Osun,7.703,4.918,Borehole,Motorized,3.4,6.7,0.01,1.5,Low,GOODWATER,FALSE
-Osun,7.6,4.723,Borehole,Hand Pumped,3.2,6.6,0.01,1.4,Low,GOODWATER,FALSE
+Ondo,7.09,5.49,Borehole,Motorized,5.1,6.1,0.03,4.1,Moderate,WATERSCARCITY,TRUE
+Osun,7.63,4.86,Borehole,Motorized,3.8,6.5,0.01,1.2,Low,GOODWATER,FALSE
+Osun,7.63,4.18,Borehole,Motorized,5.2,6.1,0.02,4.3,Moderate,WATERSCARCITY,TRUE
+Osun,7.77,4.57,Borehole,Motorized,3.2,6.7,0.01,1.4,Low,GOODWATER,FALSE
+Osun,7.68,4.73,Borehole,Hand Pumped,3,6.6,0.01,1.3,Low,GOODWATER,FALSE
+Osun,7.67,4.28,Borehole,Motorized,4.9,6.2,0.02,3.9,Moderate,WATERSCARCITY,TRUE
+Osun,7.65,4.53,Borehole,Motorized,3.1,6.5,0.01,1.1,Low,GOODWATER,FALSE
+Osun,7.62,4.75,Borehole,Motorized,3.3,6.6,0.01,1.6,Low,GOODWATER,FALSE
+Osun,7.9,4.36,Borehole,Motorized,5,6,0.03,4.1,Moderate,WATERSCARCITY,TRUE
+Osun,7.7,4.92,Borehole,Motorized,3.4,6.7,0.01,1.5,Low,GOODWATER,FALSE
+Osun,7.6,4.72,Borehole,Hand Pumped,3.2,6.6,0.01,1.4,Low,GOODWATER,FALSE
 Osun,7.62,5,Borehole,Motorized,4.8,6.1,0.02,3.8,Moderate,WATERSCARCITY,TRUE
-Osun,7.559,4.98,Borehole,Motorized,3.1,6.5,0.01,1.3,Low,GOODWATER,FALSE
+Osun,7.56,4.98,Borehole,Motorized,3.1,6.5,0.01,1.3,Low,GOODWATER,FALSE
 Osun,7.67,4.86,Borehole,Motorized,3,6.7,0.01,1.4,Low,GOODWATER,FALSE
-Oyo,7.377,3.916,Borehole,Motorized,4.9,6.2,0.02,3.8,Moderate,WATERSCARCITY,TRUE
+Oyo,7.38,3.92,Borehole,Motorized,4.9,6.2,0.02,3.8,Moderate,WATERSCARCITY,TRUE
 Oyo,7.36,3.92,Borehole,Motorized,3.1,6.7,0.01,1.4,Low,GOODWATER,FALSE
-Oyo,7.442,4.23,Borehole,Hand Pumped,5,6.1,0.03,4,Moderate,WATERSCARCITY,TRUE
+Oyo,7.44,4.23,Borehole,Hand Pumped,5,6.1,0.03,4,Moderate,WATERSCARCITY,TRUE
 Oyo,7.85,3.93,Borehole,Motorized,4.7,6.3,0.02,3.7,Moderate,WATERSCARCITY,TRUE
 Oyo,7.89,3.47,Borehole,Motorized,3,6.6,0.01,1.3,Low,GOODWATER,FALSE
 Oyo,7.83,3.77,Borehole,Motorized,3.2,6.5,0.01,1.5,Low,GOODWATER,FALSE
@@ -283,55 +283,155 @@ Oyo,7.72,3.62,Borehole,Motorized,5.1,6.1,0.03,4.1,Moderate,WATERSCARCITY,TRUE
 Oyo,7.67,3.68,Borehole,Motorized,3,6.7,0.01,1.3,Low,GOODWATER,FALSE
 Oyo,7.62,3.6,Borehole,Motorized,3.2,6.5,0.01,1.4,Low,GOODWATER,FALSE
 Oyo,7.6,3.65,Borehole,Motorized,3.1,6.6,0.01,1.5,Low,GOODWATER,FALSE
-Rivers,4.815,7.035,Borehole,Motorized,5.5,6,0.04,5.6,High,WATERCONTAMINATION,TRUE
-Rivers,4.815,7.005,Borehole,Motorized,3.2,6.5,0.02,1.2,Low,GOODWATER,FALSE
+Rivers,4.82,7.04,Borehole,Motorized,5.5,6,0.04,5.6,High,WATERCONTAMINATION,TRUE
+Rivers,4.82,7.01,Borehole,Motorized,3.2,6.5,0.02,1.2,Low,GOODWATER,FALSE
 Rivers,4.8,7.01,Borehole,Motorized,6,5.9,0.05,6.1,High,WATERCONTAMINATION,TRUE
-Rivers,4.77,6.955,Borehole,Motorized,3.4,6.4,0.02,1.4,Low,GOODWATER,FALSE
-Rivers,5.15,6.985,Borehole,Motorized,5.8,6,0.03,5.2,Moderate,WATERSCARCITY,TRUE
+Rivers,4.77,6.96,Borehole,Motorized,3.4,6.4,0.02,1.4,Low,GOODWATER,FALSE
+Rivers,5.15,6.99,Borehole,Motorized,5.8,6,0.03,5.2,Moderate,WATERSCARCITY,TRUE
 Rivers,4.45,7.25,Borehole,Motorized,3.3,6.6,0.01,1.3,Low,GOODWATER,FALSE
 Rivers,5.16,6.93,Borehole,Motorized,5.9,6.1,0.04,5.8,Moderate,WATERSCARCITY,TRUE
 Rivers,5.84,7.25,Borehole,Motorized,3.5,6.7,0.01,1.5,Low,GOODWATER,FALSE
-Rivers,4.905,6.735,Borehole,Motorized,5.6,6.2,0.03,5,Moderate,WATERSCARCITY,TRUE
+Rivers,4.91,6.74,Borehole,Motorized,5.6,6.2,0.03,5,Moderate,WATERSCARCITY,TRUE
 Rivers,4.8,7.3,Borehole,Motorized,3,6.5,0.01,1.4,Low,GOODWATER,FALSE
 Rivers,4.82,7.15,Borehole,Motorized,3.4,6.6,0.01,1.5,Low,GOODWATER,FALSE
 Rivers,4.58,7.22,Borehole,Hand Pumped,5.7,6.1,0.02,5.4,Moderate,WATERSCARCITY,TRUE
 Rivers,4.74,7.07,Borehole,Motorized,3.3,6.5,0.01,1.3,Low,GOODWATER,FALSE
-Imo,5.492,7.035,Borehole,Motorized,5.4,6.2,0.02,4.8,Moderate,WATERSCARCITY,TRUE
-Imo,5.491,7.035,Borehole,Motorized,3.2,6.4,0.01,1.3,Low,GOODWATER,FALSE
-Imo,5.542,7.49,Borehole,Motorized,5.7,6.1,0.02,5.1,Moderate,WATERSCARCITY,TRUE
-Imo,5.657,7.05,Borehole,Motorized,3.1,6.6,0.01,1.4,Low,GOODWATER,FALSE
-Imo,5.494,7.03,Borehole,Hand Pumped,3.3,6.5,0.01,1.6,Low,GOODWATER,FALSE
-Imo,5.562,7.061,Borehole,Motorized,5,6.2,0.03,3.9,Moderate,WATERSCARCITY,TRUE
-Imo,5.448,7.02,Borehole,Motorized,3.1,6.6,0.02,1.5,Low,GOODWATER,FALSE
+Imo,5.49,7.04,Borehole,Motorized,5.4,6.2,0.02,4.8,Moderate,WATERSCARCITY,TRUE
+Imo,5.49,7.04,Borehole,Motorized,3.2,6.4,0.01,1.3,Low,GOODWATER,FALSE
+Imo,5.54,7.49,Borehole,Motorized,5.7,6.1,0.02,5.1,Moderate,WATERSCARCITY,TRUE
+Imo,5.66,7.05,Borehole,Motorized,3.1,6.6,0.01,1.4,Low,GOODWATER,FALSE
+Imo,5.49,7.03,Borehole,Hand Pumped,3.3,6.5,0.01,1.6,Low,GOODWATER,FALSE
+Imo,5.56,7.06,Borehole,Motorized,5,6.2,0.03,3.9,Moderate,WATERSCARCITY,TRUE
+Imo,5.45,7.02,Borehole,Motorized,3.1,6.6,0.02,1.5,Low,GOODWATER,FALSE
 Imo,5.44,7.1,Borehole,Motorized,5.5,6,0.03,4.5,Moderate,WATERSCARCITY,TRUE
-Imo,5.521,7.04,Borehole,Motorized,3.2,6.6,0.01,1.4,Low,GOODWATER,FALSE
-Imo,5.534,7.065,Borehole,Motorized,3,6.8,0.01,1.3,Low,GOODWATER,FALSE
-Imo,5.58,7.075,Borehole,Hand Pumped,4.9,6.3,0.02,4,Moderate,WATERSCARCITY,TRUE
+Imo,5.52,7.04,Borehole,Motorized,3.2,6.6,0.01,1.4,Low,GOODWATER,FALSE
+Imo,5.53,7.07,Borehole,Motorized,3,6.8,0.01,1.3,Low,GOODWATER,FALSE
+Imo,5.58,7.08,Borehole,Hand Pumped,4.9,6.3,0.02,4,Moderate,WATERSCARCITY,TRUE
 Imo,5.59,7.08,Borehole,Motorized,3.1,6.7,0.01,1.4,Low,GOODWATER,FALSE
 Imo,5.61,7.09,Borehole,Motorized,3.3,6.6,0.01,1.5,Low,GOODWATER,FALSE
-Abia,5.106,7.371,Borehole,Motorized,5.3,6,0.04,620,High,WATERCONTAMINATION,TRUE
-Abia,5.521,7.49,Borehole,Motorized,4.8,6.2,0.03,450,Moderate,WATERSCARCITY,TRUE
-Abia,5.533,7.016,Borehole,Motorized,3.2,6.7,0.01,120,Low,GOODWATER,FALSE
-Abia,5.416,7.55,Borehole,Motorized,4.9,6.1,0.02,400,Moderate,WATERSCARCITY,TRUE
-Abia,5.501,7.897,Borehole,Motorized,3.4,6.5,0.01,130,Low,GOODWATER,FALSE
-Abia,5.327,7.412,Borehole,Motorized,5,6.2,0.03,380,Moderate,WATERSCARCITY,TRUE
-Abia,5.453,7.753,Borehole,Motorized,4.7,6.3,0.02,350,Moderate,WATERSCARCITY,TRUE
-Abia,5.099,7.455,Borehole,Motorized,3,6.7,0.01,100,Low,GOODWATER,FALSE
-Abia,5.212,7.633,Borehole,Motorized,5.2,6,0.03,400,Moderate,WATERSCARCITY,TRUE
-Abia,5.525,7.489,Borehole,Motorized,3.1,6.7,0.01,110,Low,GOODWATER,FALSE
-Abia,5.295,7.437,Borehole,Motorized,5,6.1,0.02,370,Moderate,WATERSCARCITY,TRUE
-Abia,5.328,7.299,Borehole,Motorized,3.3,6.6,0.01,140,Low,GOODWATER,FALSE
-Abia,5.246,7.377,Borehole,Motorized,5.1,6.2,0.03,390,Moderate,WATERSCARCITY,TRUE
-Akwa Ibom,5.033,7.92,Borehole,Motorized,3.4,6.5,0.01,1.3,Low,GOODWATER,FALSE
+Abia,5.11,7.37,Borehole,Motorized,5.3,6,0.04,620,High,WATERCONTAMINATION,TRUE
+Abia,5.52,7.49,Borehole,Motorized,4.8,6.2,0.03,450,Moderate,WATERSCARCITY,TRUE
+Abia,5.53,7.02,Borehole,Motorized,3.2,6.7,0.01,120,Low,GOODWATER,FALSE
+Abia,5.42,7.55,Borehole,Motorized,4.9,6.1,0.02,400,Moderate,WATERSCARCITY,TRUE
+Abia,5.5,7.9,Borehole,Motorized,3.4,6.5,0.01,130,Low,GOODWATER,FALSE
+Abia,5.33,7.41,Borehole,Motorized,5,6.2,0.03,380,Moderate,WATERSCARCITY,TRUE
+Abia,5.45,7.75,Borehole,Motorized,4.7,6.3,0.02,350,Moderate,WATERSCARCITY,TRUE
+Abia,5.1,7.46,Borehole,Motorized,3,6.7,0.01,100,Low,GOODWATER,FALSE
+Abia,5.21,7.63,Borehole,Motorized,5.2,6,0.03,400,Moderate,WATERSCARCITY,TRUE
+Abia,5.53,7.49,Borehole,Motorized,3.1,6.7,0.01,110,Low,GOODWATER,FALSE
+Abia,5.3,7.44,Borehole,Motorized,5,6.1,0.02,370,Moderate,WATERSCARCITY,TRUE
+Abia,5.33,7.3,Borehole,Motorized,3.3,6.6,0.01,140,Low,GOODWATER,FALSE
+Abia,5.25,7.38,Borehole,Motorized,5.1,6.2,0.03,390,Moderate,WATERSCARCITY,TRUE
+Akwa Ibom,5.03,7.92,Borehole,Motorized,3.4,6.5,0.01,1.3,Low,GOODWATER,FALSE
 Akwa Ibom,4.93,7.88,Borehole,Motorized,5.1,6.1,0.02,3.9,Moderate,WATERSCARCITY,TRUE
-Akwa Ibom,5.086,7.749,Borehole,Motorized,3.3,6.6,0.01,1.4,Low,GOODWATER,FALSE
+Akwa Ibom,5.09,7.75,Borehole,Motorized,3.3,6.6,0.01,1.4,Low,GOODWATER,FALSE
 Akwa Ibom,5.14,7.87,Borehole,Motorized,3.2,6.7,0.01,1.2,Low,GOODWATER,FALSE
-Akwa Ibom,4.63,7.947,Borehole,Motorized,5.3,6,0.03,4.2,Moderate,WATERSCARCITY,TRUE
+Akwa Ibom,4.63,7.95,Borehole,Motorized,5.3,6,0.03,4.2,Moderate,WATERSCARCITY,TRUE
 Akwa Ibom,5.3,7.92,Borehole,Motorized,3,6.6,0.01,1.5,Low,GROUNDWATERPOTENTIAL,FALSE
 Akwa Ibom,4.99,7.98,Borehole,Motorized,3.1,6.5,0.01,1.4,Low,GOODWATER,FALSE
-Akwa Ibom,4.95,7.975,Borehole,Motorized,3.4,6.7,0.01,1.3,Low,GOODWATER,FALSE
+Akwa Ibom,4.95,7.98,Borehole,Motorized,3.4,6.7,0.01,1.3,Low,GOODWATER,FALSE
 Akwa Ibom,4.8,7.91,Borehole,Hand Pumped,4.9,6.1,0.02,3.8,Moderate,WATERSCARCITY,TRUE
 Akwa Ibom,4.67,7.95,Borehole,Motorized,3.6,6.4,0.01,1.2,Low,GOODWATER,FALSE
 Akwa Ibom,5,7.88,Borehole,Motorized,3.2,6.6,0.01,1.3,Low,GOODWATER,FALSE
 Akwa Ibom,5.02,7.93,Borehole,Motorized,3.1,6.7,0.01,1.4,Low,GROUNDWATERPOTENTIAL,FALSE
 Akwa Ibom,4.85,7.99,Borehole,Motorized,5,6,0.03,4,Moderate,WATERSCARCITY,TRUE
+Plateau,9.52,8.65,Borehole,Motorized,12.1,8.1,0.26,0.18,Moderate,GOODWATER,TRUE
+Plateau,9.59,8.44,Borehole,Motorized,6.6,8.13,0.51,0.53,High,GROUNDWATER POTENTIAL,FALSE
+Plateau,9.4,9.42,Borehole,Motorized,5.2,7.42,0.58,0.65,Low,WATERSCARCITY,TRUE
+Plateau,9.05,9.15,Borehole,Hand pump,7.9,6.31,0.68,0.21,Low,GROUNDWATER POTENTIAL,FALSE
+Plateau,9.34,8.21,Borehole,Motorized,7.2,6.93,0.43,0.24,Low,WATERSCARCITY,TRUE
+Plateau,9.8,9.3,Borehole,Hand pump,7.3,7.66,0.76,0.68,Low,WATERSCARCITY,FALSE
+Plateau,9,8.73,Borehole,Hand pump,6.6,8.46,0.89,0.21,Low,WATERCONTAMINATION,TRUE
+Plateau,9.33,9.34,Borehole,Motorized,4.5,7.69,0.82,0.61,Low,WATERSCARCITY,FALSE
+Plateau,9.4,9.2,Borehole,Hand pump,4.2,6.87,0.23,0.4,Low,WATERCONTAMINATION,TRUE
+Plateau,9.54,8.64,Borehole,Motorized,14.9,7.69,0.58,0.25,Low,WATERCONTAMINATION,TRUE
+Plateau,9.92,8.03,Borehole,Motorized,8.7,7.49,0.28,0.62,High,WATERCONTAMINATION,TRUE
+Plateau,9.35,8.4,Borehole,Motorized,8.2,8.02,0.39,0.37,Low,GOODWATER,FALSE
+Plateau,9.35,8.81,Borehole,Motorized,11.5,6.54,0.99,0.41,High,GOODWATER,TRUE
+Plateau,9.74,8.95,Borehole,Motorized,6.4,7.97,0.31,0.32,Moderate,WATERSCARCITY,FALSE
+Plateau,9.45,8.39,Borehole,Hand pump,14.4,7.49,0.6,0.46,Low,WATERCONTAMINATION,FALSE
+Plateau,9.22,8.21,Borehole,Hand pump,12.6,8.42,0.69,0.2,Moderate,GOODWATER,TRUE
+Plateau,9.45,9.25,Borehole,Hand pump,5,7.05,0.76,0.33,Moderate,WATERCONTAMINATION,TRUE
+Plateau,9.14,9.48,Borehole,Motorized,8.6,7.69,0.65,0.68,Moderate,GROUNDWATER POTENTIAL,TRUE
+Plateau,9.18,8.79,Borehole,Motorized,13.7,8.35,0.21,0.25,High,GROUNDWATER POTENTIAL,FALSE
+Plateau,9.5,8.26,Borehole,Motorized,14.4,6.53,0.46,0.49,Moderate,GROUNDWATER POTENTIAL,TRUE
+Plateau,9.42,8.41,Borehole,Hand pump,9.1,8.36,0.61,0.3,Moderate,WATERSCARCITY,FALSE
+Plateau,9.91,8.03,Borehole,Motorized,10.7,7.81,0.27,0.56,Moderate,WATERCONTAMINATION,FALSE
+Plateau,9.36,9.37,Borehole,Hand pump,5.8,6.45,0.48,0.18,Low,GROUNDWATER POTENTIAL,TRUE
+Plateau,9.58,8.18,Borehole,Hand pump,14.9,6.96,0.23,0.68,Low,GOODWATER,TRUE
+Plateau,9.63,8.86,Borehole,Motorized,6.5,7.86,0.26,0.37,High,GROUNDWATER POTENTIAL,TRUE
+Plateau,9.01,8.41,Borehole,Motorized,14.4,6.45,0.52,0.24,High,GROUNDWATER POTENTIAL,TRUE
+Plateau,9.66,8.83,Borehole,Hand pump,11.1,7.58,0.31,0.14,Low,GROUNDWATER POTENTIAL,TRUE
+Plateau,9.18,8.98,Borehole,Motorized,10.7,7.06,0.65,0.2,High,WATERSCARCITY,TRUE
+Plateau,9.96,9.24,Borehole,Hand pump,9.6,7.67,0.75,0.41,Low,GOODWATER,FALSE
+Plateau,9.15,8.31,Borehole,Motorized,6.5,6.4,0.84,0.3,Moderate,WATERCONTAMINATION,FALSE
+Plateau,9.41,8.02,Borehole,Motorized,5.9,8.22,0.36,0.6,Moderate,GOODWATER,FALSE
+Plateau,9.09,8.21,Borehole,Hand pump,6.4,8.44,0.33,0.36,High,WATERCONTAMINATION,TRUE
+Plateau,10,9.35,Borehole,Motorized,6.1,8.43,0.28,0.25,Low,WATERSCARCITY,FALSE
+Plateau,9.5,9.31,Borehole,Hand pump,12.6,7.95,0.71,0.47,Low,WATERSCARCITY,FALSE
+Plateau,9.6,8.9,Borehole,Motorized,7.9,6.59,0.77,0.52,High,WATERSCARCITY,FALSE
+Plateau,9.07,8.9,Borehole,Hand pump,4.6,7.97,0.23,0.2,Low,WATERSCARCITY,FALSE
+Plateau,9.75,9,Borehole,Hand pump,14.7,6.35,0.95,0.2,Moderate,WATERCONTAMINATION,FALSE
+Plateau,9.21,8.26,Borehole,Motorized,13.7,6.35,0.24,0.12,High,GROUNDWATER POTENTIAL,TRUE
+Plateau,9.9,9.37,Borehole,Hand pump,14.2,7.01,0.63,0.54,High,WATERCONTAMINATION,TRUE
+Plateau,9.21,8.63,Borehole,Motorized,14.9,7.38,0.77,0.5,Low,GOODWATER,FALSE
+Plateau,9.19,8.57,Borehole,Motorized,5.9,7.99,0.9,0.38,High,WATERSCARCITY,FALSE
+Plateau,9.04,8.78,Borehole,Motorized,8.4,7.8,0.77,0.61,Low,WATERSCARCITY,FALSE
+Plateau,9.47,8.07,Borehole,Hand pump,12.3,7.28,0.84,0.58,Low,GOODWATER,TRUE
+Plateau,9.56,8.25,Borehole,Hand pump,11.7,6.9,0.47,0.45,Low,WATERCONTAMINATION,TRUE
+Plateau,9.07,9.11,Borehole,Motorized,5.7,8.49,0.85,0.62,Low,GROUNDWATER POTENTIAL,FALSE
+Plateau,9.78,8.12,Borehole,Motorized,13,7.24,0.26,0.22,Low,GROUNDWATER POTENTIAL,TRUE
+Plateau,9.45,8.9,Borehole,Hand pump,6.5,7.29,0.92,0.17,High,GOODWATER,TRUE
+Plateau,9.52,8.37,Borehole,Motorized,6.5,6.66,0.64,0.26,Moderate,GROUNDWATER POTENTIAL,FALSE
+Plateau,9.44,8.58,Borehole,Motorized,9.9,8.05,0.85,0.13,Moderate,WATERCONTAMINATION,TRUE
+Plateau,9.4,8.43,Borehole,Hand pump,10.5,7.83,0.56,0.42,High,WATERCONTAMINATION,TRUE
+Plateau,9.56,8.53,Borehole,Motorized,10.4,6.79,0.71,0.66,High,GOODWATER,FALSE
+Plateau,9.16,9.08,Borehole,Hand pump,5,6.48,0.62,0.12,Moderate,WATERCONTAMINATION,TRUE
+Plateau,9.18,8.45,Borehole,Motorized,13.7,7.8,0.79,0.17,Moderate,WATERSCARCITY,TRUE
+Plateau,9.86,8.85,Borehole,Hand pump,6.9,7.74,0.27,0.37,Moderate,GOODWATER,FALSE
+Plateau,9.95,8.71,Borehole,Motorized,5.4,6.9,0.25,0.66,Moderate,WATERCONTAMINATION,TRUE
+Plateau,9.37,9,Borehole,Motorized,13.8,8.39,0.4,0.29,Moderate,GOODWATER,TRUE
+Plateau,9.27,9.41,Borehole,Hand pump,14.5,6.63,0.33,0.4,Low,GROUNDWATER POTENTIAL,FALSE
+Plateau,9.64,9.1,Borehole,Motorized,13.5,7.25,0.9,0.12,High,WATERCONTAMINATION,FALSE
+Plateau,9.41,8.32,Borehole,Hand pump,12.9,8.38,0.38,0.19,Low,WATERSCARCITY,FALSE
+Plateau,9.03,8.05,Borehole,Motorized,11.2,7.22,0.98,0.69,Moderate,WATERCONTAMINATION,TRUE
+Plateau,9.16,8.39,Borehole,Hand pump,10.1,7.7,0.47,0.68,Moderate,GOODWATER,FALSE
+Plateau,9.72,8.89,Borehole,Hand pump,5,7.17,0.35,0.1,Moderate,GOODWATER,TRUE
+Plateau,9.66,8.08,Borehole,Hand pump,8.5,6.9,0.83,0.67,Low,WATERCONTAMINATION,FALSE
+Plateau,9.03,8.74,Borehole,Hand pump,8.1,8.46,0.73,0.48,Low,WATERSCARCITY,TRUE
+Plateau,9.22,8.9,Borehole,Motorized,6.9,7.2,0.6,0.62,Moderate,WATERSCARCITY,FALSE
+Plateau,9.23,8.5,Borehole,Motorized,12,8.27,0.64,0.37,Low,WATERSCARCITY,FALSE
+Plateau,9.67,9.16,Borehole,Hand pump,9.5,6.81,0.78,0.41,Low,GOODWATER,FALSE
+Plateau,9.02,8.16,Borehole,Hand pump,4.9,6.77,0.38,0.39,Moderate,WATERCONTAMINATION,FALSE
+Plateau,9.1,8.11,Borehole,Hand pump,6.4,6.37,1,0.5,Low,GROUNDWATER POTENTIAL,TRUE
+Plateau,9.8,9.09,Borehole,Motorized,11.5,7.73,0.98,0.18,High,GOODWATER,FALSE
+Plateau,9.18,8.74,Borehole,Motorized,4.8,7.11,0.72,0.12,High,WATERSCARCITY,FALSE
+Plateau,9.65,9.03,Borehole,Motorized,13.4,8.2,0.36,0.28,High,WATERCONTAMINATION,TRUE
+Plateau,9.24,8.65,Borehole,Motorized,9.4,7.34,0.74,0.52,High,WATERSCARCITY,FALSE
+Plateau,9.1,8.37,Borehole,Hand pump,9.3,8.43,0.26,0.22,Moderate,GROUNDWATER POTENTIAL,TRUE
+Plateau,9.24,9.23,Borehole,Hand pump,10.5,6.71,0.22,0.5,Moderate,WATERSCARCITY,FALSE
+Plateau,9.72,9.2,Borehole,Hand pump,13.1,8.21,0.41,0.68,Moderate,WATERSCARCITY,FALSE
+Plateau,9.86,9.04,Borehole,Motorized,7.8,8.01,0.57,0.16,High,GROUNDWATER POTENTIAL,FALSE
+Plateau,9.83,8.41,Borehole,Motorized,11.5,8,0.89,0.5,High,WATERCONTAMINATION,TRUE
+Plateau,9.4,8.89,Borehole,Motorized,10.2,8.16,0.78,0.37,Low,GOODWATER,FALSE
+Plateau,9.67,8.54,Borehole,Hand pump,6.9,7.97,0.79,0.62,Low,WATERCONTAMINATION,FALSE
+Plateau,9.2,8.14,Borehole,Hand pump,13.7,7.68,0.54,0.21,High,GROUNDWATER POTENTIAL,FALSE
+Plateau,9.29,9.38,Borehole,Motorized,12.8,6.59,0.48,0.52,High,WATERSCARCITY,TRUE
+Plateau,9.9,8.21,Borehole,Hand pump,11.2,6.37,0.5,0.6,High,WATERCONTAMINATION,TRUE
+Plateau,9.01,9.43,Borehole,Motorized,13.4,8.33,0.99,0.67,High,GOODWATER,FALSE
+Plateau,9.09,8.67,Borehole,Motorized,13.5,7.66,0.23,0.51,Low,GROUNDWATER POTENTIAL,TRUE
+Plateau,9.21,8.28,Borehole,Hand pump,11.8,8.05,0.89,0.4,High,WATERCONTAMINATION,FALSE
+Plateau,9.03,8.81,Borehole,Motorized,13.2,7.36,0.66,0.47,Low,GOODWATER,FALSE
+Plateau,9.18,9.31,Borehole,Hand pump,11.7,6.56,0.55,0.62,High,GROUNDWATER POTENTIAL,FALSE
+Plateau,9.58,9.1,Borehole,Motorized,11.5,6.58,0.78,0.44,High,GOODWATER,FALSE
+Plateau,9.42,9.21,Borehole,Hand pump,10.8,7.81,0.59,0.12,High,GROUNDWATER POTENTIAL,FALSE
+Plateau,9.89,8.99,Borehole,Hand pump,12.3,7.25,0.9,0.66,Low,WATERSCARCITY,FALSE
+Plateau,9.82,9.04,Borehole,Hand pump,5.7,6.74,0.92,0.51,Low,WATERCONTAMINATION,FALSE
+Plateau,9.34,9.27,Borehole,Motorized,13.7,7.38,0.54,0.51,Moderate,GOODWATER,TRUE
+Plateau,9.26,8.37,Borehole,Motorized,13.6,6.44,0.42,0.23,High,GROUNDWATER POTENTIAL,TRUE
+Plateau,9.38,8.73,Borehole,Hand pump,4.3,7.58,0.67,0.5,Moderate,GOODWATER,TRUE
+Plateau,9.59,8.33,Borehole,Hand pump,13.1,6.89,0.93,0.34,Moderate,GOODWATER,TRUE
+Plateau,9.27,9.48,Borehole,Motorized,5.4,8.05,0.37,0.49,Low,WATERCONTAMINATION,TRUE
+Plateau,9.62,9.42,Borehole,Motorized,7.7,6.98,0.7,0.16,Low,WATERSCARCITY,TRUE
+Plateau,9.41,8.06,Borehole,Motorized,12.2,7.3,0.71,0.49,Moderate,GOODWATER,TRUE
+Plateau,9.55,9.06,Borehole,Hand pump,5.8,6.33,0.79,0.7,High,GROUNDWATER POTENTIAL,FALSE

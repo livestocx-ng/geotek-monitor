@@ -1,75 +1,819 @@
 {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Lagos",
-        "uptime": 98.5,
-        "peopleServed": 45000,
-        "riskLevel": "low",
-        "alerts": 1
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [[[3.3, 6.4], [3.5, 6.4], [3.5, 6.6], [3.3, 6.6], [3.3, 6.4]]]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Kano",
-        "uptime": 94.2,
-        "peopleServed": 38000,
-        "riskLevel": "medium",
-        "alerts": 3
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [[[8.3, 11.8], [8.8, 11.8], [8.8, 12.3], [8.3, 12.3], [8.3, 11.8]]]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Kaduna",
-        "uptime": 89.7,
-        "peopleServed": 31000,
-        "riskLevel": "high",
-        "alerts": 5
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [[[7.3, 10.3], [7.8, 10.3], [7.8, 10.8], [7.3, 10.8], [7.3, 10.3]]]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Rivers",
-        "uptime": 96.1,
-        "peopleServed": 28000,
-        "riskLevel": "low",
-        "alerts": 2
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [[[6.8, 4.7], [7.2, 4.7], [7.2, 5.1], [6.8, 5.1], [6.8, 4.7]]]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Oyo",
-        "uptime": 92.3,
-        "peopleServed": 26500,
-        "riskLevel": "medium",
-        "alerts": 2
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [[[3.8, 7.8], [4.3, 7.8], [4.3, 8.3], [3.8, 8.3], [3.8, 7.8]]]
-      }
-    }
-  ]
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Abia",
+				"uptime": 89.0,
+				"peopleServed": 12500,
+				"riskLevel": "medium",
+				"alerts": 2
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[7.3, 5.2],
+						[7.8, 5.2],
+						[7.8, 5.7],
+						[7.3, 5.7],
+						[7.3, 5.2]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Adamawa",
+				"uptime": 76.0,
+				"peopleServed": 11200,
+				"riskLevel": "high",
+				"alerts": 4
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[11.8, 8.8],
+						[13.2, 8.8],
+						[13.2, 10.2],
+						[11.8, 10.2],
+						[11.8, 8.8]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Akwa Ibom",
+				"uptime": 93.0,
+				"peopleServed": 18700,
+				"riskLevel": "low",
+				"alerts": 1
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[7.5, 4.5],
+						[8.3, 4.5],
+						[8.3, 5.3],
+						[7.5, 5.3],
+						[7.5, 4.5]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Anambra",
+				"uptime": 95.0,
+				"peopleServed": 19800,
+				"riskLevel": "low",
+				"alerts": 1
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[6.6, 5.9],
+						[7.2, 5.9],
+						[7.2, 6.5],
+						[6.6, 6.5],
+						[6.6, 5.9]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Bauchi",
+				"uptime": 81.0,
+				"peopleServed": 14300,
+				"riskLevel": "medium",
+				"alerts": 3
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[9.3, 10.0],
+						[11.0, 10.0],
+						[11.0, 11.2],
+						[9.3, 11.2],
+						[9.3, 10.0]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Bayelsa",
+				"uptime": 87.0,
+				"peopleServed": 8900,
+				"riskLevel": "medium",
+				"alerts": 2
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[5.8, 4.2],
+						[6.4, 4.2],
+						[6.4, 5.0],
+						[5.8, 5.0],
+						[5.8, 4.2]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Benue",
+				"uptime": 84.0,
+				"peopleServed": 16400,
+				"riskLevel": "medium",
+				"alerts": 3
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[7.8, 6.8],
+						[9.8, 6.8],
+						[9.8, 8.2],
+						[7.8, 8.2],
+						[7.8, 6.8]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Borno",
+				"uptime": 72.0,
+				"peopleServed": 9800,
+				"riskLevel": "high",
+				"alerts": 5
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[11.5, 11.0],
+						[14.5, 11.0],
+						[14.5, 13.5],
+						[11.5, 13.5],
+						[11.5, 11.0]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Cross River",
+				"uptime": 90.0,
+				"peopleServed": 13600,
+				"riskLevel": "low",
+				"alerts": 1
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[8.0, 5.0],
+						[9.0, 5.0],
+						[9.0, 6.8],
+						[8.0, 6.8],
+						[8.0, 5.0]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Delta",
+				"uptime": 92.0,
+				"peopleServed": 17200,
+				"riskLevel": "low",
+				"alerts": 1
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[5.2, 5.2],
+						[6.5, 5.2],
+						[6.5, 6.5],
+						[5.2, 6.5],
+						[5.2, 5.2]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Ebonyi",
+				"uptime": 86.0,
+				"peopleServed": 10800,
+				"riskLevel": "medium",
+				"alerts": 2
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[7.8, 6.0],
+						[8.3, 6.0],
+						[8.3, 6.8],
+						[7.8, 6.8],
+						[7.8, 6.0]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Edo",
+				"uptime": 91.0,
+				"peopleServed": 15900,
+				"riskLevel": "low",
+				"alerts": 1
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[5.4, 5.8],
+						[6.8, 5.8],
+						[6.8, 7.2],
+						[5.4, 7.2],
+						[5.4, 5.8]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Ekiti",
+				"uptime": 88.0,
+				"peopleServed": 11700,
+				"riskLevel": "medium",
+				"alerts": 2
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[5.0, 7.4],
+						[5.6, 7.4],
+						[5.6, 8.0],
+						[5.0, 8.0],
+						[5.0, 7.4]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Enugu",
+				"uptime": 94.0,
+				"peopleServed": 14300,
+				"riskLevel": "low",
+				"alerts": 1
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[7.2, 6.2],
+						[7.8, 6.2],
+						[7.8, 6.8],
+						[7.2, 6.8],
+						[7.2, 6.2]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Abuja FCT",
+				"uptime": 99.0,
+				"peopleServed": 28000,
+				"riskLevel": "low",
+				"alerts": 0
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[7.2, 8.8],
+						[7.8, 8.8],
+						[7.8, 9.4],
+						[7.2, 9.4],
+						[7.2, 8.8]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Gombe",
+				"uptime": 79.0,
+				"peopleServed": 12100,
+				"riskLevel": "high",
+				"alerts": 4
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[10.8, 9.8],
+						[11.8, 9.8],
+						[11.8, 10.8],
+						[10.8, 10.8],
+						[10.8, 9.8]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Imo",
+				"uptime": 90.0,
+				"peopleServed": 16800,
+				"riskLevel": "low",
+				"alerts": 1
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[6.8, 5.2],
+						[7.4, 5.2],
+						[7.4, 5.8],
+						[6.8, 5.8],
+						[6.8, 5.2]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Jigawa",
+				"uptime": 77.0,
+				"peopleServed": 13400,
+				"riskLevel": "high",
+				"alerts": 4
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[8.8, 11.8],
+						[10.2, 11.8],
+						[10.2, 13.2],
+						[8.8, 13.2],
+						[8.8, 11.8]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Kaduna",
+				"uptime": 92.0,
+				"peopleServed": 15200,
+				"riskLevel": "medium",
+				"alerts": 2
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[7.0, 10.0],
+						[8.2, 10.0],
+						[8.2, 11.2],
+						[7.0, 11.2],
+						[7.0, 10.0]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Kano",
+				"uptime": 85.0,
+				"peopleServed": 18500,
+				"riskLevel": "high",
+				"alerts": 3
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[8.0, 11.5],
+						[9.0, 11.5],
+						[9.0, 12.5],
+						[8.0, 12.5],
+						[8.0, 11.5]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Katsina",
+				"uptime": 80.0,
+				"peopleServed": 14700,
+				"riskLevel": "medium",
+				"alerts": 3
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[7.2, 12.5],
+						[8.2, 12.5],
+						[8.2, 13.8],
+						[7.2, 13.8],
+						[7.2, 12.5]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Kebbi",
+				"uptime": 75.0,
+				"peopleServed": 11900,
+				"riskLevel": "high",
+				"alerts": 4
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[3.8, 11.8],
+						[5.2, 11.8],
+						[5.2, 13.2],
+						[3.8, 13.2],
+						[3.8, 11.8]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Kogi",
+				"uptime": 87.0,
+				"peopleServed": 13800,
+				"riskLevel": "medium",
+				"alerts": 2
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[6.2, 7.2],
+						[7.8, 7.2],
+						[7.8, 8.8],
+						[6.2, 8.8],
+						[6.2, 7.2]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Kwara",
+				"uptime": 89.0,
+				"peopleServed": 12900,
+				"riskLevel": "medium",
+				"alerts": 2
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[4.2, 8.2],
+						[5.8, 8.2],
+						[5.8, 9.8],
+						[4.2, 9.8],
+						[4.2, 8.2]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Lagos",
+				"uptime": 98.0,
+				"peopleServed": 25000,
+				"riskLevel": "low",
+				"alerts": 1
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[3.0, 6.2],
+						[3.8, 6.2],
+						[3.8, 6.8],
+						[3.0, 6.8],
+						[3.0, 6.2]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Nasarawa",
+				"uptime": 83.0,
+				"peopleServed": 11600,
+				"riskLevel": "medium",
+				"alerts": 3
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[7.8, 8.2],
+						[9.2, 8.2],
+						[9.2, 9.2],
+						[7.8, 9.2],
+						[7.8, 8.2]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Niger",
+				"uptime": 82.0,
+				"peopleServed": 15300,
+				"riskLevel": "medium",
+				"alerts": 3
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[5.8, 9.2],
+						[7.2, 9.2],
+						[7.2, 11.2],
+						[5.8, 11.2],
+						[5.8, 9.2]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Ogun",
+				"uptime": 93.0,
+				"peopleServed": 17500,
+				"riskLevel": "low",
+				"alerts": 1
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[3.0, 6.8],
+						[4.0, 6.8],
+						[4.0, 7.8],
+						[3.0, 7.8],
+						[3.0, 6.8]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Ondo",
+				"uptime": 91.0,
+				"peopleServed": 14800,
+				"riskLevel": "low",
+				"alerts": 1
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[4.8, 6.8],
+						[6.2, 6.8],
+						[6.2, 7.8],
+						[4.8, 7.8],
+						[4.8, 6.8]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Osun",
+				"uptime": 89.0,
+				"peopleServed": 13200,
+				"riskLevel": "medium",
+				"alerts": 2
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[4.0, 7.2],
+						[5.0, 7.2],
+						[5.0, 8.2],
+						[4.0, 8.2],
+						[4.0, 7.2]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Oyo",
+				"uptime": 88.0,
+				"peopleServed": 16800,
+				"riskLevel": "medium",
+				"alerts": 2
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[3.5, 7.5],
+						[4.5, 7.5],
+						[4.5, 8.5],
+						[3.5, 8.5],
+						[3.5, 7.5]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Plateau",
+				"uptime": 91.0,
+				"peopleServed": 13700,
+				"riskLevel": "medium",
+				"alerts": 2
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[8.8, 8.8],
+						[10.2, 8.8],
+						[10.2, 10.2],
+						[8.8, 10.2],
+						[8.8, 8.8]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Rivers",
+				"uptime": 96.0,
+				"peopleServed": 21000,
+				"riskLevel": "low",
+				"alerts": 1
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[6.5, 4.5],
+						[7.5, 4.5],
+						[7.5, 5.5],
+						[6.5, 5.5],
+						[6.5, 4.5]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Sokoto",
+				"uptime": 78.0,
+				"peopleServed": 12400,
+				"riskLevel": "high",
+				"alerts": 4
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[4.8, 12.8],
+						[6.2, 12.8],
+						[6.2, 14.2],
+						[4.8, 14.2],
+						[4.8, 12.8]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Taraba",
+				"uptime": 74.0,
+				"peopleServed": 10500,
+				"riskLevel": "high",
+				"alerts": 5
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[9.8, 7.8],
+						[11.8, 7.8],
+						[11.8, 9.8],
+						[9.8, 9.8],
+						[9.8, 7.8]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Yobe",
+				"uptime": 73.0,
+				"peopleServed": 9200,
+				"riskLevel": "high",
+				"alerts": 5
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[10.8, 11.8],
+						[12.8, 11.8],
+						[12.8, 13.2],
+						[10.8, 13.2],
+						[10.8, 11.8]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Zamfara",
+				"uptime": 76.0,
+				"peopleServed": 10900,
+				"riskLevel": "high",
+				"alerts": 4
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[6.0, 12.0],
+						[7.2, 12.0],
+						[7.2, 13.2],
+						[6.0, 13.2],
+						[6.0, 12.0]
+					]
+				]
+			}
+		}
+	]
 }

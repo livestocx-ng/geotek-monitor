@@ -2,63 +2,40 @@ import {useState, useCallback, useMemo, useRef, useEffect} from 'react';
 import {
 	APIProvider,
 	Map,
-	Marker,
 	AdvancedMarker,
-	InfoWindow,
 	useMap,
 } from '@vis.gl/react-google-maps';
-import {Layers, MapPin, Droplets, Activity, AlertCircle} from 'lucide-react';
+import {MapPin, Droplets, Activity, AlertCircle} from 'lucide-react';
 import {Card} from '@/components/ui/card';
 import {Badge} from '@/components/ui/badge';
-import {cn} from '@/lib/utils';
-import {waterSites, WaterSite} from '@/data/water-sites';
+import {WaterSite} from '@/data/water-sites';
 import SiteDetailModal from './SiteDetailModal';
 import nigeriaStates from '@/data/nigeria-states.json';
+
+interface StateFeature {
+	type: string;
+	properties: {
+		name: string;
+		uptime: number;
+		peopleServed: number;
+		riskLevel: string;
+		alerts: number;
+	};
+	geometry: {
+		type: string;
+		coordinates: number[][][];
+	};
+}
+
+interface StatesGeoJSON {
+	type: string;
+	features: StateFeature[];
+}
 
 interface MapPanelProps {
 	selectedState: string | null;
 	activeLayer: string;
 	onLayerChange: (layer: string) => void;
-}
-
-const stateCoordinates: Record<string, [number, number]> = {
-	'Abia': [7.4833, 5.5333],
-	'Adamawa': [9.3333, 12.5000],
-	'Akwa Ibom': [4.9067, 7.8500],
-	'Anambra': [6.2200, 6.9333],
-	'Bauchi': [10.3158, 9.8442],
-	'Bayelsa': [4.7719, 6.0699],
-	'Benue': [7.3333, 8.5000],
-	'Borno': [11.8333, 13.1500],
-	'Cross River': [5.8700, 8.5967],
-	'Delta': [5.6800, 6.0000],
-	'Ebonyi': [6.2649, 8.0137],
-	'Edo': [6.3350, 5.6037],
-	'Ekiti': [7.7167, 5.3167],
-	'Enugu': [6.5244, 7.5106],
-	'FCT': [9.0765, 7.3986],
-	'Gombe': [10.2900, 11.1700],
-	'Imo': [5.5720, 7.0588],
-	'Jigawa': [12.2300, 9.5617],
-	'Kaduna': [10.5105, 7.4165],
-	'Kano': [12.0022, 8.5919],
-	'Katsina': [12.9908, 7.6006],
-	'Kebbi': [11.5000, 4.2000],
-	'Kogi': [7.7333, 6.7400],
-	'Kwara': [8.9667, 4.5833],
-	'Lagos': [6.5244, 3.3792],
-	'Nasarawa': [8.5400, 7.7000],
-	'Niger': [9.6100, 5.5200],
-	'Ogun': [6.9900, 3.5000],
-	'Ondo': [7.2500, 5.1950],
-	'Osun': [7.5629, 4.5200],
-	'Oyo': [8.0000, 4.0000],
-	'Plateau': [9.2182, 8.8919],
-	'Rivers': [4.8156, 6.9132],
-	'Sokoto': [13.0622, 5.2339],
-	'Taraba': [7.9833, 10.7667],
-	'Yobe': [12.2939, 11.7510],
-	'Zamfara': [12.1704, 6.6599],
 }
 
 const layers = [
@@ -71,6 +48,65 @@ const layers = [
 // Google Maps API Key from environment
 const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
+// Function to parse CSV data and convert to WaterSite format
+const parseCSVToWaterSites = (csvText: string): WaterSite[] => {
+	const lines = csvText.trim().split('\n');
+	const headers = lines[0].split(',');
+
+	return lines.slice(1).map((line, index) => {
+		const values = line.split(',');
+		const data: Record<string, string> = {};
+
+		headers.forEach((header, i) => {
+			data[header.trim()] = values[i]?.trim() || '';
+		});
+
+		// Determine status based on health risk level
+		let status: 'optimal' | 'warning' | 'critical' = 'optimal';
+		if (data['HEALTH RISK LEVEL'] === 'High') status = 'critical';
+		else if (data['HEALTH RISK LEVEL'] === 'Moderate') status = 'warning';
+
+		// Generate uptime based on status and scarcity
+		let uptime = 98;
+		if (status === 'critical') uptime = Math.random() * 20 + 70; // 70-90%
+		else if (status === 'warning')
+			uptime = Math.random() * 10 + 85; // 85-95%
+		else uptime = Math.random() * 5 + 95; // 95-100%
+
+		return {
+			id: `${data['STATES']?.substring(0, 2).toUpperCase()}-${String(
+				index + 1
+			).padStart(3, '0')}`,
+			name: `${data['STATES']} ${data['WATER INFRASTRUCTURE POINTS']} ${
+				index + 1
+			}`,
+			type: 'borehole' as const,
+			state: data['STATES'] || '',
+			coordinates: [
+				parseFloat(data['LONGTITUDE']) || 0,
+				parseFloat(data['LATITUDE']) || 0,
+			] as [number, number],
+			quality: {
+				ph: parseFloat(data['pH LEVEL']) || 7,
+				turbidity: parseFloat(data['WATER TURBIDITY']) || 0,
+				chlorine: parseFloat(data['CHLORINE LEVEL']) || 0,
+			},
+			uptime: Math.round(uptime * 10) / 10,
+			status,
+			lastMaintenance: new Date(
+				Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000
+			)
+				.toISOString()
+				.split('T')[0],
+			peopleServed: Math.floor(Math.random() * 5000) + 2000,
+			pumpType: data['PUMP TYPE'] || 'Motorized',
+			contamination: parseFloat(data['CONTAMINATION']) || 0,
+			healthRisk: data['HEALTH RISK LEVEL'] || 'Low',
+			scarcity: data['SCARCITY'] === 'TRUE',
+		};
+	});
+};
+
 // Inner map component that uses the useMap hook
 const MapContent = ({
 	selectedState,
@@ -78,78 +114,27 @@ const MapContent = ({
 	filteredSites,
 	setHoveredState,
 	setSelectedSite,
+	mapRef,
 }: {
 	selectedState: string | null;
 	activeLayer: string;
 	filteredSites: WaterSite[];
 	setHoveredState: (state: string | null) => void;
 	setSelectedSite: (site: WaterSite | null) => void;
+	mapRef: React.MutableRefObject<google.maps.Map | null>;
 }) => {
 	const map = useMap();
 
-  useEffect(() => {
-    if (selectedState && map) {
-      const coordinates = stateCoordinates[selectedState];
-      if (coordinates) {
-        map.setCenter({lat: coordinates[0], lng: coordinates[1]});
-        map.setZoom(8);
-      }
-    }
-  }, [selectedState, map]);
-
+	// Set map reference when map loads
 	useEffect(() => {
-		if (!map) return;
+		if (map) {
+			mapRef.current = map;
+		}
+	}, [map, mapRef]);
 
-		// Add Nigeria states GeoJSON data
-		const dataLayer = new google.maps.Data();
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		dataLayer.addGeoJson(nigeriaStates as any);
-		dataLayer.setMap(map);
-
-		// Style the polygons
-		dataLayer.setStyle((feature) => {
-			const riskLevel =
-				(feature.getProperty('riskLevel') as string) || '';
-			let fillColor = '#6b7280';
-			if (riskLevel === 'low') fillColor = '#10b981';
-			if (riskLevel === 'medium') fillColor = '#f59e0b';
-			if (riskLevel === 'high') fillColor = '#ef4444';
-
-			return {
-				fillColor,
-				fillOpacity: 0.15,
-				strokeColor: '#6b7280',
-				strokeWeight: 1.5,
-				strokeOpacity: 1,
-			};
-		});
-
-		// Add hover effect
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		dataLayer.addListener('mouseover', (e: any) => {
-			if (e.feature) {
-				const stateName = e.feature.getProperty('name');
-				if (stateName) {
-					setHoveredState(stateName);
-					map.getDiv().style.cursor = 'pointer';
-				}
-			}
-		});
-
-		dataLayer.addListener('mouseout', () => {
-			setHoveredState(null);
-			map.getDiv().style.cursor = '';
-		});
-
-		// Add click event
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		dataLayer.addListener('click', (e: any) => {
-			const stateName = e.feature?.getProperty('name');
-			if (stateName) {
-				setSelectedSite(null);
-			}
-		});
-	}, [map, setHoveredState, setSelectedSite, selectedState]);
+	// No longer adding state polygons to the map
+	// The state focusing functionality is handled through the selectedState prop
+	// and the getStateCenter function in the parent component
 
 	return null;
 };
@@ -161,7 +146,129 @@ const MapPanel = ({
 }: MapPanelProps) => {
 	const [selectedSite, setSelectedSite] = useState<WaterSite | null>(null);
 	const [hoveredState, setHoveredState] = useState<string | null>(null);
+	const [waterSites, setWaterSites] = useState<WaterSite[]>([]);
+	const [loading, setLoading] = useState(true);
 	const mapRef = useRef<google.maps.Map | null>(null);
+
+	// Function to calculate the center of a polygon
+	const calculatePolygonCenter = (coordinates: number[][][]) => {
+		let totalLat = 0;
+		let totalLng = 0;
+		let pointCount = 0;
+
+		coordinates.forEach((ring) => {
+			ring.forEach((point) => {
+				totalLng += point[0];
+				totalLat += point[1];
+				pointCount++;
+			});
+		});
+
+		return {
+			lat: totalLat / pointCount,
+			lng: totalLng / pointCount,
+		};
+	};
+
+	// Function to get state center coordinates
+	const getStateCenter = useCallback((stateName: string) => {
+		const statesData = nigeriaStates as StatesGeoJSON;
+
+		// Try exact match first
+		let feature = statesData.features.find(
+			(f) => f.properties.name === stateName
+		);
+
+		// Try alternative names for common mismatches
+		if (!feature) {
+			const alternativeName =
+				stateName === 'Abuja FCT'
+					? 'Abuja'
+					: stateName === 'Abuja'
+					? 'Abuja FCT'
+					: stateName;
+			feature = statesData.features.find(
+				(f) => f.properties.name === alternativeName
+			);
+		}
+
+		// if (feature && feature.geometry.type === 'Polygon') {
+		// 	return calculatePolygonCenter(feature.geometry.coordinates);
+		// }
+
+		// Fallback coordinates for states not in GeoJSON
+		const stateCoordinates: Record<string, {lat: number; lng: number}> = {
+			Abia: {lat: 5.4527, lng: 7.5248},
+			Adamawa: {lat: 9.3265, lng: 12.3984},
+			'Akwa Ibom': {lat: 5.0077, lng: 7.8536},
+			Anambra: {lat: 6.2209, lng: 6.9326},
+			Bauchi: {lat: 10.3158, lng: 9.8442},
+			Bayelsa: {lat: 4.7719, lng: 6.0699},
+			Benue: {lat: 7.3298, lng: 8.7343},
+			Borno: {lat: 11.8846, lng: 13.1571},
+			'Cross River': {lat: 5.9631, lng: 8.325},
+			Delta: {lat: 5.6037, lng: 5.7793},
+			Ebonyi: {lat: 6.2649, lng: 8.0137},
+			Edo: {lat: 6.335, lng: 5.6037},
+			Ekiti: {lat: 7.7193, lng: 5.311},
+			Enugu: {lat: 6.5244, lng: 7.5086},
+			Gombe: {lat: 10.2904, lng: 11.1671},
+			Imo: {lat: 5.4951, lng: 7.0255},
+			Jigawa: {lat: 12.23, lng: 9.35},
+			Katsina: {lat: 12.9908, lng: 7.6018},
+			Kebbi: {lat: 12.4539, lng: 4.1975},
+			Kogi: {lat: 7.7323, lng: 6.74},
+			Kwara: {lat: 8.9669, lng: 4.581},
+			Nasarawa: {lat: 8.5378, lng: 8.3206},
+			Niger: {lat: 10.4806, lng: 6.5056},
+			Ogun: {lat: 7.1608, lng: 3.3566},
+			Ondo: {lat: 7.2527, lng: 5.2066},
+			Osun: {lat: 7.5629, lng: 4.52},
+			Plateau: {lat: 9.2182, lng: 9.5179},
+			Sokoto: {lat: 13.0059, lng: 5.2476},
+			Taraba: {lat: 8.8932, lng: 11.3568},
+			Yobe: {lat: 12.2939, lng: 11.9668},
+			Zamfara: {lat: 12.1704, lng: 6.6599},
+		};
+
+		// Use fallback coordinates if available
+		if (stateCoordinates[stateName]) {
+			return stateCoordinates[stateName];
+		}
+
+		// Final fallback to Nigeria center
+		console.warn(`State coordinates not found for: ${stateName}`);
+		return {lat: 9.082, lng: 8.6753};
+	}, []);
+
+	// Focus map on selected state
+	useEffect(() => {
+		if (selectedState && mapRef.current) {
+			console.log(`Focusing on state: ${selectedState}`);
+			const stateCenter = getStateCenter(selectedState);
+			console.log(`State center coordinates:`, stateCenter);
+			mapRef.current.setCenter(stateCenter);
+			mapRef.current.setZoom(8); // Zoom in to state level
+		}
+	}, [selectedState, getStateCenter]);
+
+	// Load CSV data on component mount
+	useEffect(() => {
+		const loadCSVData = async () => {
+			try {
+				const response = await fetch('/dataset.csv');
+				const csvText = await response.text();
+				const sites = parseCSVToWaterSites(csvText);
+				setWaterSites(sites);
+			} catch (error) {
+				console.error('Error loading CSV data:', error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		loadCSVData();
+	}, []);
 
 	// Filter sites based on active layer
 	const filteredSites = useMemo(() => {
@@ -169,9 +276,9 @@ const MapPanel = ({
 		if (activeLayer === 'quality')
 			return waterSites.filter((s) => s.status !== 'optimal');
 		if (activeLayer === 'scarcity')
-			return waterSites.filter((s) => s.uptime < 90);
+			return waterSites.filter((s) => s.scarcity === true);
 		return waterSites.filter((s) => s.status === 'critical');
-	}, [activeLayer]);
+	}, [activeLayer, waterSites]);
 
 	// Handle site click
 	const handleSiteClick = useCallback((site: WaterSite) => {
@@ -199,6 +306,22 @@ const MapPanel = ({
 		if (status === 'warning') return '#f59e0b';
 		return '#ef4444';
 	};
+
+	if (loading) {
+		return (
+			<main
+				className='flex-1 flex flex-col relative overflow-auto items-center justify-center'
+				style={{maxHeight: 'calc(100vh - 7rem)'}}
+			>
+				<div className='text-center'>
+					<div className='animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4'></div>
+					<p className='text-muted-foreground'>
+						Loading water site data...
+					</p>
+				</div>
+			</main>
+		);
+	}
 
 	return (
 		<main
@@ -243,6 +366,7 @@ const MapPanel = ({
 						maxZoom={18}
 					>
 						<MapContent
+							mapRef={mapRef}
 							selectedState={selectedState}
 							activeLayer={activeLayer}
 							filteredSites={filteredSites}
