@@ -1,14 +1,19 @@
-import { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { Layers, MapPin, Droplets, Activity, AlertCircle, Home } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
-import { cn } from "@/lib/utils";
-import { waterSites, WaterSite } from "@/data/water-sites";
-import SiteDetailModal from "./SiteDetailModal";
-import nigeriaStates from "@/data/nigeria-states.json";
+import {useState, useCallback, useMemo, useRef, useEffect} from 'react';
+import {
+	APIProvider,
+	Map,
+	Marker,
+	AdvancedMarker,
+	InfoWindow,
+	useMap,
+} from '@vis.gl/react-google-maps';
+import {Layers, MapPin, Droplets, Activity, AlertCircle} from 'lucide-react';
+import {Card} from '@/components/ui/card';
+import {Badge} from '@/components/ui/badge';
+import {cn} from '@/lib/utils';
+import {waterSites, WaterSite} from '@/data/water-sites';
+import SiteDetailModal from './SiteDetailModal';
+import nigeriaStates from '@/data/nigeria-states.json';
 
 interface MapPanelProps {
   selectedState: string | null;
@@ -17,224 +22,140 @@ interface MapPanelProps {
 }
 
 const layers = [
-  { id: "infrastructure", label: "Infrastructure", icon: MapPin },
-  { id: "quality", label: "Water Quality", icon: Droplets },
-  { id: "scarcity", label: "Scarcity Risk", icon: AlertCircle },
-  { id: "activity", label: "Real-time Activity", icon: Activity },
+	{id: 'infrastructure', label: 'Infrastructure', icon: MapPin},
+	{id: 'quality', label: 'Water Quality', icon: Droplets},
+	{id: 'scarcity', label: 'Scarcity Risk', icon: AlertCircle},
+	{id: 'activity', label: 'Real-time Activity', icon: Activity},
 ];
 
-const MapPanel = ({ selectedState, activeLayer, onLayerChange }: MapPanelProps) => {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const markersRef = useRef<mapboxgl.Marker[]>([]);
-  const [selectedSite, setSelectedSite] = useState<WaterSite | null>(null);
-  const [hoveredState, setHoveredState] = useState<string | null>(null);
+// Google Maps API Key - Replace with your actual key
+const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
+console.log('MAPS_KEY', MAPS_API_KEY);
+
+// Inner map component that uses the useMap hook
+const MapContent = ({
+	selectedState,
+	activeLayer,
+	filteredSites,
+	setHoveredState,
+	setSelectedSite,
+}: {
+	selectedState: string | null;
+	activeLayer: string;
+	filteredSites: WaterSite[];
+	setHoveredState: (state: string | null) => void;
+	setSelectedSite: (site: WaterSite | null) => void;
+}) => {
+	const map = useMap();
 
   useEffect(() => {
-    if (!mapContainer.current || map.current) return;
+		if (!map) return;
 
-    // Initialize map
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZXhhbXBsZSIsImEiOiJjbGV4YW1wbGUifQ.example';
-    
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/light-v11',
-      center: [8.0, 9.0],
-      zoom: 5.5,
-      minZoom: 5,
-      maxZoom: 12,
-    });
+		// Add Nigeria states GeoJSON data
+		const dataLayer = new google.maps.Data();
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		dataLayer.addGeoJson(nigeriaStates as any);
+		dataLayer.setMap(map);
 
-    map.current.on('load', () => {
-      if (!map.current) return;
+		// Style the polygons
+		dataLayer.setStyle((feature) => {
+			const riskLevel =
+				(feature.getProperty('riskLevel') as string) || '';
+			let fillColor = '#6b7280';
+			if (riskLevel === 'low') fillColor = '#10b981';
+			if (riskLevel === 'medium') fillColor = '#f59e0b';
+			if (riskLevel === 'high') fillColor = '#ef4444';
 
-      // Add Nigeria states layer
-      map.current.addSource('nigeria-states', {
-        type: 'geojson',
-        data: nigeriaStates as any,
-      });
-
-      // Add state fill layer
-      map.current.addLayer({
-        id: 'states-fill',
-        type: 'fill',
-        source: 'nigeria-states',
-        paint: {
-          'fill-color': [
-            'match',
-            ['get', 'riskLevel'],
-            'low', '#10b981',
-            'medium', '#f59e0b',
-            'high', '#ef4444',
-            '#6b7280'
-          ],
-          'fill-opacity': [
-            'case',
-            ['boolean', ['feature-state', 'hover'], false],
-            0.3,
-            0.15
-          ],
-        },
-      });
-
-      // Add state border layer
-      map.current.addLayer({
-        id: 'states-border',
-        type: 'line',
-        source: 'nigeria-states',
-        paint: {
-          'line-color': [
-            'case',
-            ['boolean', ['feature-state', 'hover'], false],
-            '#3b82f6',
-            '#94a3b8'
-          ],
-          'line-width': [
-            'case',
-            ['boolean', ['feature-state', 'hover'], false],
-            3,
-            1
-          ],
-        },
+			return {
+				fillColor,
+				fillOpacity: 0.15,
+				strokeColor: '#6b7280',
+				strokeWeight: 1.5,
+				strokeOpacity: 1,
+			};
       });
 
       // Add hover effect
-      let hoveredStateId: string | number | null = null;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		dataLayer.addListener('mouseover', (e: any) => {
+			if (e.feature) {
+				const stateName = e.feature.getProperty('name');
+				if (stateName) {
+					setHoveredState(stateName);
+					map.getDiv().style.cursor = 'pointer';
+				}
+			}
+		});
 
-      map.current.on('mousemove', 'states-fill', (e) => {
-        if (!map.current) return;
-        map.current.getCanvas().style.cursor = 'pointer';
-
-        if (e.features && e.features.length > 0) {
-          if (hoveredStateId !== null) {
-            map.current.setFeatureState(
-              { source: 'nigeria-states', id: hoveredStateId },
-              { hover: false }
-            );
-          }
-          hoveredStateId = e.features[0].id as string | number;
-          map.current.setFeatureState(
-            { source: 'nigeria-states', id: hoveredStateId },
-            { hover: true }
-          );
-          setHoveredState(e.features[0].properties?.name || null);
-        }
-      });
-
-      map.current.on('mouseleave', 'states-fill', () => {
-        if (!map.current) return;
-        map.current.getCanvas().style.cursor = '';
-        if (hoveredStateId !== null) {
-          map.current.setFeatureState(
-            { source: 'nigeria-states', id: hoveredStateId },
-            { hover: false }
-          );
-        }
-        hoveredStateId = null;
+		dataLayer.addListener('mouseout', () => {
         setHoveredState(null);
-      });
+			map.getDiv().style.cursor = '';
+		});
 
-      // Add water site markers
-      addWaterSiteMarkers();
-    });
+		// Add click event
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		dataLayer.addListener('click', (e: any) => {
+			const stateName = e.feature?.getProperty('name');
+			if (stateName) {
+				setSelectedSite(null);
+			}
+		});
+	}, [map, setHoveredState, setSelectedSite, selectedState]);
 
-    // Add navigation controls
-    map.current.addControl(
-      new mapboxgl.NavigationControl({ visualizePitch: true }),
-      'top-right'
-    );
+	return null;
+};
 
-    // Add reset button
-    const resetButton = document.createElement('button');
-    resetButton.className = 'mapboxgl-ctrl-icon mapboxgl-ctrl-home';
-    resetButton.innerHTML = '⌂';
-    resetButton.style.fontSize = '18px';
-    resetButton.onclick = () => {
-      map.current?.flyTo({ center: [8.0, 9.0], zoom: 5.5, duration: 1500 });
-    };
+const MapPanel = ({
+	selectedState,
+	activeLayer,
+	onLayerChange,
+}: MapPanelProps) => {
+	const [selectedSite, setSelectedSite] = useState<WaterSite | null>(null);
+	const [hoveredState, setHoveredState] = useState<string | null>(null);
+	const mapRef = useRef<google.maps.Map | null>(null);
 
-    const resetControl = document.createElement('div');
-    resetControl.className = 'mapboxgl-ctrl mapboxgl-ctrl-group';
-    resetControl.appendChild(resetButton);
-    map.current.getContainer().querySelector('.mapboxgl-ctrl-top-right')?.appendChild(resetControl);
+	// Filter sites based on active layer
+	const filteredSites = useMemo(() => {
+		if (activeLayer === 'infrastructure') return waterSites;
+		if (activeLayer === 'quality')
+			return waterSites.filter((s) => s.status !== 'optimal');
+		if (activeLayer === 'scarcity')
+			return waterSites.filter((s) => s.uptime < 90);
+		return waterSites.filter((s) => s.status === 'critical');
+	}, [activeLayer]);
 
-    return () => {
-      markersRef.current.forEach(marker => marker.remove());
-      map.current?.remove();
-    };
+	// Handle site click
+	const handleSiteClick = useCallback((site: WaterSite) => {
+		setSelectedSite(site);
+		if (mapRef.current) {
+			mapRef.current.setCenter({
+				lat: site.coordinates[1],
+				lng: site.coordinates[0],
+			});
+			mapRef.current.setZoom(8);
+		}
   }, []);
 
-  const addWaterSiteMarkers = () => {
-    if (!map.current) return;
+	// Handle reset
+	const handleReset = useCallback(() => {
+		if (mapRef.current) {
+			mapRef.current.setCenter({lat: 9.082, lng: 8.6753});
+			mapRef.current.setZoom(6);
+		}
+	}, []);
 
-    markersRef.current.forEach(marker => marker.remove());
-    markersRef.current = [];
-
-    const filteredSites = activeLayer === 'infrastructure' ? waterSites :
-                          activeLayer === 'quality' ? waterSites.filter(s => s.status !== 'optimal') :
-                          activeLayer === 'scarcity' ? waterSites.filter(s => s.uptime < 90) :
-                          waterSites.filter(s => s.status === 'critical');
-
-    filteredSites.forEach(site => {
-      const el = document.createElement('div');
-      el.className = 'water-site-marker';
-      el.style.width = '12px';
-      el.style.height = '12px';
-      el.style.borderRadius = '50%';
-      el.style.cursor = 'pointer';
-      el.style.border = '2px solid white';
-      el.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
-      
-      const color = site.status === 'optimal' ? '#10b981' : 
-                    site.status === 'warning' ? '#f59e0b' : '#ef4444';
-      el.style.backgroundColor = color;
-
-      if (site.status === 'critical') {
-        el.style.animation = 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite';
-      }
-
-      const marker = new mapboxgl.Marker(el)
-        .setLngLat(site.coordinates)
-        .addTo(map.current!);
-
-      el.addEventListener('click', () => {
-        setSelectedSite(site);
-        map.current?.flyTo({
-          center: site.coordinates,
-          zoom: 8,
-          duration: 1500,
-        });
-      });
-
-      markersRef.current.push(marker);
-    });
-  };
-
-  useEffect(() => {
-    addWaterSiteMarkers();
-  }, [activeLayer]);
-
-  useEffect(() => {
-    if (!map.current || !selectedState) return;
-
-    const stateFeature = (nigeriaStates as any).features.find(
-      (f: any) => f.properties.name === selectedState
-    );
-
-    if (stateFeature) {
-      const [lng, lat] = stateFeature.geometry.coordinates[0][0];
-      map.current.flyTo({
-        center: [lng + 0.2, lat + 0.2],
-        zoom: 7,
-        duration: 1500,
-      });
-    }
-  }, [selectedState]);
+	// Get marker color based on status
+	const getMarkerColor = (status: string) => {
+		if (status === 'optimal') return '#10b981';
+		if (status === 'warning') return '#f59e0b';
+		return '#ef4444';
+	};
 
   return (
-    <main className="flex-1 flex flex-col relative">
+		<main className='flex-1 flex flex-col relative'>
       {/* Layer Controls */}
-      <div className="absolute top-4 left-4 z-10 flex gap-2">
+			<div className='absolute top-4 left-4 z-10 flex gap-2'>
         {layers.map((layer) => {
           const Icon = layer.icon;
           return (
@@ -242,59 +163,133 @@ const MapPanel = ({ selectedState, activeLayer, onLayerChange }: MapPanelProps) 
               key={layer.id}
               onClick={() => onLayerChange(layer.id)}
               className={cn(
-                "px-4 py-2 rounded-lg flex items-center gap-2 transition-all",
-                "backdrop-blur-sm border",
+							'px-4 py-2 rounded-lg flex items-center gap-2 transition-all',
+							'border shadow-sm',
                 activeLayer === layer.id
-                  ? "bg-primary/20 border-primary text-primary"
-                  : "bg-dashboard-panel/80 border-border hover:bg-dashboard-elevated"
-              )}
-            >
-              <Icon className="w-4 h-4" />
-              <span className="text-sm font-medium">{layer.label}</span>
+								? 'bg-primary/20 border-primary text-primary'
+								: 'bg-white border-border hover:bg-gray-50'
+						)}
+						>
+							<Icon className='w-4 h-4' />
+							<span className='text-sm font-medium'>
+								{layer.label}
+							</span>
             </button>
           );
         })}
       </div>
 
       {/* Map Container */}
-      <div className="flex-1 relative">
-        <div ref={mapContainer} className="absolute inset-0" />
+			<div className='flex-1 relative'>
+				<APIProvider apiKey={MAPS_API_KEY}>
+					<Map
+						defaultCenter={{lat: 9.082, lng: 8.6753}}
+						defaultZoom={6}
+						mapId='nigeria-map'
+						gestureHandling='greedy'
+						style={{width: '100%', height: '100%'}}
+						minZoom={5}
+						maxZoom={18}
+					>
+						<MapContent
+							selectedState={selectedState}
+							activeLayer={activeLayer}
+							filteredSites={filteredSites}
+							setHoveredState={setHoveredState}
+							setSelectedSite={setSelectedSite}
+						/>
+						{/* Water Site Markers */}
+						{filteredSites.map((site) => (
+							<AdvancedMarker
+								key={site.id}
+								position={{
+									lat: site.coordinates[1],
+									lng: site.coordinates[0],
+								}}
+								onClick={() => handleSiteClick(site)}
+							>
+								<div
+									className='cursor-pointer'
+									style={{
+										width: '16px',
+										height: '16px',
+										borderRadius: '50%',
+										backgroundColor: getMarkerColor(
+											site.status
+										),
+										border: '2px solid white',
+										boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+										animation:
+											site.status === 'critical'
+												? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+												: undefined,
+									}}
+								/>
+							</AdvancedMarker>
+						))}
+					</Map>
+				</APIProvider>
+
+				{/* Reset Button */}
+				<button
+					onClick={handleReset}
+					className='absolute top-14 right-4 p-3 bg-white rounded-lg shadow-md hover:shadow-lg hover:bg-gray-50 z-10 flex items-center justify-center border border-gray-200'
+					title='Reset view'
+				>
+					⌂
+				</button>
         
         {/* Hover Tooltip */}
         {hoveredState && (
-          <div className="absolute top-20 left-1/2 -translate-x-1/2 bg-dashboard-panel/95 backdrop-blur-lg border border-primary/30 rounded-lg px-4 py-2 pointer-events-none z-10">
-            <div className="text-sm font-semibold">{hoveredState}</div>
-            <div className="text-xs text-muted-foreground">Click to view details</div>
+				<div className='absolute top-20 left-1/2 -translate-x-1/2 bg-white border border-primary/30 rounded-lg px-4 py-2 pointer-events-none z-10 shadow-lg'>
+						<div className='text-sm font-semibold'>
+							{hoveredState}
+						</div>
+						<div className='text-xs text-muted-foreground'>
+							Click to view details
+						</div>
           </div>
         )}
       </div>
 
       {/* State Info Card (when state is selected) */}
       {selectedState && (
-        <Card className="absolute bottom-6 left-1/2 -translate-x-1/2 w-96 p-4 bg-dashboard-panel/95 backdrop-blur-lg border-primary/30 z-10">
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold">{selectedState} State</h3>
-              <Badge className="bg-metric-success/20 text-metric-success border-metric-success/30">
+				<Card className='absolute bottom-6 left-1/2 -translate-x-1/2 w-96 p-4 bg-white border-primary/30 z-10 shadow-lg'>
+					<div className='space-y-3'>
+						<div className='flex items-center justify-between'>
+							<h3 className='text-lg font-bold'>
+								{selectedState} State
+							</h3>
+							<Badge className='bg-metric-success/20 text-metric-success border-metric-success/30'>
                 Active
               </Badge>
             </div>
             
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-background/50 rounded-lg p-3">
-                <div className="text-xs text-muted-foreground mb-1">Quality Score</div>
-                <div className="text-2xl font-bold text-water-primary">89/100</div>
+						<div className='grid grid-cols-2 gap-3'>
+							<div className='bg-background/50 rounded-lg p-3'>
+								<div className='text-xs text-muted-foreground mb-1'>
+									Quality Score
+								</div>
+								<div className='text-2xl font-bold text-water-primary'>
+									89/100
+								</div>
+							</div>
+							<div className='bg-background/50 rounded-lg p-3'>
+								<div className='text-xs text-muted-foreground mb-1'>
+									Active Sites
               </div>
-              <div className="bg-background/50 rounded-lg p-3">
-                <div className="text-xs text-muted-foreground mb-1">Active Sites</div>
-                <div className="text-2xl font-bold">
-                  {waterSites.filter(s => s.state === selectedState).length}
+								<div className='text-2xl font-bold'>
+									{
+										waterSites.filter(
+											(s) => s.state === selectedState
+										).length
+									}
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Activity className="w-3 h-3" />
+						<div className='flex items-center gap-2 text-xs text-muted-foreground'>
+							<Activity className='w-3 h-3' />
               Last updated: 2 minutes ago
             </div>
           </div>
@@ -302,20 +297,24 @@ const MapPanel = ({ selectedState, activeLayer, onLayerChange }: MapPanelProps) 
       )}
 
       {/* Legend */}
-      <div className="absolute bottom-6 right-6 bg-dashboard-panel/80 backdrop-blur-sm rounded-lg p-4 border border-border z-10">
-        <div className="text-xs font-semibold mb-2">LEGEND</div>
-        <div className="space-y-2 text-xs">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-metric-success" />
-            <span className="text-muted-foreground">Optimal Quality</span>
+			<div className='absolute bottom-6 right-6 bg-white rounded-lg p-4 border border-border shadow-lg z-10'>
+				<div className='text-xs font-semibold mb-2'>LEGEND</div>
+				<div className='space-y-2 text-xs'>
+					<div className='flex items-center gap-2'>
+						<div className='w-3 h-3 rounded-full bg-metric-success' />
+						<span className='text-muted-foreground'>
+							Optimal Quality
+						</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-metric-warning" />
-            <span className="text-muted-foreground">Moderate Risk</span>
+					<div className='flex items-center gap-2'>
+						<div className='w-3 h-3 rounded-full bg-metric-warning' />
+						<span className='text-muted-foreground'>
+							Moderate Risk
+						</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-metric-danger animate-pulse" />
-            <span className="text-muted-foreground">High Risk</span>
+					<div className='flex items-center gap-2'>
+						<div className='w-3 h-3 rounded-full bg-metric-danger animate-pulse' />
+						<span className='text-muted-foreground'>High Risk</span>
           </div>
         </div>
       </div>
