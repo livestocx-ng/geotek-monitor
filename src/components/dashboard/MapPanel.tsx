@@ -28,10 +28,8 @@ const layers = [
 	{id: 'activity', label: 'Real-time Activity', icon: Activity},
 ];
 
-// Google Maps API Key - Replace with your actual key
+// Google Maps API Key from environment
 const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-
-console.log('MAPS_KEY', MAPS_API_KEY);
 
 // Inner map component that uses the useMap hook
 const MapContent = ({
