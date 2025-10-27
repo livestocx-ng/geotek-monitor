@@ -153,9 +153,12 @@ const MapPanel = ({
 	};
 
 	return (
-		<main className='flex-1 flex flex-col relative'>
+		<main
+			className='flex-1 flex flex-col relative overflow-auto'
+			style={{maxHeight: 'calc(100vh - 7rem)'}}
+		>
 			{/* Layer Controls */}
-			<div className='absolute top-4 left-4 z-10 flex gap-2'>
+			{/* <div className='absolute top-4 left-4 z-10 flex gap-2'>
 				{layers.map((layer) => {
 					const Icon = layer.icon;
 					return (
@@ -177,7 +180,7 @@ const MapPanel = ({
 						</button>
 					);
 				})}
-			</div>
+			</div> */}
 
 			{/* Map Container */}
 			<div className='flex-1 relative'>
@@ -270,7 +273,7 @@ const MapPanel = ({
 								<div className='text-xs text-muted-foreground mb-1'>
 									Quality Score
 								</div>
-								<div className='text-2xl font-bold text-water-primary'>
+								<div className='text-2xl font-bold text-blue-900'>
 									89/100
 								</div>
 							</div>
@@ -278,7 +281,7 @@ const MapPanel = ({
 								<div className='text-xs text-muted-foreground mb-1'>
 									Active Sites
 								</div>
-								<div className='text-2xl font-bold'>
+								<div className='text-2xl font-bold text-blue-900'>
 									{
 										waterSites.filter(
 											(s) => s.state === selectedState
