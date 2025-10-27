@@ -80,7 +80,7 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 				<div className='space-y-2 mt-4'>
 					{/* Water Quality Metrics */}
 					<div>
-						<h4 className='text-sm font-semibold mb-3 flex items-center gap-2'>
+						<h4 className='text-sm font-semibold mb- flex items-center gap-2'>
 							<Droplets className='w-4 h-4 text-water-primary' />
 							Water Quality Metrics
 						</h4>
@@ -168,7 +168,7 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 
 					{/* Operational Metrics */}
 					<div>
-						<h4 className='text-sm font-semibold mb-3 flex items-center gap-2'>
+						<h4 className='text-sm font-semibold mb- flex items-center gap-2'>
 							<Activity className='w-4 h-4 text-primary' />
 							Operational Status
 						</h4>
