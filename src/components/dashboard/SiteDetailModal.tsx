@@ -77,7 +77,7 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 					</div>
 				</DialogHeader>
 
-				<div className='space-y-6 mt-4'>
+				<div className='space-y-2 mt-4'>
 					{/* Water Quality Metrics */}
 					<div>
 						<h4 className='text-sm font-semibold mb-3 flex items-center gap-2'>
