@@ -47,6 +47,22 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        dashboard: {
+          bg: "hsl(var(--dashboard-bg))",
+          panel: "hsl(var(--dashboard-panel))",
+          elevated: "hsl(var(--dashboard-panel-elevated))",
+        },
+        metric: {
+          success: "hsl(var(--metric-success))",
+          warning: "hsl(var(--metric-warning))",
+          danger: "hsl(var(--metric-danger))",
+          info: "hsl(var(--metric-info))",
+        },
+        water: {
+          primary: "hsl(var(--water-primary))",
+          secondary: "hsl(var(--water-secondary))",
+          light: "hsl(var(--water-light))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -80,10 +96,32 @@ export default {
             height: "0",
           },
         },
+        "pulse-glow": {
+          "0%, 100%": {
+            opacity: "1",
+            transform: "scale(1)",
+          },
+          "50%": {
+            opacity: "0.6",
+            transform: "scale(1.05)",
+          },
+        },
+        "counter-up": {
+          from: {
+            opacity: "0",
+            transform: "translateY(10px)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
+        "counter-up": "counter-up 0.5s ease-out",
       },
     },
   },
