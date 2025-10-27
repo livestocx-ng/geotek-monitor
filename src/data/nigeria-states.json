@@ -1,0 +1,75 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lagos",
+        "uptime": 98.5,
+        "peopleServed": 45000,
+        "riskLevel": "low",
+        "alerts": 1
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[3.3, 6.4], [3.5, 6.4], [3.5, 6.6], [3.3, 6.6], [3.3, 6.4]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kano",
+        "uptime": 94.2,
+        "peopleServed": 38000,
+        "riskLevel": "medium",
+        "alerts": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[8.3, 11.8], [8.8, 11.8], [8.8, 12.3], [8.3, 12.3], [8.3, 11.8]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kaduna",
+        "uptime": 89.7,
+        "peopleServed": 31000,
+        "riskLevel": "high",
+        "alerts": 5
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[7.3, 10.3], [7.8, 10.3], [7.8, 10.8], [7.3, 10.8], [7.3, 10.3]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rivers",
+        "uptime": 96.1,
+        "peopleServed": 28000,
+        "riskLevel": "low",
+        "alerts": 2
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[6.8, 4.7], [7.2, 4.7], [7.2, 5.1], [6.8, 5.1], [6.8, 4.7]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Oyo",
+        "uptime": 92.3,
+        "peopleServed": 26500,
+        "riskLevel": "medium",
+        "alerts": 2
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[3.8, 7.8], [4.3, 7.8], [4.3, 8.3], [3.8, 8.3], [3.8, 7.8]]]
+      }
+    }
+  ]
+}
