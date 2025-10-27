@@ -16,9 +16,9 @@ import SiteDetailModal from './SiteDetailModal';
 import nigeriaStates from '@/data/nigeria-states.json';
 
 interface MapPanelProps {
-  selectedState: string | null;
-  activeLayer: string;
-  onLayerChange: (layer: string) => void;
+	selectedState: string | null;
+	activeLayer: string;
+	onLayerChange: (layer: string) => void;
 }
 
 const layers = [
@@ -49,7 +49,7 @@ const MapContent = ({
 }) => {
 	const map = useMap();
 
-  useEffect(() => {
+	useEffect(() => {
 		if (!map) return;
 
 		// Add Nigeria states GeoJSON data
@@ -74,9 +74,9 @@ const MapContent = ({
 				strokeWeight: 1.5,
 				strokeOpacity: 1,
 			};
-      });
+		});
 
-      // Add hover effect
+		// Add hover effect
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		dataLayer.addListener('mouseover', (e: any) => {
 			if (e.feature) {
@@ -89,7 +89,7 @@ const MapContent = ({
 		});
 
 		dataLayer.addListener('mouseout', () => {
-        setHoveredState(null);
+			setHoveredState(null);
 			map.getDiv().style.cursor = '';
 		});
 
@@ -135,7 +135,7 @@ const MapPanel = ({
 			});
 			mapRef.current.setZoom(8);
 		}
-  }, []);
+	}, []);
 
 	// Handle reset
 	const handleReset = useCallback(() => {
@@ -152,34 +152,34 @@ const MapPanel = ({
 		return '#ef4444';
 	};
 
-  return (
+	return (
 		<main className='flex-1 flex flex-col relative'>
-      {/* Layer Controls */}
+			{/* Layer Controls */}
 			<div className='absolute top-4 left-4 z-10 flex gap-2'>
-        {layers.map((layer) => {
-          const Icon = layer.icon;
-          return (
-            <button
-              key={layer.id}
-              onClick={() => onLayerChange(layer.id)}
-              className={cn(
-							'px-4 py-2 rounded-lg flex items-center gap-2 transition-all',
-							'border shadow-sm',
-                activeLayer === layer.id
-								? 'bg-primary/20 border-primary text-primary'
-								: 'bg-white border-border hover:bg-gray-50'
-						)}
+				{layers.map((layer) => {
+					const Icon = layer.icon;
+					return (
+						<button
+							key={layer.id}
+							onClick={() => onLayerChange(layer.id)}
+							className={cn(
+								'px-4 py-2 rounded-lg flex items-center gap-2 transition-all',
+								'border shadow-sm',
+								activeLayer === layer.id
+									? 'bg-primary/20 border-primary text-primary'
+									: 'bg-white border-border hover:bg-gray-50'
+							)}
 						>
 							<Icon className='w-4 h-4' />
 							<span className='text-sm font-medium'>
 								{layer.label}
 							</span>
-            </button>
-          );
-        })}
-      </div>
+						</button>
+					);
+				})}
+			</div>
 
-      {/* Map Container */}
+			{/* Map Container */}
 			<div className='flex-1 relative'>
 				<APIProvider apiKey={MAPS_API_KEY}>
 					<Map
@@ -238,22 +238,22 @@ const MapPanel = ({
 				>
 					⌂
 				</button>
-        
-        {/* Hover Tooltip */}
-        {hoveredState && (
-				<div className='absolute top-20 left-1/2 -translate-x-1/2 bg-white border border-primary/30 rounded-lg px-4 py-2 pointer-events-none z-10 shadow-lg'>
+
+				{/* Hover Tooltip */}
+				{hoveredState && (
+					<div className='absolute top-20 left-1/2 -translate-x-1/2 bg-white border border-primary/30 rounded-lg px-4 py-2 pointer-events-none z-10 shadow-lg'>
 						<div className='text-sm font-semibold'>
 							{hoveredState}
 						</div>
 						<div className='text-xs text-muted-foreground'>
 							Click to view details
 						</div>
-          </div>
-        )}
-      </div>
+					</div>
+				)}
+			</div>
 
-      {/* State Info Card (when state is selected) */}
-      {selectedState && (
+			{/* State Info Card (when state is selected) */}
+			{selectedState && (
 				<Card className='absolute bottom-6 left-1/2 -translate-x-1/2 w-96 p-4 bg-white border-primary/30 z-10 shadow-lg'>
 					<div className='space-y-3'>
 						<div className='flex items-center justify-between'>
@@ -261,10 +261,10 @@ const MapPanel = ({
 								{selectedState} State
 							</h3>
 							<Badge className='bg-metric-success/20 text-metric-success border-metric-success/30'>
-                Active
-              </Badge>
-            </div>
-            
+								Active
+							</Badge>
+						</div>
+
 						<div className='grid grid-cols-2 gap-3'>
 							<div className='bg-background/50 rounded-lg p-3'>
 								<div className='text-xs text-muted-foreground mb-1'>
@@ -277,26 +277,26 @@ const MapPanel = ({
 							<div className='bg-background/50 rounded-lg p-3'>
 								<div className='text-xs text-muted-foreground mb-1'>
 									Active Sites
-              </div>
+								</div>
 								<div className='text-2xl font-bold'>
 									{
 										waterSites.filter(
 											(s) => s.state === selectedState
 										).length
 									}
-                </div>
-              </div>
-            </div>
+								</div>
+							</div>
+						</div>
 
 						<div className='flex items-center gap-2 text-xs text-muted-foreground'>
 							<Activity className='w-3 h-3' />
-              Last updated: 2 minutes ago
-            </div>
-          </div>
-        </Card>
-      )}
+							Last updated: 2 minutes ago
+						</div>
+					</div>
+				</Card>
+			)}
 
-      {/* Legend */}
+			{/* Legend */}
 			<div className='absolute bottom-6 right-6 bg-white rounded-lg p-4 border border-border shadow-lg z-10'>
 				<div className='text-xs font-semibold mb-2'>LEGEND</div>
 				<div className='space-y-2 text-xs'>
@@ -305,27 +305,27 @@ const MapPanel = ({
 						<span className='text-muted-foreground'>
 							Optimal Quality
 						</span>
-          </div>
+					</div>
 					<div className='flex items-center gap-2'>
 						<div className='w-3 h-3 rounded-full bg-metric-warning' />
 						<span className='text-muted-foreground'>
 							Moderate Risk
 						</span>
-          </div>
+					</div>
 					<div className='flex items-center gap-2'>
 						<div className='w-3 h-3 rounded-full bg-metric-danger animate-pulse' />
 						<span className='text-muted-foreground'>High Risk</span>
-          </div>
-        </div>
-      </div>
+					</div>
+				</div>
+			</div>
 
-      <SiteDetailModal 
-        site={selectedSite}
-        open={!!selectedSite}
-        onClose={() => setSelectedSite(null)}
-      />
+			<SiteDetailModal
+				site={selectedSite}
+				open={!!selectedSite}
+				onClose={() => setSelectedSite(null)}
+			/>
 
-      <style>{`
+			<style>{`
         @keyframes pulse {
           0%, 100% {
             opacity: 1;
@@ -337,8 +337,8 @@ const MapPanel = ({
           }
         }
       `}</style>
-    </main>
-  );
+		</main>
+	);
 };
 
 export default MapPanel;
