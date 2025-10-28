@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {useState} from 'react';
 import {
 	Dialog,
@@ -19,7 +20,7 @@ import {
 import {Checkbox} from '@/components/ui/checkbox';
 import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card';
 import {Separator} from '@/components/ui/separator';
-import {MapPin, CheckCircle} from 'lucide-react';
+import {MapPin, CheckCircle, Loader2} from 'lucide-react';
 import {APIProvider, Map, AdvancedMarker} from '@vis.gl/react-google-maps';
 
 interface DataRequestModalProps {
@@ -44,6 +45,7 @@ const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const DataRequestModal = ({open, onClose}: DataRequestModalProps) => {
 	const [currentStep, setCurrentStep] = useState(1);
+	const [isLoading, setIsLoading] = useState(false);
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [mapCenter, setMapCenter] = useState({lat: 9.082, lng: 8.6753});
 	const [selectedLocation, setSelectedLocation] = useState<{
@@ -114,10 +116,29 @@ const DataRequestModal = ({open, onClose}: DataRequestModalProps) => {
 		}
 	};
 
-	const handleSubmit = () => {
-		// Here you would typically send the data to your backend API
-		console.log('Submitting form data:', formData);
-		setIsSubmitted(true);
+	const handleSubmit = async () => {
+		try {
+			// Here you would typically send the data to your backend API
+			// console.log('Submitting form data:', formData);
+			setIsLoading(true);
+
+			const response = await axios.post(
+				'https://infra-venille.livestocx.xyz/v1/account/support/geotek-water-monitor-contact-us',
+				formData
+			);
+			console.log('[RESPONSE] :: ', response);
+			if (response.status === 200 || response.status === 201) {
+				setIsLoading(false);
+				setIsSubmitted(true);
+				console.log('Form submitted successfully');
+			} else {
+				setIsLoading(false);
+				setIsSubmitted(false);
+			}
+		} catch (error) {
+			setIsLoading(false);
+			setIsSubmitted(false);
+		}
 	};
 
 	const resetForm = () => {
@@ -156,7 +177,10 @@ const DataRequestModal = ({open, onClose}: DataRequestModalProps) => {
 							Thank you! Your data request has been submitted. We
 							will get back to you shortly.
 						</p>
-						<Button onClick={handleClose} className='w-full bg-blue-800'>
+						<Button
+							onClick={handleClose}
+							className='w-full bg-blue-800 hover:bg-blue-900'
+						>
 							Close
 						</Button>
 					</div>
@@ -166,7 +190,7 @@ const DataRequestModal = ({open, onClose}: DataRequestModalProps) => {
 	}
 
 	return (
-		<Dialog open={open} onOpenChange={handleClose}>
+		<Dialog open={open} onOpenChange={isLoading ? undefined : handleClose}>
 			<DialogContent className='sm:max-w-[800px] max-h-[90vh] overflow-y-auto bg-white'>
 				<DialogHeader className='bg-blue-80 text-hite p-6 -m-6 -6 rounded-t-lg'>
 					<DialogTitle className='text-xl font-bold'>
@@ -313,6 +337,7 @@ const DataRequestModal = ({open, onClose}: DataRequestModalProps) => {
 											Latitude *
 										</Label>
 										<Input
+											type='number'
 											id='latitude'
 											value={formData.latitude}
 											onChange={(e) =>
@@ -329,6 +354,7 @@ const DataRequestModal = ({open, onClose}: DataRequestModalProps) => {
 											Longitude *
 										</Label>
 										<Input
+											type='number'
 											id='longitude'
 											value={formData.longitude}
 											onChange={(e) =>
@@ -521,7 +547,7 @@ const DataRequestModal = ({open, onClose}: DataRequestModalProps) => {
 							onClick={() =>
 								setCurrentStep(Math.max(1, currentStep - 1))
 							}
-							disabled={currentStep === 1}
+							disabled={currentStep === 1 || isLoading}
 						>
 							Previous
 						</Button>
@@ -529,11 +555,12 @@ const DataRequestModal = ({open, onClose}: DataRequestModalProps) => {
 						<div className='flex gap-2'>
 							{currentStep < 5 ? (
 								<Button
-									className='bg-blue-800 hover:bg-blue-800'
+									className='bg-blue-800 hover:bg-blue-700'
 									onClick={() =>
 										setCurrentStep(currentStep + 1)
 									}
 									disabled={
+										isLoading ||
 										(currentStep === 1 &&
 											(!formData.organizationName ||
 												!formData.projectType ||
@@ -553,10 +580,18 @@ const DataRequestModal = ({open, onClose}: DataRequestModalProps) => {
 								</Button>
 							) : (
 								<Button
-									className='bg-blue-800 hover:bg-blue-800'
+									className='bg-blue-800 hover:bg-blue-700'
 									onClick={handleSubmit}
+									disabled={isLoading}
 								>
-									Submit Request
+									{isLoading ? (
+										<>
+											<Loader2 className='w-4 h-4 animate-spin mr-2' />
+											Submitting...
+										</>
+									) : (
+										'Submit Request'
+									)}
 								</Button>
 							)}
 						</div>
