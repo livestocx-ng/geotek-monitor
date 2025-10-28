@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import {
 	Dialog,
 	DialogContent,
@@ -7,9 +8,17 @@ import {
 } from '@/components/ui/dialog';
 import {Badge} from '@/components/ui/badge';
 import {Button} from '@/components/ui/button';
-import {Droplets, Activity, Calendar, Users, AlertCircle} from 'lucide-react';
+import {
+	Droplets,
+	Activity,
+	Calendar,
+	Users,
+	AlertCircle,
+	TrendingUp,
+} from 'lucide-react';
 import {WaterSite} from '@/data/water-sites';
 import {cn} from '@/lib/utils';
+import FlowRateChart from './FlowRateChart';
 
 interface SiteDetailModalProps {
 	site: WaterSite | null;
@@ -18,6 +27,8 @@ interface SiteDetailModalProps {
 }
 
 const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
+	const [showFlowChart, setShowFlowChart] = useState(false);
+
 	if (!site) return null;
 
 	const getStatusColor = (status: string) => {
@@ -56,14 +67,14 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 
 	return (
 		<Dialog open={open} onOpenChange={onClose}>
-			<DialogContent className='sm:max-w-[600px] bg-white border-primary/30'>
+			<DialogContent className='sm:max-w-[500px] bg-white border-primary/30'>
 				<DialogHeader>
-					<div className='flex items-start justify-between'>
+					<div className='flex items-start justify-between mt-5'>
 						<div>
-							<DialogTitle className='text-xl font-bold mb2'>
+							{/* <DialogTitle className='text-lg font-bold mb-2'>
 								{site.name}
-							</DialogTitle>
-							<DialogDescription className='text-muted-foreground'>
+							</DialogTitle> */}
+							<DialogDescription className='text-muted-forground font-bold'>
 								{site.type.charAt(0).toUpperCase() +
 									site.type.slice(1)}{' '}
 								• {site.state} State
@@ -77,187 +88,188 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 					</div>
 				</DialogHeader>
 
-				<div className='space-y-1 mt4'>
-					{/* Water Quality Metrics */}
-					<div>
-						<h4 className='text-sm font-semibold mb-3 flex items-center gap-2'>
-							<Droplets className='w-4 h-4 text-water-primary' />
-							Water Quality Metrics
-						</h4>
-						<div className='grid grid-cols-3 gap-3'>
-							<div className='bg-background/50 rounded-lg p-3'>
-								<div className='text-xs text-muted-foreground mb-1'>
-									pH Level
-								</div>
-								<div
-									className={cn(
-										'text-2xl font-bold',
-										getQualityStatus(
-											site.quality.ph,
-											'ph'
-										) === 'optimal'
-											? 'text-metric-success'
-											: getQualityStatus(
-													site.quality.ph,
-													'ph'
-											  ) === 'critical'
-											? 'text-metric-danger'
-											: 'text-metric-warning'
-									)}
-								>
-									{site.quality.ph}
-								</div>
-								<div className='text-xs text-muted-foreground mt-1'>
-									6.5-8.5 optimal
-								</div>
+				<div className='space-y-4 mt-4'>
+					{/* Compact Water Quality & Status Grid */}
+					<div className='grid grid-cols-4 gap-2'>
+						<div className='bg-background/50 rounded-lg p-2 text-center'>
+							<div className='text-xs text-muted-foreground'>
+								pH
 							</div>
-							<div className='bg-background/50 rounded-lg p-3'>
-								<div className='text-xs text-muted-foreground mb-1'>
-									Turbidity
-								</div>
-								<div
-									className={cn(
-										'text-2xl font-bold',
-										getQualityStatus(
-											site.quality.turbidity,
-											'turbidity'
-										) === 'optimal'
-											? 'text-metric-success'
-											: getQualityStatus(
-													site.quality.turbidity,
-													'turbidity'
-											  ) === 'critical'
-											? 'text-metric-danger'
-											: 'text-metric-warning'
-									)}
-								>
-									{site.quality.turbidity}
-								</div>
-								<div className='text-xs text-muted-foreground mt-1'>
-									NTU
-								</div>
+							<div
+								className={cn(
+									'text-lg font-bold',
+									getQualityStatus(site.quality.ph, 'ph') ===
+										'optimal'
+										? 'text-metric-success'
+										: getQualityStatus(
+												site.quality.ph,
+												'ph'
+										  ) === 'critical'
+										? 'text-metric-danger'
+										: 'text-metric-warning'
+								)}
+							>
+								{site.quality.ph}
 							</div>
-							<div className='bg-background/50 rounded-lg p-3'>
-								<div className='text-xs text-muted-foreground mb-1'>
-									Chlorine
-								</div>
-								<div
-									className={cn(
-										'text-2xl font-bold',
-										getQualityStatus(
-											site.quality.chlorine,
-											'chlorine'
-										) === 'optimal'
-											? 'text-metric-success'
-											: getQualityStatus(
-													site.quality.chlorine,
-													'chlorine'
-											  ) === 'critical'
-											? 'text-metric-danger'
-											: 'text-metric-warning'
-									)}
-								>
-									{site.quality.chlorine}
-								</div>
-								<div className='text-xs text-muted-foreground mt-1'>
-									mg/L
-								</div>
+						</div>
+						<div className='bg-background/50 rounded-lg p-2 text-center'>
+							<div className='text-xs text-muted-foreground'>
+								Turbidity
+							</div>
+							<div
+								className={cn(
+									'text-lg font-bold',
+									getQualityStatus(
+										site.quality.turbidity,
+										'turbidity'
+									) === 'optimal'
+										? 'text-metric-success'
+										: getQualityStatus(
+												site.quality.turbidity,
+												'turbidity'
+										  ) === 'critical'
+										? 'text-metric-danger'
+										: 'text-metric-warning'
+								)}
+							>
+								{site.quality.turbidity}
+							</div>
+						</div>
+						<div className='bg-background/50 rounded-lg p-2 text-center'>
+							<div className='text-xs text-muted-foreground'>
+								Chlorine
+							</div>
+							<div
+								className={cn(
+									'text-lg font-bold',
+									getQualityStatus(
+										site.quality.chlorine,
+										'chlorine'
+									) === 'optimal'
+										? 'text-metric-success'
+										: getQualityStatus(
+												site.quality.chlorine,
+												'chlorine'
+										  ) === 'critical'
+										? 'text-metric-danger'
+										: 'text-metric-warning'
+								)}
+							>
+								{site.quality.chlorine}
+							</div>
+						</div>
+						<div className='bg-background/50 rounded-lg p-2 text-center'>
+							<div className='text-xs text-muted-foreground'>
+								Uptime
+							</div>
+							<div className='text-lg font-bold text-blue-600'>
+								{site.uptime}%
 							</div>
 						</div>
 					</div>
 
-					{/* Operational Metrics */}
-					<div>
-						<h4 className='text-sm font-semibold mb-3 flex items-center gap-2'>
-							<Activity className='w-4 h-4 text-primary' />
-							Operational Status
-						</h4>
-						<div className='grid grid-cols-2 gap-3'>
-							<div className='bg-background/50 rounded-lg p3'>
-								<div className='text-xs text-muted-foreground mb1'>
-									System Uptime
-								</div>
-								<div className='text-lg font-bold'>
-									{site.uptime}%
-								</div>
+					{/* Key Information Grid */}
+					<div className='grid grid-cols-2 gap-3'>
+						<div className='space-y-2'>
+							<div className='flex justify-between items-center'>
+								<span className='text-xs text-muted-foreground'>
+									Pump Type:
+								</span>
+								<span className='text-sm font-medium'>
+									{site.pumpType}
+								</span>
 							</div>
-							<div className='bg-background/50 rounded-lg p3'>
-								<div className='text-xs text-muted-foreground mb1'>
-									People Served
-								</div>
-								<div className='text-lg font-bold'>
+							<div className='flex justify-between items-center'>
+								<span className='text-xs text-muted-foreground'>
+									Contamination:
+								</span>
+								<span className='text-sm font-medium'>
+									{site.contamination}
+								</span>
+							</div>
+							<div className='flex justify-between items-center'>
+								<span className='text-xs text-muted-foreground'>
+									People Served:
+								</span>
+								<span className='text-sm font-medium'>
 									{site.peopleServed.toLocaleString()}
+								</span>
+							</div>
+						</div>
+						<div className='space-y-2'>
+							<div className='flex justify-between items-center'>
+								<span className='text-xs text-muted-foreground'>
+									Health Risk:
+								</span>
+								<Badge
+									className={cn(
+										'text-xs',
+										site.healthRisk === 'High'
+											? 'bg-metric-danger/20 text-metric-danger'
+											: site.healthRisk === 'Moderate'
+											? 'bg-metric-warning/20 text-metric-warning'
+											: 'bg-metric-success/20 text-metric-success'
+									)}
+								>
+									{site.healthRisk}
+								</Badge>
+							</div>
+							<div className='flex justify-between items-center'>
+								<span className='text-xs text-muted-foreground'>
+									Water Scarcity:
+								</span>
+								<Badge
+									className={cn(
+										'text-xs',
+										site.scarcity
+											? 'bg-metric-danger/20 text-metric-danger'
+											: 'bg-metric-success/20 text-metric-success'
+									)}
+								>
+									{site.scarcity ? 'Yes' : 'No'}
+								</Badge>
+							</div>
+							<div className='flex justify-between items-center'>
+								<span className='text-xs text-muted-foreground'>
+									Last Maintenance:
+								</span>
+								<span className='text-sm font-medium'>
+									{new Date(
+										site.lastMaintenance
+									).toLocaleDateString('en-US', {
+										month: 'short',
+										day: 'numeric',
+									})}
+								</span>
+							</div>
+						</div>
+					</div>
+
+					{/* Location Information */}
+					<div className='bg-blue-50 rounded-lg p-3'>
+						<div className='flex items-center gap-2 mb-2'>
+							<Activity className='w-4 h-4 text-blue-600' />
+							<span className='text-sm font-semibold text-blue-900'>
+								Location & Infrastructure
+							</span>
+						</div>
+						<div className='grid grid-cols-2 gap-2 text-xs'>
+							<div>
+								<span className='text-muted-foreground'>
+									Coordinates:
+								</span>
+								<div className='font-mono text-xs'>
+									{site.coordinates[1].toFixed(4)},{' '}
+									{site.coordinates[0].toFixed(4)}
 								</div>
 							</div>
-							{site.pumpType && (
-								<div className='bg-background/50 rounded-lg p3'>
-									<div className='text-xs text-muted-foreground mb1'>
-										Pump Type
-									</div>
-									<div className='text-sm font-bold'>
-										{site.pumpType}
-									</div>
-								</div>
-							)}
-							{site.contamination !== undefined && (
-								<div className='bg-background/50 rounded-lg p3'>
-									<div className='text-xs text-muted-foreground mb1'>
-										Contamination
-									</div>
-									<div className='text-lg font-bold'>
-										{site.contamination}
-									</div>
-								</div>
-							)}
-							{site.healthRisk && (
-								<div className='bg-background/50 rounded-lg p-3'>
-									<div className='text-xs text-muted-foreground mb1'>
-										Health Risk
-									</div>
-									<Badge
-										className={cn(
-											site.healthRisk === 'High'
-												? 'bg-metric-danger/20 text-metric-danger'
-												: site.healthRisk === 'Moderate'
-												? 'bg-metric-warning/20 text-metric-warning'
-												: 'bg-metric-success/20 text-metric-success'
-										)}
-									>
-										{site.healthRisk}
-									</Badge>
-								</div>
-							)}
-							{site.scarcity !== undefined && (
-								<div className='bg-background/50 rounded-lg p-3'>
-									<div className='text-xs text-muted-foreground mb1'>
-										Water Scarcity
-									</div>
-									<Badge
-										className={cn(
-											site.scarcity
-												? 'bg-metric-danger/20 text-metric-danger'
-												: 'bg-metric-success/20 text-metric-success'
-										)}
-									>
-										{site.scarcity ? 'Yes' : 'No'}
-									</Badge>
-								</div>
-							)}
-							<div className='bg-background/50 rounded-lg p-3'>
-								<Calendar className='w-4 h-4 text-muted-foreground inline mr-2' />
-								<div>
-									<div className='text-xs text-muted-foreground'>
-										Last Maintenance
-									</div>
-									<div className='text-sm font-bold'>
-										{new Date(
-											site.lastMaintenance
-										).toLocaleDateString('en-US', {
-											month: 'short',
-											day: 'numeric',
-											year: 'numeric',
-										})}
-									</div>
+							<div>
+								<span className='text-muted-foreground'>
+									Infrastructure:
+								</span>
+								<div className='font-medium'>
+									{site.type.charAt(0).toUpperCase() +
+										site.type.slice(1)}
 								</div>
 							</div>
 						</div>
@@ -282,15 +294,28 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 						</div>
 					)}
 
-					{/* Action Buttons */}
-					{/* <div className='flex gap-2 pt-2'>
-						<Button className='flex-1'>Schedule Maintenance</Button>
-						<Button variant='outline' className='flex-1'>
-							View Full Report
-						</Button>
-					</div> */}
+					{/* Flow Rate Button */}
+					{site.flowRate && (
+						<div className='pt-2'>
+							<Button
+								onClick={() => setShowFlowChart(true)}
+								className='w-full bg-blue-600 hover:bg-blue-700 flex items-center gap-2'
+							>
+								<TrendingUp className='w-4 h-4' />
+								Show Flow Rate Analysis
+							</Button>
+						</div>
+					)}
 				</div>
 			</DialogContent>
+
+			{/* Flow Rate Chart Modal */}
+			<FlowRateChart
+				open={showFlowChart}
+				onClose={() => setShowFlowChart(false)}
+				flowRateUrl={site.flowRate || ''}
+				siteName={site.name}
+			/>
 		</Dialog>
 	);
 };

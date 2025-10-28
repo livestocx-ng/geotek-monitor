@@ -17,6 +17,7 @@ export interface WaterSite {
 	contamination?: number;
 	healthRisk?: string;
 	scarcity?: boolean;
+	flowRate?: string; // URL to Google Sheets with flow rate data
 }
 
 export const waterSites: WaterSite[] = [

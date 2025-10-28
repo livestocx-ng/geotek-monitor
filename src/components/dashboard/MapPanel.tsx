@@ -103,6 +103,7 @@ const parseCSVToWaterSites = (csvText: string): WaterSite[] => {
 			contamination: parseFloat(data['CONTAMINATION']) || 0,
 			healthRisk: data['HEALTH RISK LEVEL'] || 'Low',
 			scarcity: data['SCARCITY'] === 'TRUE',
+			flowRate: data['FLOW_RATE'] || '',
 		};
 	});
 };
