@@ -429,51 +429,211 @@ const MapPanel = ({
 			</div>
 
 			{/* State Info Card (when state is selected) */}
-			{selectedState && (
-				<Card className='absolute bottom-6 left-1/2 -translate-x-1/2 w-96 p-4 bg-white border-primary/30 z-10 shadow-lg'>
-					<div className='space-y-3'>
-						<div className='flex items-center justify-between'>
-							<h3 className='text-lg font-bold'>
-								{selectedState} State
-							</h3>
-							<Badge className='bg-metric-success/20 text-metric-success border-metric-success/30'>
-								Active
-							</Badge>
-						</div>
+			{selectedState &&
+				(() => {
+					const stateSites = waterSites.filter(
+						(s) => s.state === selectedState
+					);
 
-						<div className='grid grid-cols-2 gap-3'>
-							<div className='bg-background/50 rounded-lg p-3'>
-								<div className='text-xs text-muted-foreground mb-1'>
-									Quality Score
+					// Calculate dynamic quality score based on water parameters
+					const calculateQualityScore = () => {
+						if (stateSites.length === 0) return 0;
+
+						let totalScore = 0;
+						stateSites.forEach((site) => {
+							let siteScore = 0;
+
+							// pH Score (0-30 points) - optimal range 6.5-8.5
+							const ph = site.quality.ph;
+							if (ph >= 6.5 && ph <= 8.5) siteScore += 30;
+							else if (ph >= 6.0 && ph <= 9.0) siteScore += 20;
+							else siteScore += 10;
+
+							// Turbidity Score (0-25 points) - lower is better
+							const turbidity = site.quality.turbidity;
+							if (turbidity <= 5) siteScore += 25;
+							else if (turbidity <= 10) siteScore += 15;
+							else siteScore += 5;
+
+							// Chlorine Score (0-25 points) - optimal range 0.2-0.5
+							const chlorine = site.quality.chlorine;
+							if (chlorine >= 0.2 && chlorine <= 0.5)
+								siteScore += 25;
+							else if (chlorine >= 0.1 && chlorine <= 1.0)
+								siteScore += 15;
+							else siteScore += 5;
+
+							// Contamination Score (0-20 points) - lower is better
+							const contamination = site.contamination || 0;
+							if (contamination <= 0.2) siteScore += 20;
+							else if (contamination <= 0.5) siteScore += 15;
+							else siteScore += 5;
+
+							totalScore += siteScore;
+						});
+
+						return Math.round(totalScore / stateSites.length);
+					};
+
+					// Count sites by status
+					const statusCounts = {
+						optimal: stateSites.filter(
+							(s) => s.status === 'optimal'
+						).length,
+						warning: stateSites.filter(
+							(s) => s.status === 'warning'
+						).length,
+						critical: stateSites.filter(
+							(s) => s.status === 'critical'
+						).length,
+					};
+
+					// Determine overall state status
+					const getStateStatus = () => {
+						const criticalRatio =
+							statusCounts.critical / stateSites.length;
+						const warningRatio =
+							statusCounts.warning / stateSites.length;
+
+						if (criticalRatio > 0.3)
+							return {
+								status: 'Critical',
+								color: 'bg-metric-danger/20 text-metric-danger border-metric-danger/30',
+							};
+						if (warningRatio > 0.4 || criticalRatio > 0.1)
+							return {
+								status: 'Warning',
+								color: 'bg-metric-warning/20 text-metric-warning border-metric-warning/30',
+							};
+						return {
+							status: 'Good',
+							color: 'bg-metric-success/20 text-metric-success border-metric-success/30',
+						};
+					};
+
+					const qualityScore = calculateQualityScore();
+					const stateStatus = getStateStatus();
+					const averageUptime =
+						stateSites.length > 0
+							? Math.round(
+									(stateSites.reduce(
+										(sum, site) => sum + site.uptime,
+										0
+									) /
+										stateSites.length) *
+										10
+							  ) / 10
+							: 0;
+					const totalPeopleServed = stateSites.reduce(
+						(sum, site) => sum + site.peopleServed,
+						0
+					);
+
+					return (
+						<Card className='absolute bottom-6 left-6 -translate-y-6 w-auto mo-w-6xl p-2 bg-white border-primary/30 z-10 shadow-lg'>
+							<div className='flex flex-col items-center justify-between gap-4'>
+								{/* Title and Status */}
+								<div className='flex items-center justify-between gap-3 w-full'>
+									<h3 className='text-base font-bold'>
+										{selectedState} State
+									</h3>
+									{/* <Badge
+										className={stateStatus.color}
+										size='sm'
+									>
+										{stateStatus.status}
+									</Badge> */}
 								</div>
-								<div className='text-2xl font-bold text-blue-900'>
-									89/100
+
+								<div className='flex items-center justify-between w-full'>
+									{/* Status Counts */}
+									<div className='bg-metric-success/10 rounded px-2 py-1 text-center min-w-[40px]'>
+										<div className='text-[10px] text-muted-foreground font-semibold'>
+											Optimal
+										</div>
+										<div className='text-sm font-bold text-metric-success'>
+											{statusCounts.optimal}
+										</div>
+									</div>
+									<div className='bg-metric-warning/10 rounded px-2 py-1 text-center min-w-[40px]'>
+										<div className='text-[10px] text-muted-foreground font-semibold'>
+											Warning
+										</div>
+										<div className='text-sm font-bold text-metric-warning'>
+											{statusCounts.warning}
+										</div>
+									</div>
+									<div className='bg-metric-danger/10 rounded px-2 py-1 text-center min-w-[40px]'>
+										<div className='text-[10px] text-muted-foreground font-semibold'>
+											Critical
+										</div>
+										<div className='text-sm font-bold text-metric-danger'>
+											{statusCounts.critical}
+										</div>
+									</div>
+								</div>
+
+								{/* Metrics */}
+								<div className='flex items-center gap-3'>
+									{/* Quality Score */}
+									<div className='bg-background/50 rounded px-2 py-1 text-center min-w-[60px]'>
+										<div className='text-[10px] text-muted-foreground'>
+											Quality
+										</div>
+										<div
+											className={`text-sm font-bold ${
+												qualityScore >= 80
+													? 'text-metric-success'
+													: qualityScore >= 60
+													? 'text-metric-warning'
+													: 'text-metric-danger'
+											}`}
+										>
+											{qualityScore}/100
+										</div>
+									</div>
+
+									{/* Active Sites */}
+									<div className='bg-background/50 rounded px-2 py-1 text-center min-w-[50px]'>
+										<div className='text-[10px] text-muted-foreground'>
+											Sites
+										</div>
+										<div className='text-sm font-bold text-blue-900'>
+											{stateSites.length}
+										</div>
+									</div>
+
+									{/* Uptime */}
+									<div className='bg-background/50 rounded px-2 py-1 text-center min-w-[50px]'>
+										<div className='text-[10px] text-muted-foreground'>
+											Uptime
+										</div>
+										<div className='text-sm font-bold text-blue-600'>
+											{averageUptime}%
+										</div>
+									</div>
+
+									{/* People Served */}
+									<div className='bg-background/50 rounded px-2 py-1 text-center min-w-[60px]'>
+										<div className='text-[10px] text-muted-foreground'>
+											Served
+										</div>
+										<div className='text-xs font-bold text-blue-600'>
+											{totalPeopleServed > 1000
+												? `${Math.round(
+														totalPeopleServed / 1000
+												  )}k`
+												: totalPeopleServed.toLocaleString()}
+										</div>
+									</div>
 								</div>
 							</div>
-							<div className='bg-background/50 rounded-lg p-3'>
-								<div className='text-xs text-muted-foreground mb-1'>
-									Active Sites
-								</div>
-								<div className='text-2xl font-bold text-blue-900'>
-									{
-										waterSites.filter(
-											(s) => s.state === selectedState
-										).length
-									}
-								</div>
-							</div>
-						</div>
-
-						<div className='flex items-center gap-2 text-xs text-muted-foreground'>
-							<Activity className='w-3 h-3' />
-							Last updated: 2 minutes ago
-						</div>
-					</div>
-				</Card>
-			)}
+						</Card>
+					);
+				})()}
 
 			{/* Legend */}
-			<div className='absolute bottom-6 right-6 bg-white rounded-lg p-4 border border-border shadow-lg z-10'>
+			<div className='absolute top-14 left-6 bg-white rounded-lg p-4 border border-border shadow-lg z-10'>
 				<div className='text-xs font-semibold mb-2'>LEGEND</div>
 				<div className='space-y-2 text-xs'>
 					<div className='flex items-center gap-2'>
