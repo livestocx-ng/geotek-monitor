@@ -310,10 +310,7 @@ const MapPanel = ({
 
 	if (loading) {
 		return (
-			<main
-				className='flex-1 flex flex-col relative overflow-auto items-center justify-center'
-				style={{maxHeight: 'calc(100vh - 7rem)'}}
-			>
+			<main className='flex-1 flex flex-col relative overflow-auto items-center justify-center h-screen md:max-h-[calc(100vh-7rem)]'>
 				<div className='text-center'>
 					<div className='animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4'></div>
 					<p className='text-muted-foreground'>
@@ -325,10 +322,7 @@ const MapPanel = ({
 	}
 
 	return (
-		<main
-			className='flex-1 flex flex-col relative overflow-auto'
-			style={{maxHeight: 'calc(100vh - 7rem)'}}
-		>
+		<main className='flex-1 flex flex-col relative overflow-auto h-screen md:max-h-[calc(100vh-7rem)] bg-red-400'>
 			{/* Layer Controls */}
 			{/* <div className='absolute top-4 left-4 z-10 flex gap-2'>
 				{layers.map((layer) => {
@@ -531,7 +525,7 @@ const MapPanel = ({
 					);
 
 					return (
-						<Card className='absolute bottom-6 left-6 -translate-y-6 w-auto mo-w-6xl p-2 bg-white border-primary/30 z-10 shadow-lg'>
+						<Card className='absolute bottom-12 md:bottom-10 left-2 -translate-y-6 w-auto mo-w-6xl p-2 bg-white border-primary/30 z-10 shadow-lg'>
 							<div className='flex flex-col items-center justify-between gap-4'>
 								{/* Title and Status */}
 								<div className='flex items-center justify-between gap-3 w-full'>
@@ -634,7 +628,7 @@ const MapPanel = ({
 				})()}
 
 			{/* Legend */}
-			<div className='absolute top-14 left-6 bg-white rounded-lg p-4 border border-border shadow-lg z-10'>
+			<div className='absolute top-14 left-2 bg-white rounded-lg p-4 border border-border shadow-lg z-10'>
 				<div className='text-xs font-semibold mb-2'>LEGEND</div>
 				<div className='space-y-2 text-xs'>
 					<div className='flex items-center gap-2'>

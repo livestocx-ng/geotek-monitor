@@ -8,17 +8,34 @@ import DashboardHeader from '@/components/dashboard/DashboardHeader';
 const Index = () => {
 	const [selectedState, setSelectedState] = useState<string | null>(null);
 	const [activeLayer, setActiveLayer] = useState<string>('infrastructure');
+	const [showStateNav, setShowStateNav] = useState(false);
 
 	return (
 		<div className='min-h-screen bg-dashboard-bg text-foreground flex flex-col'>
-			<DashboardHeader />
+			<DashboardHeader
+				showStateNav={showStateNav}
+				onToggleStateNav={() => setShowStateNav(!showStateNav)}
+				selectedState={selectedState}
+			/>
 
-			<div className='flex-1 flex overflow-hidden'>
+			<div className='flex-1 flex overflow-hidden relative'>
 				{/* Left Sidebar - State Navigator */}
 				<StateNavigator
 					selectedState={selectedState}
-					onSelectState={setSelectedState}
+					onSelectState={(state) => {
+						setSelectedState(state);
+						setShowStateNav(false); // Auto-close on mobile after selection
+					}}
+					showStateNav={showStateNav}
 				/>
+
+				{/* Mobile Overlay */}
+				{showStateNav && (
+					<div
+						className='md:hidden absolute inset-0 bg-black bg-opacity-50 z-20 transition-opacity duration-300'
+						onClick={() => setShowStateNav(false)}
+					/>
+				)}
 
 				{/* Center - Map Panel */}
 				<MapPanel
@@ -27,12 +44,16 @@ const Index = () => {
 					onLayerChange={setActiveLayer}
 				/>
 
-				{/* Right Panel - AI Insights */}
-				<AIInsights selectedState={selectedState} />
+				{/* Right Panel - AI Insights - Hidden on mobile */}
+				<div className='hidden md:block'>
+					<AIInsights selectedState={selectedState} />
+				</div>
 			</div>
 
 			{/* Bottom - KPI Ribbon */}
-			<KPIRibbon />
+			<div className='hidden md:block'>
+				<KPIRibbon />
+			</div>
 		</div>
 	);
 };

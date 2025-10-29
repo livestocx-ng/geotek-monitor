@@ -39,12 +39,6 @@ const FlowRateChart = ({
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
-		if (open && flowRateUrl) {
-			fetchFlowRateData();
-		}
-	}, [open, flowRateUrl]);
-
 	const fetchFlowRateData = async () => {
 		setLoading(true);
 		setError(null);
@@ -65,6 +59,12 @@ const FlowRateChart = ({
 		}
 	};
 
+	useEffect(() => {
+		if (open && flowRateUrl) {
+			fetchFlowRateData();
+		}
+	}, [open, flowRateUrl]); // Removed fetchFlowRateData from dependencies
+
 	const convertToCSVUrl = (sheetsUrl: string): string => {
 		// Convert Google Sheets URL to CSV export format
 		// Example: https://docs.google.com/spreadsheets/d/ID/edit#gid=0
@@ -84,10 +84,15 @@ const FlowRateChart = ({
 
 	const generateMockFlowRateData = (): FlowRateData[] => {
 		const data: FlowRateData[] = [];
-		const startDate = new Date();
-		startDate.setDate(startDate.getDate() - 30); // Last 30 days
+		const startDate = new Date('2025-01-01'); // Start from January 1st, 2025
+		const currentDate = new Date();
+		const daysDiff = Math.ceil(
+			(currentDate.getTime() - startDate.getTime()) /
+				(1000 * 60 * 60 * 24)
+		);
+		const totalDays = Math.min(daysDiff, 365); // Limit to 1 year of data
 
-		for (let i = 0; i < 30; i++) {
+		for (let i = 0; i < totalDays; i++) {
 			const date = new Date(startDate);
 			date.setDate(date.getDate() + i);
 
@@ -130,7 +135,7 @@ const FlowRateChart = ({
 
 	return (
 		<Dialog open={open} onOpenChange={onClose}>
-			<DialogContent className='sm:max-w-[700px] bg-white'>
+			<DialogContent className='sm:max-w-[700px] md:max-w-[80%] bg-white'>
 				<DialogHeader>
 					<div className='flex items-center justify-between'>
 						<DialogTitle className='flex items-center gap-2'>
@@ -249,8 +254,7 @@ const FlowRateChart = ({
 
 							{/* Data Source Info */}
 							<div className='text-xs text-muted-foreground bg-gray-50 p-2 rounded'>
-								<strong>Data Source:</strong>{' '}
-								{'GeoTek Monitor'}
+								<strong>Data Source:</strong> {'GeoTek Monitor'}
 								{/* {flowRateUrl && (
 									<span className='ml-2'>
 										•{' '}

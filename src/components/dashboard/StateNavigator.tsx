@@ -55,11 +55,13 @@ const mockStates: StateData[] = [
 interface StateNavigatorProps {
 	selectedState: string | null;
 	onSelectState: (state: string) => void;
+	showStateNav?: boolean;
 }
 
 const StateNavigator = ({
 	selectedState,
 	onSelectState,
+	showStateNav = false,
 }: StateNavigatorProps) => {
 	const [searchTerm, setSearchTerm] = useState('');
 
@@ -94,9 +96,19 @@ const StateNavigator = ({
 	};
 
 	return (
-		<aside className='w-60 bg-dashboard-panel border-r border-border flex flex-col h-[calc(100vh-3.5rem)]'>
+		<aside
+			className={`
+			${showStateNav ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+			transition-transform duration-300 ease-in-out
+			absolute md:relative z-30 md:z-auto
+			w-full md:w-60 h-full
+			bg-white md:bg-transparent
+			shadow-xl md:shadow-none
+			border-r border-border flex flex-col
+		`}
+		>
 			{/* Header */}
-			<div className='p-4 border-b border-border'>
+			<div className='p-4 border-b border-border '>
 				<h2 className='text-lg font-semibold mb-3'>State Navigator</h2>
 				<div className='relative'>
 					<Search className='absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground' />

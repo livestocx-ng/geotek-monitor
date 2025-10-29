@@ -13,6 +13,7 @@ import {
 	Activity,
 	Calendar,
 	Users,
+	LocateIcon,
 	AlertCircle,
 	TrendingUp,
 } from 'lucide-react';
@@ -248,7 +249,7 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 					{/* Location Information */}
 					<div className='bg-blue-50 rounded-lg p-3'>
 						<div className='flex items-center gap-2 mb-2'>
-							<Activity className='w-4 h-4 text-blue-600' />
+							<LocateIcon className='w-4 h-4 text-blue-600' />
 							<span className='text-sm font-semibold text-blue-900'>
 								Location & Infrastructure
 							</span>
