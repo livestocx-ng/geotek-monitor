@@ -360,6 +360,7 @@ const MapPanel = ({
 					<Map
 						defaultCenter={{lat: 9.082, lng: 8.6753}}
 						defaultZoom={6}
+						mapTypeId='hybrid'
 						mapId='nigeria-map'
 						gestureHandling='greedy'
 						style={{width: '100%', height: '100%'}}
