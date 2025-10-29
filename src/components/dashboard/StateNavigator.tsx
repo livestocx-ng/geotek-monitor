@@ -94,7 +94,7 @@ const StateNavigator = ({
 	};
 
 	return (
-		<aside className='w-80 bg-dashboard-panel border-r border-border flex flex-col h-[calc(100vh-3.5rem)]'>
+		<aside className='w-60 bg-dashboard-panel border-r border-border flex flex-col h-[calc(100vh-3.5rem)]'>
 			{/* Header */}
 			<div className='p-4 border-b border-border'>
 				<h2 className='text-lg font-semibold mb-3'>State Navigator</h2>
