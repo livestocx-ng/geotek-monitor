@@ -358,14 +358,14 @@ const MapPanel = ({
 			<div className='flex-1 relative'>
 				<APIProvider apiKey={MAPS_API_KEY}>
 					<Map
-						defaultCenter={{lat: 9.082, lng: 8.6753}}
+						minZoom={5}
+						maxZoom={18}
 						defaultZoom={6}
-						mapTypeId='hybrid'
 						mapId='nigeria-map'
 						gestureHandling='greedy'
 						style={{width: '100%', height: '100%'}}
-						minZoom={5}
-						maxZoom={18}
+						defaultCenter={{lat: 9.082, lng: 8.6753}}
+						// mapTypeId='hybrid' //FOR SATELLITE VIEW
 					>
 						<MapContent
 							mapRef={mapRef}
