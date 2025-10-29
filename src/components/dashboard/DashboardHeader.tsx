@@ -37,8 +37,8 @@ const DashboardHeader = () => {
 							onClick={() => {
 								// Create a download link for the APK file
 								const link = document.createElement('a');
-								link.href = '/GeoTek-Monitor.apk'; // Assumes APK is in public folder
-								link.download = 'GeoTek-Monitor.apk';
+								link.href = '/Geotek-Monitor.apk'; // Assumes APK is in public folder
+								link.download = 'Geotek-Monitor.apk';
 								document.body.appendChild(link);
 								link.click();
 								document.body.removeChild(link);
