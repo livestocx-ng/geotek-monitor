@@ -37,11 +37,11 @@ const DashboardHeader = ({
 					<img
 						src='/logo.jpg'
 						alt='App Logo'
-						className='w-8 h-8 sm:w-12 sm:h-12 object-contain rounded-lg'
+						className='w-full h-full object-contain rounded-lg'
 					/>
 				</div>
 				<div className='hidden sm:block'>
-					<h1 className='text-lg sm:text-xl font-bold tracking-tight text-blue-900'>
+					<h1 className='text-lg font-bold tracking-tight text-blue-900'>
 						GEOTEK MONITOR
 					</h1>
 					<p className='text-xs text-muted-foreground'>

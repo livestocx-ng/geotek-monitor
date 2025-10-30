@@ -98,12 +98,16 @@ const StateNavigator = ({
 	return (
 		<aside
 			className={cn(
-        `flex flex-col border-r border-border bg-white
+				`flex flex-col border-r border-border bg-white
          transition-transform duration-300 ease-in-out
-         ${showStateNav ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+         ${
+				showStateNav
+					? 'translate-x-0'
+					: '-translate-x-full md:translate-x-0'
+			}
          absolute md:relative top-16 left-0 z-30 md:z-auto
          w-full md:w-60 h-[calc(100vh-4rem)] md:h-screen`
-      )}
+			)}
 		>
 			{/* Header */}
 			<div className='p-4 border-b border-border '>
@@ -121,13 +125,13 @@ const StateNavigator = ({
 
 			{/* Scrollbar added here oh */}
 			<div className='flex-1 h-full overflow-auto pb-40'>
-				<div className='p-2 space-y-1 pb-24'>
+				<div className='p-2 space-y- pb-24'>
 					{filteredStates.map((state) => (
 						<button
 							key={state.name}
 							onClick={() => onSelectState(state.name)}
 							className={cn(
-								'w-full p-3 rounded-lg transition-all hover:bg-dashboard-elevated text-left',
+								'w-full p-3 roundedlg transition-all hover:bg-dashboard-elevated text-left border-b',
 								selectedState === state.name &&
 									'bg-dashboard-elevated ring-1 ring-primary/50'
 							)}
@@ -136,7 +140,16 @@ const StateNavigator = ({
 								<span className='font-medium'>
 									{state.name}
 								</span>
-								{getRiskIcon(state.riskLevel)}
+								{/* {getRiskIcon(state.riskLevel)} */}
+								<Badge
+									variant='outline'
+									className={cn(
+										'text-[8px]',
+										getRiskColor(state.riskLevel)
+									)}
+								>
+									{state.riskLevel.toUpperCase()} RISK
+								</Badge>
 							</div>
 
 							<div className='space-y-1.5'>
@@ -148,17 +161,17 @@ const StateNavigator = ({
 										{state.uptime}%
 									</span>
 								</div>
-								<div className='flex items-center justify-between text-xs'>
+								{/* <div className='flex items-center justify-between text-xs'>
 									<span className='text-muted-foreground'>
 										People Served
 									</span>
 									<span className='font-medium'>
 										{state.peopleServed.toLocaleString()}
 									</span>
-								</div>
+								</div> */}
 							</div>
 
-							<Badge
+							{/* <Badge
 								variant='outline'
 								className={cn(
 									'mt-2 text-[10px]',
@@ -166,7 +179,7 @@ const StateNavigator = ({
 								)}
 							>
 								{state.riskLevel.toUpperCase()} RISK
-							</Badge>
+							</Badge> */}
 						</button>
 					))}
 				</div>

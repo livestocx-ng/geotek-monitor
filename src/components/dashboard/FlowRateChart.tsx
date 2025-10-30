@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import {
 	Dialog,
 	DialogContent,
@@ -39,7 +39,7 @@ const FlowRateChart = ({
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
-	const fetchFlowRateData = async () => {
+	const fetchFlowRateData = useCallback(async () => {
 		setLoading(true);
 		setError(null);
 
@@ -47,23 +47,60 @@ const FlowRateChart = ({
 			// Convert Google Sheets URL to CSV export URL
 			const csvUrl = convertToCSVUrl(flowRateUrl);
 
-			// For demo purposes, we'll generate mock data since we can't directly access Google Sheets
-			// In a real implementation, you would fetch from the CSV URL
-			const mockData = generateMockFlowRateData();
-			setData(mockData);
+			// Fetch real data from Google Sheets
+			const response = await fetch(csvUrl, {
+				method: 'GET',
+				headers: {
+					Accept: 'text/csv,text/plain,*/*',
+				},
+			});
+
+			if (!response.ok) {
+				throw new Error(
+					`Failed to fetch flow rate data: ${response.status} ${response.statusText}`
+				);
+			}
+
+			const csvText = await response.text();
+
+			if (!csvText || csvText.trim().length === 0) {
+				throw new Error('Empty CSV data received from Google Sheets');
+			}
+
+			// Parse CSV data to FlowRateData format
+			const parsedData = parseFlowRateCSV(csvText);
+
+			if (parsedData.length === 0) {
+				console.warn(
+					'No flow rate data found, using mock data as fallback'
+				);
+				const mockData = generateMockFlowRateData();
+				setData(mockData);
+			} else {
+				setData(parsedData);
+			}
 		} catch (err) {
-			setError('Failed to load flow rate data');
 			console.error('Error fetching flow rate data:', err);
+
+			// Fallback to mock data if real data fails
+			try {
+				console.log('Using mock data as fallback for flow rate chart');
+				const mockData = generateMockFlowRateData();
+				setData(mockData);
+			} catch (mockErr) {
+				setError('Failed to load flow rate data');
+				console.error('Mock data generation also failed:', mockErr);
+			}
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, [flowRateUrl]);
 
 	useEffect(() => {
 		if (open && flowRateUrl) {
 			fetchFlowRateData();
 		}
-	}, [open, flowRateUrl]); // Removed fetchFlowRateData from dependencies
+	}, [open, flowRateUrl, fetchFlowRateData]);
 
 	const convertToCSVUrl = (sheetsUrl: string): string => {
 		// Convert Google Sheets URL to CSV export format
@@ -80,6 +117,108 @@ const FlowRateChart = ({
 		}
 
 		return sheetsUrl;
+	};
+
+	const parseFlowRateCSV = (csvText: string): FlowRateData[] => {
+		try {
+			const lines = csvText.trim().split('\n');
+
+			if (lines.length < 2) {
+				console.warn('CSV has insufficient data (less than 2 lines)');
+				return [];
+			}
+
+			const headers = lines[0]
+				.split(',')
+				.map((h) => h.trim().toLowerCase());
+
+			// Look for date and flow rate columns (flexible column names)
+			const dateColumnIndex = headers.findIndex(
+				(h) =>
+					h.includes('date') ||
+					h.includes('time') ||
+					h.includes('day') ||
+					h.includes('timestamp')
+			);
+			const flowRateColumnIndex = headers.findIndex(
+				(h) =>
+					h.includes('flow') ||
+					h.includes('rate') ||
+					h.includes('discharge') ||
+					h.includes('volume')
+			);
+
+			if (dateColumnIndex === -1 || flowRateColumnIndex === -1) {
+				console.warn('Could not find date or flow rate columns in CSV');
+				console.log('Available headers:', headers);
+				return [];
+			}
+
+			const data: FlowRateData[] = [];
+
+			for (let i = 1; i < lines.length; i++) {
+				const values = lines[i].split(',').map((v) => v.trim());
+
+				if (
+					values.length <=
+					Math.max(dateColumnIndex, flowRateColumnIndex)
+				) {
+					continue; // Skip incomplete rows
+				}
+
+				const dateStr = values[dateColumnIndex];
+				const flowRateStr = values[flowRateColumnIndex];
+
+				// Parse date (try multiple formats)
+				let date: Date;
+				if (dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
+					// YYYY-MM-DD format
+					date = new Date(dateStr);
+				} else if (dateStr.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
+					// MM/DD/YYYY format
+					const [month, day, year] = dateStr.split('/');
+					date = new Date(
+						parseInt(year),
+						parseInt(month) - 1,
+						parseInt(day)
+					);
+				} else if (dateStr.match(/^\d{1,2}\/\d{1,2}\/\d{2,4}$/)) {
+					// M/D/YY or MM/DD/YYYY format
+					date = new Date(dateStr);
+				} else {
+					// Try generic date parsing
+					date = new Date(dateStr);
+				}
+
+				// Parse flow rate
+				const flowRate = parseFloat(flowRateStr);
+
+				if (
+					!isNaN(date.getTime()) &&
+					!isNaN(flowRate) &&
+					flowRate >= 0
+				) {
+					data.push({
+						date: date.toISOString().split('T')[0], // Convert to YYYY-MM-DD format
+						flowRate: Math.round(flowRate * 10) / 10, // Round to 1 decimal place
+					});
+				}
+			}
+
+			// Sort by date
+			data.sort(
+				(a, b) =>
+					new Date(a.date).getTime() - new Date(b.date).getTime()
+			);
+
+			console.log(
+				`Successfully parsed ${data.length} flow rate data points`
+			);
+			return data;
+		} catch (error) {
+			console.error('Error parsing flow rate CSV:', error);
+			return [];
+		}
 	};
 
 	const generateMockFlowRateData = (): FlowRateData[] => {
@@ -155,10 +294,14 @@ const FlowRateChart = ({
 
 				<div className='space-y-4'>
 					{loading && (
-						<div className='flex items-center justify-center py-8'>
-							<Loader2 className='w-6 h-6 animate-spin mr-2' />
-							<span>Loading flow rate data...</span>
-						</div>
+						<main className='flex-1 flex flex-col relative overflow-auto items-center justify-center h-[300px]'>
+								<div className='animate-spin rounded-full h-12 w-12 border-b-2 border-blue-800 mx-auto mb-4'></div>
+							<div className='text-center'>
+								<p className='text-muted-foreground'>
+									Loading flow rate data...
+								</p>
+							</div>
+						</main>
 					)}
 
 					{error && (
@@ -236,15 +379,16 @@ const FlowRateChart = ({
 											type='monotone'
 											dataKey='flowRate'
 											stroke='#2563eb'
-											strokeWidth={2}
+											strokeWidth={1}
+											radius={16}
 											dot={{
-												fill: '#2563eb',
-												strokeWidth: 2,
-												r: 3,
+												fill: '#2564eb78',
+												strokeWidth: 1,
+												r: 2,
 											}}
 											activeDot={{
-												r: 5,
-												stroke: '#2563eb',
+												r: 3,
+												stroke: '#254deb',
 												strokeWidth: 2,
 											}}
 										/>
@@ -254,20 +398,7 @@ const FlowRateChart = ({
 
 							{/* Data Source Info */}
 							<div className='text-xs text-muted-foreground bg-gray-50 p-2 rounded'>
-								<strong>Data Source:</strong> {'GeoTek Monitor'}
-								{/* {flowRateUrl && (
-									<span className='ml-2'>
-										•{' '}
-										<a
-											href={flowRateUrl}
-											target='_blank'
-											rel='noopener noreferrer'
-											className='text-blue-600 hover:underline'
-										>
-											View Source
-										</a>
-									</span>
-								)} */}
+								<strong>Data Source:</strong> GeoTek Monitor
 							</div>
 
 							{/* Footer Actions */}

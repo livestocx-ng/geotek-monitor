@@ -1,16 +1,22 @@
-import {useState, useCallback, useMemo, useRef, useEffect} from 'react';
 import {
 	APIProvider,
 	Map,
 	AdvancedMarker,
 	useMap,
 } from '@vis.gl/react-google-maps';
-import {MapPin, Droplets, Activity, AlertCircle} from 'lucide-react';
 import {Card} from '@/components/ui/card';
 import {Badge} from '@/components/ui/badge';
 import {WaterSite} from '@/data/water-sites';
 import SiteDetailModal from './SiteDetailModal';
 import nigeriaStates from '@/data/nigeria-states.json';
+import {useState, useCallback, useMemo, useRef, useEffect} from 'react';
+import {
+	MapPin,
+	Droplets,
+	Activity,
+	AlertCircle,
+	LocateFixed,
+} from 'lucide-react';
 
 interface StateFeature {
 	type: string;
@@ -47,6 +53,11 @@ const layers = [
 
 // Google Maps API Key from environment
 const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
+// Utility function to convert Google Sheets URL to CSV export format
+const getGoogleSheetsCSVUrl = (spreadsheetId: string, gid: string) => {
+	return `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv&gid=${gid}`;
+};
 
 // Function to parse CSV data and convert to WaterSite format
 const parseCSVToWaterSites = (csvText: string): WaterSite[] => {
@@ -257,12 +268,54 @@ const MapPanel = ({
 	useEffect(() => {
 		const loadCSVData = async () => {
 			try {
-				const response = await fetch('/dataset.csv');
+				// Convert Google Sheets URL to CSV export format
+				const spreadsheetId =
+					'15LMgzFVHCQOkEQId_gCNOoXyck7klAZ63eaGpstKrNc';
+				const gid = '662475054';
+				const csvUrl = getGoogleSheetsCSVUrl(spreadsheetId, gid);
+
+				const response = await fetch(csvUrl);
+
+				if (!response.ok) {
+					throw new Error(
+						`Failed to fetch data: ${response.status} ${response.statusText}`
+					);
+				}
+
 				const csvText = await response.text();
+
+				if (!csvText || csvText.trim().length === 0) {
+					throw new Error('Empty CSV data received');
+				}
+
 				const sites = parseCSVToWaterSites(csvText);
+
+				if (sites.length === 0) {
+					console.warn('No water sites parsed from CSV data');
+				}
+
 				setWaterSites(sites);
 			} catch (error) {
 				console.error('Error loading CSV data:', error);
+
+				// Fallback to local dataset if Google Sheets fails
+				try {
+					console.log(
+						'Attempting to load local dataset as fallback...'
+					);
+					const fallbackResponse = await fetch('/dataset.csv');
+					const fallbackCsvText = await fallbackResponse.text();
+					const fallbackSites = parseCSVToWaterSites(fallbackCsvText);
+					setWaterSites(fallbackSites);
+					console.log(
+						'Successfully loaded local dataset as fallback'
+					);
+				} catch (fallbackError) {
+					console.error(
+						'Fallback to local dataset also failed:',
+						fallbackError
+					);
+				}
 			} finally {
 				setTimeout(() => {
 					setLoading(false);
@@ -359,6 +412,7 @@ const MapPanel = ({
 						defaultZoom={6}
 						mapId='nigeria-map'
 						gestureHandling='greedy'
+						// fullscreenControl={false}
 						style={{width: '100%', height: '100%'}}
 						defaultCenter={{lat: 9.082, lng: 8.6753}}
 						// mapTypeId='hybrid' //FOR SATELLITE VIEW
@@ -406,10 +460,11 @@ const MapPanel = ({
 				{/* Reset Button */}
 				<button
 					onClick={handleReset}
-					className='absolute top-14 right-4 p-3 bg-white rounded-lg shadow-md hover:shadow-lg hover:bg-gray-50 z-10 flex items-center justify-center border border-gray-200'
+					className='absolute top-14 right-2 p-3 bg-white rounded-s shadow-md hover:shadow-lg hover:bg-gray-50 z-10 flex items-center justify-center border border-gray-200'
 					title='Reset view'
 				>
-					⌂
+					{/* ⌂ */}
+					<LocateFixed size={16} />
 				</button>
 
 				{/* Hover Tooltip */}
@@ -634,19 +689,19 @@ const MapPanel = ({
 				<div className='text-xs font-semibold mb-2'>LEGEND</div>
 				<div className='space-y-2 text-xs'>
 					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full bg-metric-success' />
+						<div className='w-3 h-3 rounded-full bg-metric-success border-2 border-slate-200 animate-pulse delay-300' />
 						<span className='text-muted-foreground'>
 							Optimal Quality
 						</span>
 					</div>
 					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full bg-metric-warning' />
+						<div className='w-3 h-3 rounded-full bg-metric-warning border-2 border-slate-200 animate-pulse delay-700' />
 						<span className='text-muted-foreground'>
 							Moderate Risk
 						</span>
 					</div>
 					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full bg-metric-danger animate-pulse' />
+						<div className='w-3 h-3 rounded-full bg-metric-danger border-2 border-slate-200 animate-pulse' />
 						<span className='text-muted-foreground'>High Risk</span>
 					</div>
 				</div>

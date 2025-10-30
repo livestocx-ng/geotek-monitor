@@ -68,7 +68,7 @@ const AIInsights = ({selectedState}: AIInsightsProps) => {
 	};
 
 	return (
-		<aside className='absolute top-16 right-0 w-96 bg-white border-l border-border flex flex-col overflow-auto h-full pb-60'>
+		<aside className='absolute top-16 right-0 w-96  bg-white border-l border-border flex flex-col h-full'>
 			<div className='p-4 border-b border-border'>
 				<div className='flex items-center gap-2 mb-2'>
 					<Brain className='w-7 h-7 text-blue-900 animate-pulse-glow' />
@@ -81,7 +81,7 @@ const AIInsights = ({selectedState}: AIInsightsProps) => {
 				</p>
 			</div>
 
-			<div className='flex-1'>
+			<div className='flex-1 overflow-auto h-full pb-60'>
 				<div className='p-4 space-y-3'>
 					{insights.map((insight, index) => (
 						<Card
@@ -128,23 +128,22 @@ const AIInsights = ({selectedState}: AIInsightsProps) => {
 						</Card>
 					))}
 				</div>
-			</div>
-
-			<div className='p-4 border-t border-border'>
-				<Card className='p-3 bg-primary/10 border-primary/30'>
-					<div className='flex items-start gap-2'>
-						<TrendingUp className='w-4 h-4 text-primary shrink-0 mt-0.5' />
-						<div className='text-xs'>
-							<div className='font-semibold text-primary mb-1'>
-								Predictive Analytics Active
-							</div>
-							<div className='text-muted-foreground'>
-								Monitoring 156 sites across Nigeria with 94%
-								accuracy rate
+				<div className='p-4 border-t border-border'>
+					<Card className='p-3 bg-primary/10 border-primary/30'>
+						<div className='flex items-start gap-2'>
+							<TrendingUp className='w-4 h-4 text-primary shrink-0 mt-0.5' />
+							<div className='text-xs'>
+								<div className='font-semibold text-primary mb-1'>
+									Predictive Analytics Active
+								</div>
+								<div className='text-muted-foreground'>
+									Monitoring 156 sites across Nigeria with 94%
+									accuracy rate
+								</div>
 							</div>
 						</div>
-					</div>
-				</Card>
+					</Card>
+				</div>
 			</div>
 		</aside>
 	);
