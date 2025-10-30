@@ -264,7 +264,9 @@ const MapPanel = ({
 			} catch (error) {
 				console.error('Error loading CSV data:', error);
 			} finally {
-				setLoading(false);
+				setTimeout(() => {
+					setLoading(false);
+				}, 2500);
 			}
 		};
 
@@ -310,11 +312,11 @@ const MapPanel = ({
 
 	if (loading) {
 		return (
-			<main className='flex-1 flex flex-col relative overflow-auto items-center justify-center h-screen md:max-h-[calc(100vh-7rem)]'>
+			<main className='md:pr-[380px] flex-1 flex flex-col relative overflow-auto items-center justify-center h-screen md:max-h-[calc(100vh-7rem)]'>
 				<div className='text-center'>
 					<div className='animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4'></div>
 					<p className='text-muted-foreground'>
-						Loading water site data...
+						Loading site data...
 					</p>
 				</div>
 			</main>
