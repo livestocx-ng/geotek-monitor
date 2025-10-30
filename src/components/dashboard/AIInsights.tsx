@@ -68,7 +68,7 @@ const AIInsights = ({selectedState}: AIInsightsProps) => {
 	};
 
 	return (
-		<aside className='absolute top-16 right-0 w-96 bg-dashboard-panel border-l border-border flex flex-col overflow-auto h-full pb-60'>
+		<aside className='absolute top-16 right-0 w-96 bg-white border-l border-border flex flex-col overflow-auto h-full pb-60'>
 			<div className='p-4 border-b border-border'>
 				<div className='flex items-center gap-2 mb-2'>
 					<Brain className='w-7 h-7 text-blue-900 animate-pulse-glow' />

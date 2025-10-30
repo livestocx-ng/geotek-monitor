@@ -98,7 +98,7 @@ const StateNavigator = ({
 	return (
 		<aside
 			className={cn(
-        `flex flex-col border-r border-border bg-white md:bg-transparent
+        `flex flex-col border-r border-border bg-white
          transition-transform duration-300 ease-in-out
          ${showStateNav ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
          absolute md:relative top-16 left-0 z-30 md:z-auto
