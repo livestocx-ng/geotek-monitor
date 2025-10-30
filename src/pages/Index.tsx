@@ -11,14 +11,14 @@ const Index = () => {
 	const [showStateNav, setShowStateNav] = useState(false);
 
 	return (
-		<div className='min-h-screen bg-dashboard-bg text-foreground flex flex-col'>
+		<div className='min-h-scree overflow-hidden bg-dashboard-bg text-foreground flex flex-col relative'>
 			<DashboardHeader
 				showStateNav={showStateNav}
 				onToggleStateNav={() => setShowStateNav(!showStateNav)}
 				selectedState={selectedState}
 			/>
 
-			<div className='flex-1 flex overflow-hidden relative'>
+			<div className='flex-1 flex overflow-hidden relativ'>
 				{/* Left Sidebar - State Navigator */}
 				<StateNavigator
 					selectedState={selectedState}

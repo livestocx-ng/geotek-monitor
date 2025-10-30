@@ -17,7 +17,7 @@ const DashboardHeader = ({
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	return (
-		<header className='h-16 bg-dashboard-panel border-b border-border flex items-center justify-between px-3 sm:px-6 py-2 sm:py-4'>
+		<header className='fixed w-full top-0 z-50 h-16 bg-dashboard-panel border-b border-border flex items-center justify-between px-3 sm:px-6 py-2 sm:py-4'>
 			<div className='flex items-center gap-2 sm:gap-3'>
 				{/* Mobile Menu Toggle */}
 				<Button
@@ -105,7 +105,7 @@ const DashboardHeader = ({
 					}}
 					variant='outline'
 					size='sm'
-					className='lg:hidden border-green-500 text-green-700 hover:bg-green-50 p-2'
+					className='lg:hidden border-green-500 text-green-700 hover:bg-green-50 p-2 text-xs'
 				>
 					<svg
 						className='w-4 h-4'
@@ -114,6 +114,7 @@ const DashboardHeader = ({
 					>
 						<path d='M17.523 15.3414c-.5665 0-1.0253-.4588-1.0253-1.0253s.4588-1.0253 1.0253-1.0253 1.0253.4588 1.0253 1.0253-.4588 1.0253-1.0253 1.0253zm-11.046 0c-.5665 0-1.0253-.4588-1.0253-1.0253s.4588-1.0253 1.0253-1.0253 1.0253.4588 1.0253 1.0253-.4588 1.0253-1.0253 1.0253zm11.405-6.02l1.14-2.02c.08-.14.03-.32-.11-.4-.14-.08-.32-.03-.4.11l-1.15 2.05c-.99-.45-2.11-.7-3.35-.7-1.24 0-2.36.25-3.35.7L9.09 7.01c-.08-.14-.26-.19-.4-.11-.14.08-.19.26-.11.4l1.14 2.02C6.59 10.57 4.5 13.43 4.5 16.8h15c0-3.37-2.09-6.23-5.22-7.52zM12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9z' />
 					</svg>
+					Download App
 				</Button>
 
 				{/* Request Data Button */}

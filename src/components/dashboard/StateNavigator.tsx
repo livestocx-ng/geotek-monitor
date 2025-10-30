@@ -97,15 +97,13 @@ const StateNavigator = ({
 
 	return (
 		<aside
-			className={`
-			${showStateNav ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-			transition-transform duration-300 ease-in-out
-			absolute md:relative z-30 md:z-auto
-			w-full md:w-60 h-full
-			bg-white md:bg-transparent
-			shadow-xl md:shadow-none
-			border-r border-border flex flex-col
-		`}
+			className={cn(
+        `flex flex-col border-r border-border bg-white md:bg-transparent
+         transition-transform duration-300 ease-in-out
+         ${showStateNav ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+         absolute md:relative top-16 left-0 z-30 md:z-auto
+         w-full md:w-60 h-[calc(100vh-4rem)] md:h-screen`
+      )}
 		>
 			{/* Header */}
 			<div className='p-4 border-b border-border '>
@@ -122,7 +120,7 @@ const StateNavigator = ({
 			</div>
 
 			{/* Scrollbar added here oh */}
-			<ScrollArea className='flex-1'>
+			<div className='flex-1 h-full overflow-auto pb-40'>
 				<div className='p-2 space-y-1 pb-24'>
 					{filteredStates.map((state) => (
 						<button
@@ -172,7 +170,7 @@ const StateNavigator = ({
 						</button>
 					))}
 				</div>
-			</ScrollArea>
+			</div>
 		</aside>
 	);
 };

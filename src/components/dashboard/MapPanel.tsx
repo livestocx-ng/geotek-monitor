@@ -322,7 +322,7 @@ const MapPanel = ({
 	}
 
 	return (
-		<main className='flex-1 flex flex-col relative overflow-auto h-screen md:max-h-[calc(100vh-7rem)] bg-red-400'>
+		<main className='top-16 md:pr-[380px] flex-1 flex flex-col relative overflow-auto h-screen md:max-h-[calc(100vh-7rem)]'>
 			{/* Layer Controls */}
 			{/* <div className='absolute top-4 left-4 z-10 flex gap-2'>
 				{layers.map((layer) => {

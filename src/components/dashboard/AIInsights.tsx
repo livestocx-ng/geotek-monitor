@@ -68,7 +68,7 @@ const AIInsights = ({selectedState}: AIInsightsProps) => {
 	};
 
 	return (
-		<aside className='w-96 bg-dashboard-panel border-l border-border flex flex-col'>
+		<aside className='absolute top-16 right-0 w-96 bg-dashboard-panel border-l border-border flex flex-col overflow-auto h-full pb-60'>
 			<div className='p-4 border-b border-border'>
 				<div className='flex items-center gap-2 mb-2'>
 					<Brain className='w-7 h-7 text-blue-900 animate-pulse-glow' />
@@ -81,7 +81,7 @@ const AIInsights = ({selectedState}: AIInsightsProps) => {
 				</p>
 			</div>
 
-			<ScrollArea className='flex-1'>
+			<div className='flex-1'>
 				<div className='p-4 space-y-3'>
 					{insights.map((insight, index) => (
 						<Card
@@ -128,7 +128,7 @@ const AIInsights = ({selectedState}: AIInsightsProps) => {
 						</Card>
 					))}
 				</div>
-			</ScrollArea>
+			</div>
 
 			<div className='p-4 border-t border-border'>
 				<Card className='p-3 bg-primary/10 border-primary/30'>
