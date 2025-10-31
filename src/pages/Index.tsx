@@ -42,6 +42,7 @@ const Index = () => {
 					selectedState={selectedState}
 					activeLayer={activeLayer}
 					onLayerChange={setActiveLayer}
+					onSelectState={setSelectedState}
 				/>
 
 				{/* Right Panel - AI Insights - Hidden on mobile */}

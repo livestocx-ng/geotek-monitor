@@ -17,6 +17,7 @@ import {
 	AlertCircle,
 	LocateFixed,
 } from 'lucide-react';
+import NigeriaBorders from './NigeriaBoarder';
 
 interface StateFeature {
 	type: string;
@@ -42,6 +43,7 @@ interface MapPanelProps {
 	selectedState: string | null;
 	activeLayer: string;
 	onLayerChange: (layer: string) => void;
+	onSelectState?: (state: string | null) => void;
 }
 
 const layers = [
@@ -155,6 +157,7 @@ const MapPanel = ({
 	selectedState,
 	activeLayer,
 	onLayerChange,
+	onSelectState,
 }: MapPanelProps) => {
 	const [selectedSite, setSelectedSite] = useState<WaterSite | null>(null);
 	const [hoveredState, setHoveredState] = useState<string | null>(null);
@@ -454,6 +457,11 @@ const MapPanel = ({
 								/>
 							</AdvancedMarker>
 						))}
+
+						<NigeriaBorders
+							selectedState={selectedState}
+							onStateClick={(name) => onSelectState?.(name)}
+						/>
 					</Map>
 				</APIProvider>
 
