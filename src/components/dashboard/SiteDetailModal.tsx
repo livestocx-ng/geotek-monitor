@@ -262,6 +262,8 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 								<div className='font-mono text-xs'>
 									{site.coordinates[1]},{' '}
 									{site.coordinates[0]}
+									{/* {site.coordinates[1].toFixed(4)},{' '} */}
+									{/* {site.coordinates[0].toFixed(4)} */}
 								</div>
 							</div>
 							<div>
