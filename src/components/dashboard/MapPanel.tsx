@@ -96,8 +96,8 @@ const parseCSVToWaterSites = (csvText: string): WaterSite[] => {
 			type: 'borehole' as const,
 			state: data['STATES'] || '',
 			coordinates: [
-				parseFloat(data['LONGTITUDE']) || 0,
-				parseFloat(data['LATITUDE']) || 0,
+				data['LONGTITUDE'] || 0,
+				data['LATITUDE'] || 0,
 			] as [number, number],
 			quality: {
 				ph: parseFloat(data['pH LEVEL']) || 7,

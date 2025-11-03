@@ -260,8 +260,8 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 									Coordinates:
 								</span>
 								<div className='font-mono text-xs'>
-									{site.coordinates},{' '}
-									{site.coordinates}
+									{site.coordinates[1]},{' '}
+									{site.coordinates[0]}
 								</div>
 							</div>
 							<div>
