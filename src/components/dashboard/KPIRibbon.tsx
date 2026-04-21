@@ -1,6 +1,7 @@
-import {useEffect, useState} from 'react';
-import {Droplet, Users, Activity, AlertCircle, TrendingUp} from 'lucide-react';
-import {Card} from '@/components/ui/card';
+import { useEffect, useState } from 'react';
+import { Droplet, Users, Activity, AlertCircle, TrendingUp } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { interval } from 'date-fns';
 
 // Utility function to convert Google Sheets URL to CSV export format
 const getGoogleSheetsCSVUrl = (spreadsheetId: string, gid: string) => {
@@ -150,7 +151,7 @@ interface MetricCardProps {
 	trend?: 'up' | 'down' | 'neutral';
 }
 
-const MetricCard = ({icon, label, value, change, trend}: MetricCardProps) => {
+const MetricCard = ({ icon, label, value, change, trend }: MetricCardProps) => {
 	const [displayValue, setDisplayValue] = useState(0);
 	const targetValue = typeof value === 'number' ? value : parseFloat(value);
 
@@ -240,6 +241,69 @@ const KPIRibbon = () => {
 		loadMetrics();
 	}, []);
 
+
+	// Water Quality Index
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setMetrics(prev => ({
+				...prev,
+				waterQualityIndex: Math.min(100, prev.waterQualityIndex + 3),
+			}));
+
+		}, 4000);
+		return () => clearInterval(interval);
+	}, [])
+
+	// System Uptime
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setMetrics(prev => {
+				const change = Math.random() > 0.5 ? 30 : -30;
+				const nextUpTime = Math.max(0, Math.min(100, prev.systemUptime + change));
+				return {
+					...prev,
+					systemUptime: Math.round(nextUpTime * 10) / 10,
+				}
+			})
+
+		}, 3000);
+		return () => clearInterval(interval);
+	}, [])
+
+	// At Risk Sites
+	useEffect(() => {
+		const twoDays = 2 * 24 * 60 * 60 * 1000;
+		const interval = setInterval(() => {
+			setMetrics(prev => ({
+				...prev,
+				criticalSites: prev.criticalSites + 3,
+			}));
+
+		}, twoDays)
+		return () => clearInterval(interval);
+	}, [])
+
+	// Daily Water Delivery
+	useEffect(() => {
+		const twentyFourHours = 24 * 60 * 60 * 1000;
+
+
+		const interval = setInterval(() => {
+			setMetrics(prev => {
+				const change = Math.random() > 0.5 ? 100 : -100;
+				const nextDailyLiters = Math.max(0, Math.min(100, prev.dailyLiters + change));
+				return {
+
+					...prev,
+					dailyLiters: Math.round(nextDailyLiters * 10) / 10,
+				}
+			});
+
+		}, twentyFourHours);
+		return () => clearInterval(interval);
+	}, [])
+
 	if (loading) {
 		return (
 			<footer className='fixed bottom-0 left-0 w-full h-28 bg-dashboard-panel border-t border-border px-6 py-3 z-50'>
@@ -257,20 +321,20 @@ const KPIRibbon = () => {
 		metrics.waterQualityIndex >= 85
 			? 'up'
 			: metrics.waterQualityIndex >= 70
-			? 'neutral'
-			: 'down';
+				? 'neutral'
+				: 'down';
 	const uptimeTrend =
 		metrics.systemUptime >= 95
 			? 'up'
 			: metrics.systemUptime >= 85
-			? 'neutral'
-			: 'down';
+				? 'neutral'
+				: 'down';
 	const riskTrend =
 		metrics.criticalSites <= 5
 			? 'up'
 			: metrics.criticalSites <= 15
-			? 'neutral'
-			: 'down';
+				? 'neutral'
+				: 'down';
 
 	return (
 		<footer className='fixed bottom-0 left-0 w-full h28 bg-dashboard-panel border-t border-border px-6 py-2 z-50'>
@@ -283,8 +347,8 @@ const KPIRibbon = () => {
 						wqiTrend === 'up'
 							? '+2.3%'
 							: wqiTrend === 'down'
-							? '-1.8%'
-							: '±0.5%'
+								? '-1.8%'
+								: '±0.5%'
 					}
 					trend={wqiTrend}
 				/>
@@ -303,8 +367,8 @@ const KPIRibbon = () => {
 						uptimeTrend === 'up'
 							? '+0.8%'
 							: uptimeTrend === 'down'
-							? '-2.1%'
-							: '±0.3%'
+								? '-2.1%'
+								: '±0.3%'
 					}
 					trend={uptimeTrend}
 				/>
@@ -316,8 +380,8 @@ const KPIRibbon = () => {
 						riskTrend === 'up'
 							? '-12%'
 							: riskTrend === 'down'
-							? '+15%'
-							: '±5%'
+								? '+15%'
+								: '±5%'
 					}
 					trend={riskTrend}
 				/>
