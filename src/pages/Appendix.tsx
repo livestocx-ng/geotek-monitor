@@ -197,12 +197,12 @@ const Appendix = () => {
 				onToggleStateNav={() => {}}
 				selectedState={''}
 			/>
-			<div className="max-w-7xl mx-auto space-y-8 pt-20 pb-10">
+			<div className="max-w-7xl mx-auto space-y-8 pt-20 pb-10 px-5 md:px-0">
 
 				{/* Header Section */}
 				<div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/10 pb-8">
 					<div className="space-y-4">
-						<h1 className="text-4xl md:text-5xl font-bold tracking-tight text-black">
+						<h1 className="text-2xl md:text-3xl font-bold tracking-tight text-black">
 							Appendix
 						</h1>
 						<p className="text-black/80 max-w-2xl text-lg leading-relaxed">
