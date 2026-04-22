@@ -1,6 +1,7 @@
-import {Activity, Database, Menu, X} from 'lucide-react';
+import {Activity, Database, Menu, X, BookOpen} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {useState} from 'react';
+import {Link} from 'react-router-dom';
 import DataRequestModal from './DataRequestModal';
 
 interface DashboardHeaderProps {
@@ -33,21 +34,23 @@ const DashboardHeader = ({
 					)}
 				</Button>
 
-				<div className='w-10 h-10 sm:w-15 sm:h-15 rounded-xl bg-gradient-to-br from-water-primary to-water-secondary flex items-center justify-center'>
-					<img
-						src='/logo.jpg'
-						alt='App Logo'
-						className='w-full h-full object-contain rounded-lg'
-					/>
-				</div>
-				<div className='hidden sm:block'>
-					<h1 className='text-lg font-bold tracking-tight text-blue-900'>
-						GEOTEK MONITOR
-					</h1>
-					<p className='text-xs text-muted-foreground'>
-						National Water Intelligence System
-					</p>
-				</div>
+				<Link to="/" className='flex items-center gap-2 sm:gap-3 cursor-pointer'>
+					<div className='w-10 h-10 sm:w-15 sm:h-15 rounded-xl bg-gradient-to-br from-water-primary to-water-secondary flex items-center justify-center'>
+						<img
+							src='/logo.jpg'
+							alt='App Logo'
+							className='w-full h-full object-contain rounded-lg'
+						/>
+					</div>
+					<div className='hidden sm:block'>
+						<h1 className='text-lg font-bold tracking-tight text-blue-900'>
+							GEOTEK MONITOR
+						</h1>
+						<p className='text-xs text-muted-foreground'>
+							National Water Intelligence System
+						</p>
+					</div>
+                </Link>
 				{/* Mobile: Show selected state */}
 				<div className='sm:hidden'>
 					<h1 className='text-sm font-bold text-blue-900'>GEOTEK</h1>
@@ -57,6 +60,13 @@ const DashboardHeader = ({
 						</p>
 					)}
 				</div>
+
+				 <Link to="/appendix">
+                    <Button variant="outline" size="sm" className="flex items-center gap-2 ml-10">
+                        <BookOpen className="w-4 h-4" />
+                        <span className="hidden sm:inline">Appendix</span>
+                    </Button>
+                </Link>
 			</div>
 
 			<div className='flex items-center gap-2 sm:gap-4'>
@@ -114,8 +124,10 @@ const DashboardHeader = ({
 					>
 						<path d='M17.523 15.3414c-.5665 0-1.0253-.4588-1.0253-1.0253s.4588-1.0253 1.0253-1.0253 1.0253.4588 1.0253 1.0253-.4588 1.0253-1.0253 1.0253zm-11.046 0c-.5665 0-1.0253-.4588-1.0253-1.0253s.4588-1.0253 1.0253-1.0253 1.0253.4588 1.0253 1.0253-.4588 1.0253-1.0253 1.0253zm11.405-6.02l1.14-2.02c.08-.14.03-.32-.11-.4-.14-.08-.32-.03-.4.11l-1.15 2.05c-.99-.45-2.11-.7-3.35-.7-1.24 0-2.36.25-3.35.7L9.09 7.01c-.08-.14-.26-.19-.4-.11-.14.08-.19.26-.11.4l1.14 2.02C6.59 10.57 4.5 13.43 4.5 16.8h15c0-3.37-2.09-6.23-5.22-7.52zM12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9z' />
 					</svg>
-					Download App
+					<span className="sr-only sm:not-sr-only">App</span>
 				</Button>
+
+               
 
 				{/* Request Data Button */}
 				<Button
