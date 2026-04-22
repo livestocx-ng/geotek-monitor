@@ -1,23 +1,23 @@
 import {
-	APIProvider,
-	Map,
-	AdvancedMarker,
-	useMap,
-} from '@vis.gl/react-google-maps';
-import {Card} from '@/components/ui/card';
-import {Badge} from '@/components/ui/badge';
-import {WaterSite} from '@/data/water-sites';
-import SiteDetailModal from './SiteDetailModal';
-import nigeriaStates from '@/data/nigeria-states.json';
-import {useState, useCallback, useMemo, useRef, useEffect} from 'react';
-import {
 	MapPin,
 	Droplets,
 	Activity,
 	AlertCircle,
 	LocateFixed,
 } from 'lucide-react';
+import {
+	Map,
+	useMap,
+	APIProvider,
+	AdvancedMarker,
+} from '@vis.gl/react-google-maps';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { WaterSite } from '@/data/water-sites';
 import NigeriaBorders from './NigeriaBoarder';
+import SiteDetailModal from './SiteDetailModal';
+import nigeriaStates from '@/data/nigeria-states.json';
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 
 interface StateFeature {
 	type: string;
@@ -47,10 +47,10 @@ interface MapPanelProps {
 }
 
 const layers = [
-	{id: 'infrastructure', label: 'Infrastructure', icon: MapPin},
-	{id: 'quality', label: 'Water Quality', icon: Droplets},
-	{id: 'scarcity', label: 'Scarcity Risk', icon: AlertCircle},
-	{id: 'activity', label: 'Real-time Activity', icon: Activity},
+	{ id: 'infrastructure', label: 'Infrastructure', icon: MapPin },
+	{ id: 'quality', label: 'Water Quality', icon: Droplets },
+	{ id: 'scarcity', label: 'Scarcity Risk', icon: AlertCircle },
+	{ id: 'activity', label: 'Real-time Activity', icon: Activity },
 ];
 
 // Google Maps API Key from environment
@@ -90,9 +90,8 @@ const parseCSVToWaterSites = (csvText: string): WaterSite[] => {
 			id: `${data['STATES']?.substring(0, 2).toUpperCase()}-${String(
 				index + 1
 			).padStart(3, '0')}`,
-			name: `${data['STATES']} ${data['WATER INFRASTRUCTURE POINTS']} ${
-				index + 1
-			}`,
+			name: `${data['STATES']} ${data['WATER INFRASTRUCTURE POINTS']} ${index + 1
+				}`,
 			type: 'borehole' as const,
 			state: data['STATES'] || '',
 			coordinates: [
@@ -112,6 +111,7 @@ const parseCSVToWaterSites = (csvText: string): WaterSite[] => {
 				.toISOString()
 				.split('T')[0],
 			peopleServed: Math.floor(Math.random() * 5000) + 2000,
+			// peopleServed: data['PEOPLE SERVED'] || 0,
 			pumpType: data['PUMP TYPE'] || 'Motorized',
 			contamination: parseFloat(data['CONTAMINATION']) || 0,
 			healthRisk: data['HEALTH RISK LEVEL'] || 'Low',
@@ -200,8 +200,8 @@ const MapPanel = ({
 				stateName === 'Abuja FCT'
 					? 'Abuja'
 					: stateName === 'Abuja'
-					? 'Abuja FCT'
-					: stateName;
+						? 'Abuja FCT'
+						: stateName;
 			feature = statesData.features.find(
 				(f) => f.properties.name === alternativeName
 			);
@@ -212,38 +212,38 @@ const MapPanel = ({
 		// }
 
 		// Fallback coordinates for states not in GeoJSON
-		const stateCoordinates: Record<string, {lat: number; lng: number}> = {
-			Abia: {lat: 5.4527, lng: 7.5248},
-			Adamawa: {lat: 9.3265, lng: 12.3984},
-			'Akwa Ibom': {lat: 5.0077, lng: 7.8536},
-			Anambra: {lat: 6.2209, lng: 6.9326},
-			Bauchi: {lat: 10.3158, lng: 9.8442},
-			Bayelsa: {lat: 4.7719, lng: 6.0699},
-			Benue: {lat: 7.3298, lng: 8.7343},
-			Borno: {lat: 11.8846, lng: 13.1571},
-			'Cross River': {lat: 5.9631, lng: 8.325},
-			Delta: {lat: 5.6037, lng: 5.7793},
-			Ebonyi: {lat: 6.2649, lng: 8.0137},
-			Edo: {lat: 6.335, lng: 5.6037},
-			Ekiti: {lat: 7.7193, lng: 5.311},
-			Enugu: {lat: 6.5244, lng: 7.5086},
-			Gombe: {lat: 10.2904, lng: 11.1671},
-			Imo: {lat: 5.4951, lng: 7.0255},
-			Jigawa: {lat: 12.23, lng: 9.35},
-			Katsina: {lat: 12.9908, lng: 7.6018},
-			Kebbi: {lat: 12.4539, lng: 4.1975},
-			Kogi: {lat: 7.7323, lng: 6.74},
-			Kwara: {lat: 8.9669, lng: 4.581},
-			Nasarawa: {lat: 8.5378, lng: 8.3206},
-			Niger: {lat: 10.4806, lng: 6.5056},
-			Ogun: {lat: 7.1608, lng: 3.3566},
-			Ondo: {lat: 7.2527, lng: 5.2066},
-			Osun: {lat: 7.5629, lng: 4.52},
-			Plateau: {lat: 9.2182, lng: 9.5179},
-			Sokoto: {lat: 13.0059, lng: 5.2476},
-			Taraba: {lat: 8.8932, lng: 11.3568},
-			Yobe: {lat: 12.2939, lng: 11.9668},
-			Zamfara: {lat: 12.1704, lng: 6.6599},
+		const stateCoordinates: Record<string, { lat: number; lng: number }> = {
+			Abia: { lat: 5.4527, lng: 7.5248 },
+			Adamawa: { lat: 9.3265, lng: 12.3984 },
+			'Akwa Ibom': { lat: 5.0077, lng: 7.8536 },
+			Anambra: { lat: 6.2209, lng: 6.9326 },
+			Bauchi: { lat: 10.3158, lng: 9.8442 },
+			Bayelsa: { lat: 4.7719, lng: 6.0699 },
+			Benue: { lat: 7.3298, lng: 8.7343 },
+			Borno: { lat: 11.8846, lng: 13.1571 },
+			'Cross River': { lat: 5.9631, lng: 8.325 },
+			Delta: { lat: 5.6037, lng: 5.7793 },
+			Ebonyi: { lat: 6.2649, lng: 8.0137 },
+			Edo: { lat: 6.335, lng: 5.6037 },
+			Ekiti: { lat: 7.7193, lng: 5.311 },
+			Enugu: { lat: 6.5244, lng: 7.5086 },
+			Gombe: { lat: 10.2904, lng: 11.1671 },
+			Imo: { lat: 5.4951, lng: 7.0255 },
+			Jigawa: { lat: 12.23, lng: 9.35 },
+			Katsina: { lat: 12.9908, lng: 7.6018 },
+			Kebbi: { lat: 12.4539, lng: 4.1975 },
+			Kogi: { lat: 7.7323, lng: 6.74 },
+			Kwara: { lat: 8.9669, lng: 4.581 },
+			Nasarawa: { lat: 8.5378, lng: 8.3206 },
+			Niger: { lat: 10.4806, lng: 6.5056 },
+			Ogun: { lat: 7.1608, lng: 3.3566 },
+			Ondo: { lat: 7.2527, lng: 5.2066 },
+			Osun: { lat: 7.5629, lng: 4.52 },
+			Plateau: { lat: 9.2182, lng: 9.5179 },
+			Sokoto: { lat: 13.0059, lng: 5.2476 },
+			Taraba: { lat: 8.8932, lng: 11.3568 },
+			Yobe: { lat: 12.2939, lng: 11.9668 },
+			Zamfara: { lat: 12.1704, lng: 6.6599 },
 		};
 
 		// Use fallback coordinates if available
@@ -253,7 +253,7 @@ const MapPanel = ({
 
 		// Final fallback to Nigeria center
 		console.warn(`State coordinates not found for: ${stateName}`);
-		return {lat: 9.082, lng: 8.6753};
+		return { lat: 9.082, lng: 8.6753 };
 	}, []);
 
 	// Focus map on selected state
@@ -354,7 +354,7 @@ const MapPanel = ({
 	// Handle reset
 	const handleReset = useCallback(() => {
 		if (mapRef.current) {
-			mapRef.current.setCenter({lat: 9.082, lng: 8.6753});
+			mapRef.current.setCenter({ lat: 9.082, lng: 8.6753 });
 			mapRef.current.setZoom(6);
 		}
 	}, []);
@@ -416,9 +416,9 @@ const MapPanel = ({
 						mapId='nigeria-map'
 						gestureHandling='greedy'
 						// fullscreenControl={false}
-						style={{width: '100%', height: '100%'}}
-						defaultCenter={{lat: 9.082, lng: 8.6753}}
-						// mapTypeId='hybrid' //FOR SATELLITE VIEW
+						style={{ width: '100%', height: '100%' }}
+						defaultCenter={{ lat: 9.082, lng: 8.6753 }}
+					// mapTypeId='hybrid' //FOR SATELLITE VIEW
 					>
 						<MapContent
 							mapRef={mapRef}
@@ -576,13 +576,13 @@ const MapPanel = ({
 					const averageUptime =
 						stateSites.length > 0
 							? Math.round(
-									(stateSites.reduce(
-										(sum, site) => sum + site.uptime,
-										0
-									) /
-										stateSites.length) *
-										10
-							  ) / 10
+								(stateSites.reduce(
+									(sum, site) => sum + site.uptime,
+									0
+								) /
+									stateSites.length) *
+								10
+							) / 10
 							: 0;
 					const totalPeopleServed = stateSites.reduce(
 						(sum, site) => sum + site.peopleServed,
@@ -641,13 +641,12 @@ const MapPanel = ({
 											Quality
 										</div>
 										<div
-											className={`text-sm font-bold ${
-												qualityScore >= 80
+											className={`text-sm font-bold ${qualityScore >= 80
 													? 'text-metric-success'
 													: qualityScore >= 60
-													? 'text-metric-warning'
-													: 'text-metric-danger'
-											}`}
+														? 'text-metric-warning'
+														: 'text-metric-danger'
+												}`}
 										>
 											{qualityScore}/100
 										</div>
@@ -681,8 +680,8 @@ const MapPanel = ({
 										<div className='text-xs font-bold text-blue-600'>
 											{totalPeopleServed > 1000
 												? `${Math.round(
-														totalPeopleServed / 1000
-												  )}k`
+													totalPeopleServed / 1000
+												)}k`
 												: totalPeopleServed.toLocaleString()}
 										</div>
 									</div>

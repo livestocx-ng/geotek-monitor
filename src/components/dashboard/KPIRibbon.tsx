@@ -149,14 +149,18 @@ interface MetricCardProps {
 	value: string | number;
 	change?: string;
 	trend?: 'up' | 'down' | 'neutral';
+	disableAnimation?: boolean;
 }
 
-const MetricCard = ({ icon, label, value, change, trend }: MetricCardProps) => {
+const MetricCard = ({ icon, label, value, change, trend, disableAnimation }: MetricCardProps) => {
 	const [displayValue, setDisplayValue] = useState(0);
 	const targetValue = typeof value === 'number' ? value : parseFloat(value);
 
 	useEffect(() => {
-		if (isNaN(targetValue)) return;
+		if (isNaN(targetValue) || disableAnimation) {
+			setDisplayValue(targetValue);
+			return;
+		}
 
 		let start = 0;
 		const duration = 1500;
@@ -176,6 +180,7 @@ const MetricCard = ({ icon, label, value, change, trend }: MetricCardProps) => {
 	}, [targetValue]);
 
 	const formatValue = () => {
+		if (disableAnimation) return value;
 		if (typeof value === 'string' && value.includes('/')) {
 			return value;
 		}
@@ -245,10 +250,14 @@ const KPIRibbon = () => {
 	// Water Quality Index
 	useEffect(() => {
 		const interval = setInterval(() => {
-			setMetrics(prev => ({
-				...prev,
-				waterQualityIndex: Math.min(100, prev.waterQualityIndex + 3),
-			}));
+			setMetrics(prev => {
+				const change = Math.floor(Math.random() * 7) - 3;
+				const nextWqi = Math.max(0, Math.min(80, prev.waterQualityIndex + change));
+				return {
+					...prev,
+					waterQualityIndex: Math.round(nextWqi * 10) / 10,
+				};
+			});
 
 		}, 4000);
 		return () => clearInterval(interval);
@@ -260,7 +269,7 @@ const KPIRibbon = () => {
 		const interval = setInterval(() => {
 			setMetrics(prev => {
 				const change = Math.random() > 0.5 ? 30 : -30;
-				const nextUpTime = Math.max(0, Math.min(100, prev.systemUptime + change));
+				const nextUpTime = Math.max(43, Math.min(100, prev.systemUptime + change));
 				return {
 					...prev,
 					systemUptime: Math.round(nextUpTime * 10) / 10,
@@ -273,36 +282,92 @@ const KPIRibbon = () => {
 
 	// At Risk Sites
 	useEffect(() => {
-		const twoDays = 2 * 24 * 60 * 60 * 1000;
-		const interval = setInterval(() => {
-			setMetrics(prev => ({
-				...prev,
-				criticalSites: prev.criticalSites + 3,
-			}));
+		if (loading) return;
 
-		}, twoDays)
-		return () => clearInterval(interval);
-	}, [])
+		const twoDays = 2 * 24 * 60 * 60 * 1000;
+		const STORAGE_KEY = 'geotek_critical_sites_v1';
+		
+		let startTimestamp = Date.now();
+		const stored = localStorage.getItem(STORAGE_KEY);
+		
+		if (stored) {
+			startTimestamp = parseInt(stored, 10);
+		} else {
+			localStorage.setItem(STORAGE_KEY, startTimestamp.toString());
+		}
+
+		const baseSites = metrics.criticalSites;
+
+		const updateCount = () => {
+			const now = Date.now();
+			const intervalsPassed = Math.floor((now - startTimestamp) / twoDays);
+			const expectedSites = baseSites + (intervalsPassed * 3);
+
+			setMetrics(prev => {
+				if (prev.criticalSites !== expectedSites) {
+					return { ...prev, criticalSites: expectedSites };
+				}
+				return prev;
+			});
+		};
+
+		updateCount();
+		const checkInterval = setInterval(updateCount, 10000);
+
+		return () => clearInterval(checkInterval);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [loading]);
 
 	// Daily Water Delivery
 	useEffect(() => {
+		if (loading) return;
+
 		const twentyFourHours = 24 * 60 * 60 * 1000;
+		const STORAGE_KEY = 'geotek_daily_liters_v1';
+		
+		let state = { lastUpdated: Date.now(), value: metrics.dailyLiters };
+		const stored = localStorage.getItem(STORAGE_KEY);
+		
+		if (stored) {
+			try {
+				state = JSON.parse(stored);
+			} catch (e) {}
+		} else {
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+		}
 
-
-		const interval = setInterval(() => {
-			setMetrics(prev => {
-				const change = Math.random() > 0.5 ? 100 : -100;
-				const nextDailyLiters = Math.max(0, Math.min(100, prev.dailyLiters + change));
-				return {
-
-					...prev,
-					dailyLiters: Math.round(nextDailyLiters * 10) / 10,
+		const updateCount = () => {
+			const now = Date.now();
+			const intervalsPassed = Math.floor((now - state.lastUpdated) / twentyFourHours);
+			
+			if (intervalsPassed > 0) {
+				let newValue = state.value;
+				for (let i = 0; i < intervalsPassed; i++) {
+					const change = Math.random() > 0.5 ? 100 : -100;
+					newValue = Math.max(0, newValue + change);
 				}
-			});
+				
+				state = {
+					lastUpdated: state.lastUpdated + (intervalsPassed * twentyFourHours),
+					value: Math.round(newValue * 10) / 10
+				};
+				localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+			}
 
-		}, twentyFourHours);
-		return () => clearInterval(interval);
-	}, [])
+			setMetrics(prev => {
+				if (prev.dailyLiters !== state.value) {
+					return { ...prev, dailyLiters: state.value };
+				}
+				return prev;
+			});
+		};
+
+		updateCount();
+		const checkInterval = setInterval(updateCount, 10000);
+
+		return () => clearInterval(checkInterval);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [loading]);
 
 	if (loading) {
 		return (
@@ -367,10 +432,12 @@ const KPIRibbon = () => {
 						uptimeTrend === 'up'
 							? '+0.8%'
 							: uptimeTrend === 'down'
-								? '-2.1%'
+								? '%'
+								// ? '-2.1%'
 								: '±0.3%'
 					}
 					trend={uptimeTrend}
+					disableAnimation
 				/>
 				<MetricCard
 					icon={<AlertCircle className='w-5 h-5' />}
