@@ -110,8 +110,8 @@ const parseCSVToWaterSites = (csvText: string): WaterSite[] => {
 			)
 				.toISOString()
 				.split('T')[0],
-			peopleServed: Math.floor(Math.random() * 5000) + 2000,
-			// peopleServed: data['PEOPLE SERVED'] || 0,
+			// peopleServed: Math.floor(Math.random() * 5000) + 2000,
+			peopleServed: Number(data['PEOPLE SERVED']) || 0,
 			pumpType: data['PUMP TYPE'] || 'Motorized',
 			contamination: parseFloat(data['CONTAMINATION']) || 0,
 			healthRisk: data['HEALTH RISK LEVEL'] || 'Low',
@@ -309,7 +309,7 @@ const MapPanel = ({
 					const fallbackResponse = await fetch('/dataset.csv');
 					const fallbackCsvText = await fallbackResponse.text();
 					const fallbackSites = parseCSVToWaterSites(fallbackCsvText);
-					setWaterSites(fallbackSites);
+					// setWaterSites(fallbackSites);
 					console.log(
 						'Successfully loaded local dataset as fallback'
 					);
@@ -364,6 +364,13 @@ const MapPanel = ({
 		if (status === 'optimal') return '#10b981';
 		if (status === 'warning') return '#f59e0b';
 		return '#ef4444';
+	};
+
+	// Get marker border color based on pump type
+	const getPumpTypeBorderColor = (pumpType: string) => {
+		const normalized = (pumpType || '').toLowerCase();
+		if (normalized.includes('hand')) return '#ffffff'; // white — Hand Pump
+		return '#38bdf880'; // sky blue — Motorized Borehole (default)
 	};
 
 	if (loading) {
@@ -447,7 +454,7 @@ const MapPanel = ({
 										backgroundColor: getMarkerColor(
 											site.status
 										),
-										border: '2px solid white',
+										border: `2.5px solid ${getPumpTypeBorderColor(site.pumpType)}`,
 										boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
 										animation:
 											site.status === 'critical'
@@ -695,21 +702,31 @@ const MapPanel = ({
 			<div className='absolute top-14 left-2 bg-white rounded-lg p-4 border border-border shadow-lg z-10'>
 				<div className='text-xs font-semibold mb-2'>LEGEND</div>
 				<div className='space-y-2 text-xs'>
+					{/* Status colours */}
+					<div className='text-[10px] uppercase tracking-widest text-muted-foreground mb-1'>Status</div>
 					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full bg-metric-success border-2 border-slate-200 animate-pulse delay-300' />
-						<span className='text-muted-foreground'>
-							Optimal Quality
-						</span>
+						<div className='w-3 h-3 rounded-full bg-metric-success border-[2.5px]  animate-pulse delay-300' />
+						<span className='text-muted-foreground'>Optimal Quality</span>
 					</div>
 					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full bg-metric-warning border-2 border-slate-200 animate-pulse delay-700' />
-						<span className='text-muted-foreground'>
-							Moderate Risk
-						</span>
+						<div className='w-3 h-3 rounded-full bg-metric-warning border-[2.5px]  animate-pulse delay-700' />
+						<span className='text-muted-foreground'>Moderate Risk</span>
 					</div>
 					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full bg-metric-danger border-2 border-slate-200 animate-pulse' />
+						<div className='w-3 h-3 rounded-full bg-metric-danger border-[2.5px]  animate-pulse' />
 						<span className='text-muted-foreground'>High Risk</span>
+					</div>
+
+					{/* Pump-type border colours */}
+					<div className='border-t border-border my-2' />
+					<div className='text-[10px] uppercase tracking-widest text-muted-foreground mb-1'>Pump Type</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-3 h-3 rounded-full bg-white border-[2.5px] border-sky-400' />
+						<span className='text-muted-foreground'>Motorized Borehole</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-3 h-3 rounded-full bg-gray-300 border-[2.5px] border-white ring-1 ring-gray-300' />
+						<span className='text-muted-foreground'>Hand Pump</span>
 					</div>
 				</div>
 			</div>
