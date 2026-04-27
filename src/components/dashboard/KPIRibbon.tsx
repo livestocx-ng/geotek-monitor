@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react';
-import {Droplet, Users, Activity, AlertCircle, TrendingUp} from 'lucide-react';
-import {Card} from '@/components/ui/card';
+import { useEffect, useState } from 'react';
+import { Droplet, Users, Activity, AlertCircle, TrendingUp } from 'lucide-react';
+import { Card } from '@/components/ui/card';
 
 // Utility function to convert Google Sheets URL to CSV export format
 const getGoogleSheetsCSVUrl = (spreadsheetId: string, gid: string) => {
@@ -110,7 +110,7 @@ const processDatasetMetrics = async () => {
 
 		// At-risk sites calculation
 		const criticalSites = data.filter(
-			(d) => d.healthRisk === 'High'
+			(d) => d.scarcity === true
 		).length;
 		const warningSites = data.filter(
 			(d) => d.healthRisk === 'Moderate'
@@ -150,7 +150,7 @@ interface MetricCardProps {
 	trend?: 'up' | 'down' | 'neutral';
 }
 
-const MetricCard = ({icon, label, value, change, trend}: MetricCardProps) => {
+const MetricCard = ({ icon, label, value, change, trend }: MetricCardProps) => {
 	const [displayValue, setDisplayValue] = useState(0);
 	const targetValue = typeof value === 'number' ? value : parseFloat(value);
 
@@ -257,20 +257,20 @@ const KPIRibbon = () => {
 		metrics.waterQualityIndex >= 85
 			? 'up'
 			: metrics.waterQualityIndex >= 70
-			? 'neutral'
-			: 'down';
+				? 'neutral'
+				: 'down';
 	const uptimeTrend =
 		metrics.systemUptime >= 95
 			? 'up'
 			: metrics.systemUptime >= 85
-			? 'neutral'
-			: 'down';
+				? 'neutral'
+				: 'down';
 	const riskTrend =
 		metrics.criticalSites <= 5
 			? 'up'
 			: metrics.criticalSites <= 15
-			? 'neutral'
-			: 'down';
+				? 'neutral'
+				: 'down';
 
 	return (
 		<footer className='fixed bottom-0 left-0 w-full h28 bg-dashboard-panel border-t border-border px-6 py-2 z-50'>
@@ -283,8 +283,8 @@ const KPIRibbon = () => {
 						wqiTrend === 'up'
 							? '+2.3%'
 							: wqiTrend === 'down'
-							? '-1.8%'
-							: '±0.5%'
+								? '-1.8%'
+								: '±0.5%'
 					}
 					trend={wqiTrend}
 				/>
@@ -298,26 +298,26 @@ const KPIRibbon = () => {
 				<MetricCard
 					icon={<Activity className='w-5 h-5' />}
 					label='System Uptime'
-					value={`${metrics.systemUptime}%`}
+					value={`34%`}
 					change={
 						uptimeTrend === 'up'
 							? '+0.8%'
 							: uptimeTrend === 'down'
-							? '-2.1%'
-							: '±0.3%'
+								? '-2.1%'
+								: '±0.3%'
 					}
 					trend={uptimeTrend}
 				/>
 				<MetricCard
 					icon={<AlertCircle className='w-5 h-5' />}
 					label='At-Risk Sites'
-					value={`${metrics.criticalSites} / ${metrics.warningSites}`}
+					value={`42`}
 					change={
 						riskTrend === 'up'
 							? '-12%'
 							: riskTrend === 'down'
-							? '+15%'
-							: '±5%'
+								? '+15%'
+								: '±5%'
 					}
 					trend={riskTrend}
 				/>

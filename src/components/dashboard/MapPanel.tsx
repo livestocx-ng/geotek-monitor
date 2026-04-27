@@ -298,7 +298,7 @@ const MapPanel = ({
 					console.warn('No water sites parsed from CSV data');
 				}
 
-				setWaterSites(sites);
+				setWaterSites(sites.filter((site)=> site.principal.toUpperCase() !== "FALSE"));
 			} catch (error) {
 				console.error('Error loading CSV data:', error);
 
@@ -361,29 +361,29 @@ const MapPanel = ({
 	}, []);
 
 	// Get marker color based on status
-	// const getMarkerColor = (status: string) => {
-	// 	if (status === 'optimal') return '#10b981';
-	// 	if (status === 'warning') return '#f59e0b';
-	// 	return '#ef4444';
-	// };
-	const getMarkerColor = (principal?: string) => {
-		if (!principal || principal.toUpperCase() === 'FALSE') return '#d1d5db'; // Light gray
+	const getMarkerColor = (status: string) => {
+		if (status === 'optimal') return '#10b981';
+		if (status === 'warning') return '#f59e0b';
+		return '#ef4444';
+	};
+	const getMarkerShape = (principal?: string): React.CSSProperties => {
+		if (!principal || principal.toUpperCase() === 'FALSE') return { borderRadius: '50%' }; // Circle
 		
 		switch (principal.toUpperCase()) {
 			case 'COMMUNITY':
-				return '#3b82f6'; // Blue
+				return { borderRadius: '50%' }; // Circle
 			case 'NAZA':
-				return '#10b981'; // Emerald
+				return { clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)', borderRadius: '0', filter: 'drop-shadow(0 0 1px #475569)' }; // Triangle
 			case 'TASTE':
-				return '#f59e0b'; // Amber
+				return { borderRadius: '50% 0 50% 0' }; // Leaf (Top-Right & Bottom-Left rounded)
 			case 'GAGDI':
-				return '#8b5cf6'; // Violet
+				return { transform: 'rotate(45deg)', borderRadius: '2px' }; // Diamond
 			case 'UNICEF':
-				return '#0ea5e9'; // Sky Blue
+				return { borderRadius: '0 50% 0 50%' }; // Leaf Alternate
 			case 'GEOTEK':
-				return '#ef4444'; // Red
+				return { borderRadius: '0' }; // Sharp Square
 			default:
-				return '#d1d5db'; // Light gray for unknown/default
+				return { borderRadius: '50%' }; // Circle
 		}
 	};
 
@@ -464,12 +464,8 @@ const MapPanel = ({
 									style={{
 										width: '16px',
 										height: '16px',
-										borderRadius: '50%',
-										// backgroundColor: getMarkerColor(
-										// 	site.status
-										// ),
 										backgroundColor: getMarkerColor(
-											site.principal
+											site.status
 										),
 										border: '2px solid white',
 										boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
@@ -477,6 +473,7 @@ const MapPanel = ({
 											site.status === 'critical'
 												? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
 												: undefined,
+										...getMarkerShape(site.principal),
 									}}
 								/>
 							</AdvancedMarker>
@@ -676,35 +673,51 @@ const MapPanel = ({
 				})()}
 
 			{/* Legend */}
-			<div className='absolute top-14 left-2 bg-white rounded-lg p-4 border border-border shadow-lg z-10'>
-				<div className='text-xs font-semibold mb-2'>LEGEND</div>
-				<div className='space-y-2 text-xs'>
-					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#3b82f6' }} />
-						<span className='text-muted-foreground'>COMMUNITY</span>
-					</div>
+			<div className='absolute top-14 left-2 bg-white rounded-lg p-4 border border-border shadow-lg z-10 max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-hide'>
+				<div className='text-xs font-bold mb-2 text-slate-800 border-b pb-1'>STATUS (COLOR)</div>
+				<div className='space-y-2 text-xs mb-4'>
 					<div className='flex items-center gap-2'>
 						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#10b981' }} />
-						<span className='text-muted-foreground'>NAZA</span>
+						<span className='text-muted-foreground'>Optimal Quality</span>
 					</div>
 					<div className='flex items-center gap-2'>
 						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#f59e0b' }} />
-						<span className='text-muted-foreground'>TASTE</span>
-					</div>
-					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#8b5cf6' }} />
-						<span className='text-muted-foreground'>GAGDI</span>
-					</div>
-					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#0ea5e9' }} />
-						<span className='text-muted-foreground'>UNICEF</span>
+						<span className='text-muted-foreground'>Moderate Risk</span>
 					</div>
 					<div className='flex items-center gap-2'>
 						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#ef4444' }} />
+						<span className='text-muted-foreground'>High Risk</span>
+					</div>
+				</div>
+
+				<div className='text-xs font-bold mb-2 text-slate-800 border-b pb-1'>PRINCIPAL (SHAPE)</div>
+				<div className='space-y-2 text-xs'>
+					<div className='flex items-center gap-2'>
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('COMMUNITY') }} />
+						<span className='text-muted-foreground'>COMMUNITY</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('NAZA') }} />
+						<span className='text-muted-foreground'>NAZA</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('TASTE') }} />
+						<span className='text-muted-foreground'>TASTE</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('GAGDI') }} />
+						<span className='text-muted-foreground'>GAGDI</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('UNICEF') }} />
+						<span className='text-muted-foreground'>UNICEF</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('GEOTEK') }} />
 						<span className='text-muted-foreground'>GEOTEK</span>
 					</div>
 					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#d1d5db' }} />
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('FALSE') }} />
 						<span className='text-muted-foreground'>Unassigned</span>
 					</div>
 				</div>
@@ -720,11 +733,11 @@ const MapPanel = ({
         @keyframes pulse {
           0%, 100% {
             opacity: 1;
-            transform: scale(1);
+            scale: 1;
           }
           50% {
             opacity: 0.6;
-            transform: scale(1.3);
+            scale: 1.3;
           }
         }
       `}</style>
