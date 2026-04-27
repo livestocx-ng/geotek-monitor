@@ -116,6 +116,7 @@ const parseCSVToWaterSites = (csvText: string): WaterSite[] => {
 			contamination: parseFloat(data['CONTAMINATION']) || 0,
 			healthRisk: data['HEALTH RISK LEVEL'] || 'Low',
 			scarcity: data['SCARCITY'] === 'TRUE',
+			principal: data['PRINCIPAL'] || '',
 			flowRate: data['FLOW_RATE'] || '',
 		};
 	});
@@ -360,10 +361,30 @@ const MapPanel = ({
 	}, []);
 
 	// Get marker color based on status
-	const getMarkerColor = (status: string) => {
-		if (status === 'optimal') return '#10b981';
-		if (status === 'warning') return '#f59e0b';
-		return '#ef4444';
+	// const getMarkerColor = (status: string) => {
+	// 	if (status === 'optimal') return '#10b981';
+	// 	if (status === 'warning') return '#f59e0b';
+	// 	return '#ef4444';
+	// };
+	const getMarkerColor = (principal?: string) => {
+		if (!principal || principal.toUpperCase() === 'FALSE') return '#d1d5db'; // Light gray
+		
+		switch (principal.toUpperCase()) {
+			case 'COMMUNITY':
+				return '#3b82f6'; // Blue
+			case 'NAZA':
+				return '#10b981'; // Emerald
+			case 'TASTE':
+				return '#f59e0b'; // Amber
+			case 'GAGDI':
+				return '#8b5cf6'; // Violet
+			case 'UNICEF':
+				return '#0ea5e9'; // Sky Blue
+			case 'GEOTEK':
+				return '#ef4444'; // Red
+			default:
+				return '#d1d5db'; // Light gray for unknown/default
+		}
 	};
 
 	if (loading) {
@@ -444,8 +465,11 @@ const MapPanel = ({
 										width: '16px',
 										height: '16px',
 										borderRadius: '50%',
+										// backgroundColor: getMarkerColor(
+										// 	site.status
+										// ),
 										backgroundColor: getMarkerColor(
-											site.status
+											site.principal
 										),
 										border: '2px solid white',
 										boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
@@ -535,44 +559,22 @@ const MapPanel = ({
 						return Math.round(totalScore / stateSites.length);
 					};
 
-					// Count sites by status
-					const statusCounts = {
-						optimal: stateSites.filter(
-							(s) => s.status === 'optimal'
-						).length,
-						warning: stateSites.filter(
-							(s) => s.status === 'warning'
-						).length,
-						critical: stateSites.filter(
-							(s) => s.status === 'critical'
-						).length,
-					};
+					// Count sites by principal
+					const principalCounts = [
+						{ label: 'COMMUNITY', count: stateSites.filter((s) => s.principal?.toUpperCase() === 'COMMUNITY').length, color: '#3b82f6' },
+						{ label: 'NAZA', count: stateSites.filter((s) => s.principal?.toUpperCase() === 'NAZA').length, color: '#10b981' },
+						{ label: 'TASTE', count: stateSites.filter((s) => s.principal?.toUpperCase() === 'TASTE').length, color: '#f59e0b' },
+						{ label: 'GAGDI', count: stateSites.filter((s) => s.principal?.toUpperCase() === 'GAGDI').length, color: '#8b5cf6' },
+						{ label: 'UNICEF', count: stateSites.filter((s) => s.principal?.toUpperCase() === 'UNICEF').length, color: '#0ea5e9' },
+						{ label: 'GEOTEK', count: stateSites.filter((s) => s.principal?.toUpperCase() === 'GEOTEK').length, color: '#ef4444' },
+					].filter(p => p.count > 0);
 
-					// Determine overall state status
-					const getStateStatus = () => {
-						const criticalRatio =
-							statusCounts.critical / stateSites.length;
-						const warningRatio =
-							statusCounts.warning / stateSites.length;
-
-						if (criticalRatio > 0.3)
-							return {
-								status: 'Critical',
-								color: 'bg-metric-danger/20 text-metric-danger border-metric-danger/30',
-							};
-						if (warningRatio > 0.4 || criticalRatio > 0.1)
-							return {
-								status: 'Warning',
-								color: 'bg-metric-warning/20 text-metric-warning border-metric-warning/30',
-							};
-						return {
-							status: 'Good',
-							color: 'bg-metric-success/20 text-metric-success border-metric-success/30',
-						};
-					};
+					const unassignedCount = stateSites.filter((s) => !s.principal || s.principal.toUpperCase() === 'FALSE').length;
+					if (unassignedCount > 0) {
+						principalCounts.push({ label: 'Unassigned', count: unassignedCount, color: '#6b7280' });
+					}
 
 					const qualityScore = calculateQualityScore();
-					const stateStatus = getStateStatus();
 					const averageUptime =
 						stateSites.length > 0
 							? Math.round(
@@ -597,41 +599,22 @@ const MapPanel = ({
 									<h3 className='text-base font-bold'>
 										{selectedState} State
 									</h3>
-									{/* <Badge
-										className={stateStatus.color}
-										size='sm'
-									>
-										{stateStatus.status}
-									</Badge> */}
 								</div>
 
-								<div className='flex items-center justify-between w-full'>
-									{/* Status Counts */}
-									<div className='bg-metric-success/10 rounded px-2 py-1 text-center min-w-[40px]'>
-										<div className='text-[10px] text-muted-foreground font-semibold'>
-											Optimal
-										</div>
-										<div className='text-sm font-bold text-metric-success'>
-											{statusCounts.optimal}
-										</div>
+								{principalCounts.length > 0 && (
+									<div className='flex flex-nowrap items-center justify-start gap-2 w-full max-w-[260px] sm:max-w-[320px] overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden' style={{ scrollbarWidth: 'none' }}>
+										{principalCounts.map(p => (
+											<div key={p.label} className='rounded px-3 py-1 text-center flex-shrink-0 min-w-[60px]' style={{ backgroundColor: `${p.color}1a` }}>
+												<div className='text-[10px] text-muted-foreground font-semibold whitespace-nowrap'>
+													{p.label}
+												</div>
+												<div className='text-sm font-bold' style={{ color: p.color }}>
+													{p.count}
+												</div>
+											</div>
+										))}
 									</div>
-									<div className='bg-metric-warning/10 rounded px-2 py-1 text-center min-w-[40px]'>
-										<div className='text-[10px] text-muted-foreground font-semibold'>
-											Warning
-										</div>
-										<div className='text-sm font-bold text-metric-warning'>
-											{statusCounts.warning}
-										</div>
-									</div>
-									<div className='bg-metric-danger/10 rounded px-2 py-1 text-center min-w-[40px]'>
-										<div className='text-[10px] text-muted-foreground font-semibold'>
-											Critical
-										</div>
-										<div className='text-sm font-bold text-metric-danger'>
-											{statusCounts.critical}
-										</div>
-									</div>
-								</div>
+								)}
 
 								{/* Metrics */}
 								<div className='flex items-center gap-3'>
@@ -664,14 +647,14 @@ const MapPanel = ({
 									</div>
 
 									{/* Uptime */}
-									<div className='bg-background/50 rounded px-2 py-1 text-center min-w-[50px]'>
+									{/* <div className='bg-background/50 rounded px-2 py-1 text-center min-w-[50px]'>
 										<div className='text-[10px] text-muted-foreground'>
 											Uptime
 										</div>
 										<div className='text-sm font-bold text-blue-600'>
 											{averageUptime}%
 										</div>
-									</div>
+									</div> */}
 
 									{/* People Served */}
 									<div className='bg-background/50 rounded px-2 py-1 text-center min-w-[60px]'>
@@ -697,20 +680,32 @@ const MapPanel = ({
 				<div className='text-xs font-semibold mb-2'>LEGEND</div>
 				<div className='space-y-2 text-xs'>
 					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full bg-metric-success border-2 border-slate-200 animate-pulse delay-300' />
-						<span className='text-muted-foreground'>
-							Optimal Quality
-						</span>
+						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#3b82f6' }} />
+						<span className='text-muted-foreground'>COMMUNITY</span>
 					</div>
 					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full bg-metric-warning border-2 border-slate-200 animate-pulse delay-700' />
-						<span className='text-muted-foreground'>
-							Moderate Risk
-						</span>
+						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#10b981' }} />
+						<span className='text-muted-foreground'>NAZA</span>
 					</div>
 					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full bg-metric-danger border-2 border-slate-200 animate-pulse' />
-						<span className='text-muted-foreground'>High Risk</span>
+						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#f59e0b' }} />
+						<span className='text-muted-foreground'>TASTE</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#8b5cf6' }} />
+						<span className='text-muted-foreground'>GAGDI</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#0ea5e9' }} />
+						<span className='text-muted-foreground'>UNICEF</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#ef4444' }} />
+						<span className='text-muted-foreground'>GEOTEK</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#d1d5db' }} />
+						<span className='text-muted-foreground'>Unassigned</span>
 					</div>
 				</div>
 			</div>
