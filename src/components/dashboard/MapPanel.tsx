@@ -298,6 +298,8 @@ const MapPanel = ({
 					console.warn('No water sites parsed from CSV data');
 				}
 
+				console.log('[SITE-LENGTH', sites.filter((site)=> site.principal.toUpperCase() !== "FALSE").length);
+
 				setWaterSites(sites.filter((site)=> site.principal.toUpperCase() !== "FALSE"));
 			} catch (error) {
 				console.error('Error loading CSV data:', error);
