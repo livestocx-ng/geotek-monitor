@@ -137,7 +137,7 @@ const AIInsights = ({selectedState}: AIInsightsProps) => {
 									Predictive Analytics Active
 								</div>
 								<div className='text-muted-foreground'>
-									Monitoring 264 sites across Nigeria with 94%
+									Monitoring 266 sites across Nigeria with 94%
 									accuracy rate
 								</div>
 							</div>
