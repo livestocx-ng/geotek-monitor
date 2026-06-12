@@ -346,7 +346,9 @@ const KPIRibbon = () => {
 		if (stored) {
 			try {
 				state = JSON.parse(stored);
-			} catch (e) {}
+			} catch (e) {
+				console.log(e)
+			}
 		} else {
 			localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 		}
