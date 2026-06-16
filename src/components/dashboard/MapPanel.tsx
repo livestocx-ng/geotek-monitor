@@ -116,6 +116,7 @@ const parseCSVToWaterSites = (csvText: string): WaterSite[] => {
 			contamination: parseFloat(data['CONTAMINATION']) || 0,
 			healthRisk: data['HEALTH RISK LEVEL'] || 'Low',
 			scarcity: data['SCARCITY'] === 'TRUE',
+			principal: data['PRINCIPAL'] || '',
 			flowRate: data['FLOW_RATE'] || '',
 		};
 	});
@@ -297,7 +298,9 @@ const MapPanel = ({
 					console.warn('No water sites parsed from CSV data');
 				}
 
-				setWaterSites(sites);
+				console.log('[SITE-LENGTH', sites.filter((site)=> site.principal.toUpperCase() !== "FALSE").length);
+
+				setWaterSites(sites.filter((site)=> site.principal.toUpperCase() !== "FALSE"));
 			} catch (error) {
 				console.error('Error loading CSV data:', error);
 
@@ -364,6 +367,26 @@ const MapPanel = ({
 		if (status === 'optimal') return '#10b981';
 		if (status === 'warning') return '#f59e0b';
 		return '#ef4444';
+	};
+	const getMarkerShape = (principal?: string): React.CSSProperties => {
+		if (!principal || principal.toUpperCase() === 'FALSE') return { borderRadius: '50%' }; // Circle
+		
+		switch (principal.toUpperCase()) {
+			case 'COMMUNITY':
+				return { borderRadius: '50%' }; // Circle
+			case 'NAZA':
+				return { clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)', borderRadius: '0', filter: 'drop-shadow(0 0 1px #475569)' }; // Triangle
+			case 'TASTE':
+				return { borderRadius: '50% 0 50% 0' }; // Leaf (Top-Right & Bottom-Left rounded)
+			case 'GAGDI':
+				return { transform: 'rotate(45deg)', borderRadius: '2px' }; // Diamond
+			case 'UNICEF':
+				return { borderRadius: '0 50% 0 50%' }; // Leaf Alternate
+			case 'GEOTEK':
+				return { borderRadius: '0' }; // Sharp Square
+			default:
+				return { borderRadius: '50%' }; // Circle
+		}
 	};
 
 	// Get marker border color based on pump type
@@ -450,7 +473,6 @@ const MapPanel = ({
 									style={{
 										width: '16px',
 										height: '16px',
-										borderRadius: '50%',
 										backgroundColor: getMarkerColor(
 											site.status
 										),
@@ -460,6 +482,7 @@ const MapPanel = ({
 											site.status === 'critical'
 												? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
 												: undefined,
+										...getMarkerShape(site.principal),
 									}}
 								/>
 							</AdvancedMarker>
@@ -542,44 +565,22 @@ const MapPanel = ({
 						return Math.round(totalScore / stateSites.length);
 					};
 
-					// Count sites by status
-					const statusCounts = {
-						optimal: stateSites.filter(
-							(s) => s.status === 'optimal'
-						).length,
-						warning: stateSites.filter(
-							(s) => s.status === 'warning'
-						).length,
-						critical: stateSites.filter(
-							(s) => s.status === 'critical'
-						).length,
-					};
+					// Count sites by principal
+					const principalCounts = [
+						{ label: 'COMMUNITY', count: stateSites.filter((s) => s.principal?.toUpperCase() === 'COMMUNITY').length, color: '#3b82f6' },
+						{ label: 'NAZA', count: stateSites.filter((s) => s.principal?.toUpperCase() === 'NAZA').length, color: '#10b981' },
+						{ label: 'TASTE', count: stateSites.filter((s) => s.principal?.toUpperCase() === 'TASTE').length, color: '#f59e0b' },
+						{ label: 'GAGDI', count: stateSites.filter((s) => s.principal?.toUpperCase() === 'GAGDI').length, color: '#8b5cf6' },
+						{ label: 'UNICEF', count: stateSites.filter((s) => s.principal?.toUpperCase() === 'UNICEF').length, color: '#0ea5e9' },
+						{ label: 'GEOTEK', count: stateSites.filter((s) => s.principal?.toUpperCase() === 'GEOTEK').length, color: '#ef4444' },
+					].filter(p => p.count > 0);
 
-					// Determine overall state status
-					const getStateStatus = () => {
-						const criticalRatio =
-							statusCounts.critical / stateSites.length;
-						const warningRatio =
-							statusCounts.warning / stateSites.length;
-
-						if (criticalRatio > 0.3)
-							return {
-								status: 'Critical',
-								color: 'bg-metric-danger/20 text-metric-danger border-metric-danger/30',
-							};
-						if (warningRatio > 0.4 || criticalRatio > 0.1)
-							return {
-								status: 'Warning',
-								color: 'bg-metric-warning/20 text-metric-warning border-metric-warning/30',
-							};
-						return {
-							status: 'Good',
-							color: 'bg-metric-success/20 text-metric-success border-metric-success/30',
-						};
-					};
+					const unassignedCount = stateSites.filter((s) => !s.principal || s.principal.toUpperCase() === 'FALSE').length;
+					if (unassignedCount > 0) {
+						principalCounts.push({ label: 'Unassigned', count: unassignedCount, color: '#6b7280' });
+					}
 
 					const qualityScore = calculateQualityScore();
-					const stateStatus = getStateStatus();
 					const averageUptime =
 						stateSites.length > 0
 							? Math.round(
@@ -604,41 +605,22 @@ const MapPanel = ({
 									<h3 className='text-base font-bold'>
 										{selectedState} State
 									</h3>
-									{/* <Badge
-										className={stateStatus.color}
-										size='sm'
-									>
-										{stateStatus.status}
-									</Badge> */}
 								</div>
 
-								<div className='flex items-center justify-between w-full'>
-									{/* Status Counts */}
-									<div className='bg-metric-success/10 rounded px-2 py-1 text-center min-w-[40px]'>
-										<div className='text-[10px] text-muted-foreground font-semibold'>
-											Optimal
-										</div>
-										<div className='text-sm font-bold text-metric-success'>
-											{statusCounts.optimal}
-										</div>
+								{principalCounts.length > 0 && (
+									<div className='flex flex-nowrap items-center justify-start gap-2 w-full max-w-[260px] sm:max-w-[320px] overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden' style={{ scrollbarWidth: 'none' }}>
+										{principalCounts.map(p => (
+											<div key={p.label} className='rounded px-3 py-1 text-center flex-shrink-0 min-w-[60px]' style={{ backgroundColor: `${p.color}1a` }}>
+												<div className='text-[10px] text-muted-foreground font-semibold whitespace-nowrap'>
+													{p.label}
+												</div>
+												<div className='text-sm font-bold' style={{ color: p.color }}>
+													{p.count}
+												</div>
+											</div>
+										))}
 									</div>
-									<div className='bg-metric-warning/10 rounded px-2 py-1 text-center min-w-[40px]'>
-										<div className='text-[10px] text-muted-foreground font-semibold'>
-											Warning
-										</div>
-										<div className='text-sm font-bold text-metric-warning'>
-											{statusCounts.warning}
-										</div>
-									</div>
-									<div className='bg-metric-danger/10 rounded px-2 py-1 text-center min-w-[40px]'>
-										<div className='text-[10px] text-muted-foreground font-semibold'>
-											Critical
-										</div>
-										<div className='text-sm font-bold text-metric-danger'>
-											{statusCounts.critical}
-										</div>
-									</div>
-								</div>
+								)}
 
 								{/* Metrics */}
 								<div className='flex items-center gap-3'>
@@ -670,14 +652,14 @@ const MapPanel = ({
 									</div>
 
 									{/* Uptime */}
-									<div className='bg-background/50 rounded px-2 py-1 text-center min-w-[50px]'>
+									{/* <div className='bg-background/50 rounded px-2 py-1 text-center min-w-[50px]'>
 										<div className='text-[10px] text-muted-foreground'>
 											Uptime
 										</div>
 										<div className='text-sm font-bold text-blue-600'>
 											{averageUptime}%
 										</div>
-									</div>
+									</div> */}
 
 									{/* People Served */}
 									<div className='bg-background/50 rounded px-2 py-1 text-center min-w-[60px]'>
@@ -699,26 +681,58 @@ const MapPanel = ({
 				})()}
 
 			{/* Legend */}
-			<div className='absolute top-14 left-2 bg-white rounded-lg p-4 border border-border shadow-lg z-10'>
-				<div className='text-xs font-semibold mb-2'>LEGEND</div>
+			<div className='absolute top-14 left-2 bg-white rounded-lg p-4 border border-border shadow-lg z-10 max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-hide'>
+				<div className='text-xs font-bold mb-2 text-slate-800 border-b pb-1'>STATUS (COLOR)</div>
+				<div className='space-y-2 text-xs mb-4'>
+					<div className='flex items-center gap-2'>
+						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#10b981' }} />
+						<span className='text-muted-foreground'>Optimal Quality</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#f59e0b' }} />
+						<span className='text-muted-foreground'>Moderate Risk</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-3 h-3 rounded-full border-2 border-slate-200' style={{ backgroundColor: '#ef4444' }} />
+						<span className='text-muted-foreground'>High Risk</span>
+					</div>
+				</div>
+
+				<div className='text-xs font-bold mb-2 text-slate-800 border-b pb-1'>PRINCIPAL (SHAPE)</div>
 				<div className='space-y-2 text-xs'>
 					{/* Status colours */}
 					<div className='text-[10px] uppercase tracking-widest text-muted-foreground mb-1'>Status</div>
 					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full bg-metric-success border-[2.5px]  animate-pulse delay-300' />
-						<span className='text-muted-foreground'>Optimal Quality</span>
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('COMMUNITY') }} />
+						<span className='text-muted-foreground'>COMMUNITY</span>
 					</div>
 					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full bg-metric-warning border-[2.5px]  animate-pulse delay-700' />
-						<span className='text-muted-foreground'>Moderate Risk</span>
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('NAZA') }} />
+						<span className='text-muted-foreground'>NAZA</span>
 					</div>
 					<div className='flex items-center gap-2'>
-						<div className='w-3 h-3 rounded-full bg-metric-danger border-[2.5px]  animate-pulse' />
-						<span className='text-muted-foreground'>High Risk</span>
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('TASTE') }} />
+						<span className='text-muted-foreground'>TASTE</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('GAGDI') }} />
+						<span className='text-muted-foreground'>GAGDI</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('UNICEF') }} />
+						<span className='text-muted-foreground'>UNICEF</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('GEOTEK') }} />
+						<span className='text-muted-foreground'>GEOTEK</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('FALSE') }} />
+						<span className='text-muted-foreground'>Unassigned</span>
 					</div>
 
 					{/* Pump-type border colours */}
-					<div className='border-t border-border my-2' />
+					{/* <div className='border-t border-border my-2' />
 					<div className='text-[10px] uppercase tracking-widest text-muted-foreground mb-1'>Pump Type</div>
 					<div className='flex items-center gap-2'>
 						<div className='w-3 h-3 rounded-full bg-white border-[2.5px] border-sky-400' />
@@ -727,7 +741,7 @@ const MapPanel = ({
 					<div className='flex items-center gap-2'>
 						<div className='w-3 h-3 rounded-full bg-gray-300 border-[2.5px] border-white ring-1 ring-gray-300' />
 						<span className='text-muted-foreground'>Hand Pump</span>
-					</div>
+					</div> */}
 				</div>
 			</div>
 
@@ -741,11 +755,11 @@ const MapPanel = ({
         @keyframes pulse {
           0%, 100% {
             opacity: 1;
-            transform: scale(1);
+            scale: 1;
           }
           50% {
             opacity: 0.6;
-            transform: scale(1.3);
+            scale: 1.3;
           }
         }
       `}</style>

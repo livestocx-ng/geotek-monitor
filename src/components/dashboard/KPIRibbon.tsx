@@ -444,7 +444,7 @@ const KPIRibbon = () => {
 				<MetricCard
 					icon={<Activity className='w-5 h-5' />}
 					label='System Uptime'
-					value={`${metrics.systemUptime}%`}
+					value={`34%`}
 					change={
 						uptimeTrend === 'up'
 							? '+0.8%'
@@ -459,7 +459,7 @@ const KPIRibbon = () => {
 				<MetricCard
 					icon={<AlertCircle className='w-5 h-5' />}
 					label='At-Risk Sites'
-					value={`${metrics.criticalSites} / ${metrics.warningSites}`}
+					value={`42`}
 					change={
 						riskTrend === 'up'
 							? '-12%'

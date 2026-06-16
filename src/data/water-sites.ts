@@ -13,6 +13,7 @@ export interface WaterSite {
 	status: 'optimal' | 'warning' | 'critical';
 	lastMaintenance: string;
 	peopleServed: number;
+	principal?: string;
 	pumpType?: string;
 	contamination?: number;
 	healthRisk?: string;
