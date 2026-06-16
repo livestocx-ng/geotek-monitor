@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Droplet, Users, Activity, AlertCircle, TrendingUp } from 'lucide-react';
 import { Card } from '@/components/ui/card';
-import { interval } from 'date-fns';
 
 // Utility function to convert Google Sheets URL to CSV export format
 const getGoogleSheetsCSVUrl = (spreadsheetId: string, gid: string) => {
@@ -192,7 +191,7 @@ const MetricCard = ({ icon, label, value, change, trend, disableAnimation }: Met
 		}, 16);
 
 		return () => clearInterval(timer);
-	}, [targetValue]);
+	}, [targetValue, disableAnimation]);
 
 	const formatValue = () => {
 		if (disableAnimation) return value;
@@ -254,7 +253,7 @@ const KPIRibbon = () => {
 		const loadMetrics = async () => {
 			setLoading(true);
 			const calculatedMetrics = await processDatasetMetrics();
-			setMetrics(calculatedMetrics);
+			setMetrics({ ...calculatedMetrics, systemUptime: 87 });
 			setLoading(false);
 		};
 
@@ -264,36 +263,71 @@ const KPIRibbon = () => {
 
 	// Water Quality Index
 	useEffect(() => {
-		const interval = setInterval(() => {
-			setMetrics(prev => {
-				const change = Math.floor(Math.random() * 7) - 3;
-				const nextWqi = Math.max(0, Math.min(80, prev.waterQualityIndex + change));
-				return {
-					...prev,
-					waterQualityIndex: Math.round(nextWqi * 10) / 10,
-				};
-			});
+		if (loading) return;
 
-		}, 4000);
-		return () => clearInterval(interval);
-	}, [])
+		const eightHours = 8 * 60 * 60 * 1000;
+		const STORAGE_KEY = 'geotek_wqi_v1';
+
+		let state = { lastUpdated: Date.now(), value: metrics.waterQualityIndex };
+		const stored = localStorage.getItem(STORAGE_KEY);
+
+		if (stored) {
+			try {
+				state = JSON.parse(stored);
+			} catch (e) {
+				console.log(e);
+			}
+		} else {
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+		}
+
+		const updateValue = () => {
+			const now = Date.now();
+			const intervalsPassed = Math.floor((now - state.lastUpdated) / eightHours);
+
+			if (intervalsPassed > 0) {
+				let newValue = state.value;
+				for (let i = 0; i < intervalsPassed; i++) {
+					const change = Math.floor(Math.random() * 7) - 3;
+					newValue = Math.max(0, Math.min(100, newValue + change));
+				}
+
+				state = {
+					lastUpdated: state.lastUpdated + intervalsPassed * eightHours,
+					value: Math.round(newValue * 10) / 10,
+				};
+				localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+			}
+
+			setMetrics(prev => {
+				if (prev.waterQualityIndex !== state.value) {
+					return { ...prev, waterQualityIndex: state.value };
+				}
+				return prev;
+			});
+		};
+
+		updateValue();
+		const checkInterval = setInterval(updateValue, 10000);
+
+		return () => clearInterval(checkInterval);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [loading]);
 
 	// System Uptime
-
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setMetrics(prev => {
-				const change = Math.random() > 0.5 ? 30 : -30;
-				const nextUpTime = Math.max(43, Math.min(100, prev.systemUptime + change));
+				const change = Math.random() * 3 - 1.5;
+				const nextUpTime = Math.max(80, Math.min(92, prev.systemUptime + change));
 				return {
 					...prev,
 					systemUptime: Math.round(nextUpTime * 10) / 10,
-				}
-			})
-
-		}, 3000);
+				};
+			});
+		}, 5000);
 		return () => clearInterval(interval);
-	}, [])
+	}, []);
 
 	// At Risk Sites
 	useEffect(() => {
@@ -360,7 +394,7 @@ const KPIRibbon = () => {
 			if (intervalsPassed > 0) {
 				let newValue = state.value;
 				for (let i = 0; i < intervalsPassed; i++) {
-					const change = Math.random() > 0.5 ? 100 : -100;
+					const change = Math.random() > 0.5 ? 38 : -38;
 					newValue = Math.max(0, newValue + change);
 				}
 				
@@ -374,6 +408,59 @@ const KPIRibbon = () => {
 			setMetrics(prev => {
 				if (prev.dailyLiters !== state.value) {
 					return { ...prev, dailyLiters: state.value };
+				}
+				return prev;
+			});
+		};
+
+		updateCount();
+		const checkInterval = setInterval(updateCount, 10000);
+
+		return () => clearInterval(checkInterval);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [loading]);
+
+	// People Served
+	useEffect(() => {
+		if (loading) return;
+
+		const twentyFourHours = 24 * 60 * 60 * 1000;
+		const STORAGE_KEY = 'geotek_people_served_v1';
+
+		let state = { lastUpdated: Date.now(), value: metrics.peopleServed };
+		const stored = localStorage.getItem(STORAGE_KEY);
+
+		if (stored) {
+			try {
+				state = JSON.parse(stored);
+			} catch (e) {
+				console.log(e);
+			}
+		} else {
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+		}
+
+		const updateCount = () => {
+			const now = Date.now();
+			const intervalsPassed = Math.floor((now - state.lastUpdated) / twentyFourHours);
+
+			if (intervalsPassed > 0) {
+				let newValue = state.value;
+				for (let i = 0; i < intervalsPassed; i++) {
+					const change = Math.random() > 0.5 ? 38 : -38;
+					newValue = Math.max(0, newValue + change);
+				}
+
+				state = {
+					lastUpdated: state.lastUpdated + (intervalsPassed * twentyFourHours),
+					value: Math.round(newValue * 10) / 10
+				};
+				localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+			}
+
+			setMetrics(prev => {
+				if (prev.peopleServed !== state.value) {
+					return { ...prev, peopleServed: state.value };
 				}
 				return prev;
 			});
@@ -444,7 +531,7 @@ const KPIRibbon = () => {
 				<MetricCard
 					icon={<Activity className='w-5 h-5' />}
 					label='System Uptime'
-					value={`34%`}
+					value={`${metrics.systemUptime}%`}
 					change={
 						uptimeTrend === 'up'
 							? '+0.8%'
@@ -459,7 +546,7 @@ const KPIRibbon = () => {
 				<MetricCard
 					icon={<AlertCircle className='w-5 h-5' />}
 					label='At-Risk Sites'
-					value={`42`}
+					value={metrics.criticalSites}
 					change={
 						riskTrend === 'up'
 							? '-12%'
