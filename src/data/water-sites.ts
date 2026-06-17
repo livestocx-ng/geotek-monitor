@@ -14,11 +14,13 @@ export interface WaterSite {
 	lastMaintenance: string;
 	peopleServed: number;
 	principal?: string;
+	isMonitored?: boolean;
 	pumpType?: string;
 	contamination?: number;
 	healthRisk?: string;
 	scarcity?: boolean;
 	flowRate?: string; // URL to Google Sheets with flow rate data
+	movementRate?: string; // URL to Google Sheets with movement rate data (hand pumps)
 }
 
 export const waterSites: WaterSite[] = [

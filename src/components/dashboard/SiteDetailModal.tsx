@@ -16,10 +16,12 @@ import {
 	LocateIcon,
 	AlertCircle,
 	TrendingUp,
+	Waves,
 } from 'lucide-react';
 import {WaterSite} from '@/data/water-sites';
 import {cn} from '@/lib/utils';
 import FlowRateChart from './FlowRateChart';
+import MovementRateChart from './MovementRateChart';
 
 interface SiteDetailModalProps {
 	site: WaterSite | null;
@@ -29,8 +31,13 @@ interface SiteDetailModalProps {
 
 const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 	const [showFlowChart, setShowFlowChart] = useState(false);
+	const [showMovementChart, setShowMovementChart] = useState(false);
 
 	if (!site) return null;
+
+	// Hand pumps are tracked by vertical movement rate; everything else by flow rate.
+	const isHandPump = (site.pumpType || '').toLowerCase().includes('hand');
+	const showMovementButton = isHandPump && !!site.movementRate;
 
 	const getStatusColor = (status: string) => {
 		switch (status) {
@@ -297,17 +304,29 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 						</div>
 					)}
 
-					{/* Flow Rate Button */}
-					{site.flowRate && (
+					{/* Analysis Button — movement for hand pumps, flow rate otherwise */}
+					{showMovementButton ? (
 						<div className='pt-2'>
 							<Button
-								onClick={() => setShowFlowChart(true)}
+								onClick={() => setShowMovementChart(true)}
 								className='w-full bg-blue-600 hover:bg-blue-700 flex items-center gap-2'
 							>
-								<TrendingUp className='w-4 h-4' />
-								Show Flow Rate Analysis
+								<Waves className='w-4 h-4' />
+								Show Movement Analysis
 							</Button>
 						</div>
+					) : (
+						site.flowRate && (
+							<div className='pt-2'>
+								<Button
+									onClick={() => setShowFlowChart(true)}
+									className='w-full bg-blue-600 hover:bg-blue-700 flex items-center gap-2'
+								>
+									<TrendingUp className='w-4 h-4' />
+									Show Flow Rate Analysis
+								</Button>
+							</div>
+						)
 					)}
 				</div>
 			</DialogContent>
@@ -317,6 +336,14 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 				open={showFlowChart}
 				onClose={() => setShowFlowChart(false)}
 				flowRateUrl={site.flowRate || ''}
+				siteName={site.name}
+			/>
+
+			{/* Movement Rate Chart Modal */}
+			<MovementRateChart
+				open={showMovementChart}
+				onClose={() => setShowMovementChart(false)}
+				movementUrl={site.movementRate || ''}
 				siteName={site.name}
 			/>
 		</Dialog>

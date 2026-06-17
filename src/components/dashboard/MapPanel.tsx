@@ -61,6 +61,13 @@ const getGoogleSheetsCSVUrl = (spreadsheetId: string, gid: string) => {
 	return `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv&gid=${gid}`;
 };
 
+// Extract the spreadsheet id and gid from a Google Sheets URL
+const parseSheetUrl = (url: string) => {
+	const id = url.match(/\/d\/([a-zA-Z0-9-_]+)/)?.[1] ?? '';
+	const gid = url.match(/[?#&]gid=(\d+)/)?.[1] ?? '0';
+	return { id, gid };
+};
+
 // Function to parse CSV data and convert to WaterSite format
 const parseCSVToWaterSites = (csvText: string): WaterSite[] => {
 	const lines = csvText.trim().split('\n');
@@ -117,10 +124,20 @@ const parseCSVToWaterSites = (csvText: string): WaterSite[] => {
 			healthRisk: data['HEALTH RISK LEVEL'] || 'Low',
 			scarcity: data['SCARCITY'] === 'TRUE',
 			principal: data['PRINCIPAL'] || '',
+			isMonitored: data['IS MONITORED']?.toUpperCase() === 'TRUE',
 			flowRate: data['FLOW_RATE'] || '',
+			movementRate:
+				data['MOVEMENT_RATE'] &&
+				data['MOVEMENT_RATE'].toUpperCase() !== 'NULL'
+					? data['MOVEMENT_RATE']
+					: '',
 		};
 	});
 };
+
+// Identify GEOTEK sites that are actively monitored
+const isGeotekMonitored = (s: WaterSite) =>
+	s.principal?.toUpperCase() === 'GEOTEK' && s.isMonitored === true;
 
 // Inner map component that uses the useMap hook
 const MapContent = ({
@@ -164,6 +181,7 @@ const MapPanel = ({
 	const [hoveredState, setHoveredState] = useState<string | null>(null);
 	const [waterSites, setWaterSites] = useState<WaterSite[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [showOnlyMonitored, setShowOnlyMonitored] = useState(false);
 	const mapRef = useRef<google.maps.Map | null>(null);
 
 	// Function to calculate the center of a polygon
@@ -272,10 +290,10 @@ const MapPanel = ({
 	useEffect(() => {
 		const loadCSVData = async () => {
 			try {
-				// Convert Google Sheets URL to CSV export format
-				const spreadsheetId =
-					'15LMgzFVHCQOkEQId_gCNOoXyck7klAZ63eaGpstKrNc';
-				const gid = '662475054';
+				// Derive the spreadsheet id + gid from the configured .env URL
+				const { id: spreadsheetId, gid } = parseSheetUrl(
+					import.meta.env.VITE_GEOTEK_MONITOR_DATA_SET_URL ?? ''
+				);
 				const csvUrl = getGoogleSheetsCSVUrl(spreadsheetId, gid);
 
 				const response = await fetch(csvUrl);
@@ -334,13 +352,20 @@ const MapPanel = ({
 
 	// Filter sites based on active layer
 	const filteredSites = useMemo(() => {
-		if (activeLayer === 'infrastructure') return waterSites;
+		let sites = waterSites;
 		if (activeLayer === 'quality')
-			return waterSites.filter((s) => s.status !== 'optimal');
-		if (activeLayer === 'scarcity')
-			return waterSites.filter((s) => s.scarcity === true);
-		return waterSites.filter((s) => s.status === 'critical');
-	}, [activeLayer, waterSites]);
+			sites = waterSites.filter((s) => s.status !== 'optimal');
+		else if (activeLayer === 'scarcity')
+			sites = waterSites.filter((s) => s.scarcity === true);
+		else if (activeLayer === 'activity')
+			sites = waterSites.filter((s) => s.status === 'critical');
+
+		if (showOnlyMonitored) {
+			sites = sites.filter(isGeotekMonitored);
+		}
+
+		return sites;
+	}, [activeLayer, waterSites, showOnlyMonitored]);
 
 	// Handle site click
 	const handleSiteClick = useCallback((site: WaterSite) => {
@@ -477,8 +502,11 @@ const MapPanel = ({
 											site.status
 										),
 										border: `2.5px solid ${getPumpTypeBorderColor(site.pumpType)}`,
-										boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+										boxShadow: isGeotekMonitored(site)
+											? '0 0 0 3px rgba(56,189,248,0.9), 0 0 10px rgba(56,189,248,0.7), 0 2px 4px rgba(0,0,0,0.3)'
+											: '0 2px 4px rgba(0,0,0,0.3)',
 										animation:
+											isGeotekMonitored(site) ||
 											site.status === 'critical'
 												? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
 												: undefined,
@@ -503,6 +531,20 @@ const MapPanel = ({
 				>
 					{/* ⌂ */}
 					<LocateFixed size={16} />
+				</button>
+
+				{/* Monitored GEOTEK Toggle */}
+				<button
+					onClick={() => setShowOnlyMonitored((prev) => !prev)}
+					className={`absolute top-28 right-2 px-3 py-2 rounded-s shadow-md hover:shadow-lg z-10 flex items-center gap-2 border text-xs font-medium transition-colors ${
+						showOnlyMonitored
+							? 'bg-sky-500 text-white border-sky-500'
+							: 'bg-white text-slate-700 border-gray-200 hover:bg-gray-50'
+					}`}
+					title='Show only monitored GEOTEK sites'
+				>
+					<Activity size={14} />
+					<span className='whitespace-nowrap'>Monitored</span>
 				</button>
 
 				{/* Hover Tooltip */}
@@ -725,6 +767,10 @@ const MapPanel = ({
 					<div className='flex items-center gap-2'>
 						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('GEOTEK') }} />
 						<span className='text-muted-foreground'>GEOTEK</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', boxShadow: '0 0 0 2px rgba(56,189,248,0.9), 0 0 8px rgba(56,189,248,0.7)', ...getMarkerShape('GEOTEK') }} />
+						<span className='text-muted-foreground'>GEOTEK (Monitored)</span>
 					</div>
 					<div className='flex items-center gap-2'>
 						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('FALSE') }} />

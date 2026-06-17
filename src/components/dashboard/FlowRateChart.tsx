@@ -26,7 +26,7 @@ interface FlowRateChartProps {
 }
 
 interface FlowRateData {
-	date: string;
+	timestamp: number; // epoch ms — full date + time
 	flowRate: number;
 }
 
@@ -102,43 +102,74 @@ const FlowRateChart = ({
 					const rawDate = row[dateKey];
 					const rawFlow = row[flowKey];
 
-					// Robust date parser: handles multiple formats consistently.
+					// Robust date/time parser: preserves the time-of-day when present.
 					const parseDate = (val: unknown): Date | null => {
-						// 1. Excel numeric serial date (SheetJS may return numbers for date cells)
+						// 1. Excel numeric serial date (SheetJS may return numbers for date cells).
+						//    The fractional part encodes the time of day.
 						if (typeof val === 'number') {
-							return new Date(XLSX.SSF.parse_date_code(val).y,
-								XLSX.SSF.parse_date_code(val).m - 1,
-								XLSX.SSF.parse_date_code(val).d);
+							const dc = XLSX.SSF.parse_date_code(val);
+							if (!dc) return null;
+							return new Date(
+								dc.y,
+								dc.m - 1,
+								dc.d,
+								dc.H || 0,
+								dc.M || 0,
+								Math.round(dc.S || 0)
+							);
 						}
 						const s = String(val).trim();
 						if (!s) return null;
 
+						// Split an optional time portion (after a space or "T"),
+						// e.g. "2025-01-05 14:30", "1/5/2025 2:30 PM".
+						const dtMatch = s.match(
+							/^(.*?)[ T](\d{1,2}:\d{2}(?::\d{2})?)\s*([AaPp][Mm])?$/
+						);
+						const datePart = dtMatch ? dtMatch[1].trim() : s;
+						const timePart = dtMatch ? dtMatch[2] : null;
+						const meridiem = dtMatch ? dtMatch[3] : null;
+
+						let base: Date | null = null;
+
 						// 2. ISO format: YYYY-MM-DD
-						if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
-							const [y, mo, d] = s.split('-').map(Number);
-							return new Date(y, mo - 1, d);
+						if (/^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
+							const [y, mo, d] = datePart.split('-').map(Number);
+							base = new Date(y, mo - 1, d);
 						}
-
 						// 3. M/D/YYYY or MM/DD/YYYY  (e.g. 1/1/2025, 01/31/2025)
-						if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)) {
-							const [mo, d, y] = s.split('/').map(Number);
-							return new Date(y, mo - 1, d);
+						else if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(datePart)) {
+							const [mo, d, y] = datePart.split('/').map(Number);
+							base = new Date(y, mo - 1, d);
 						}
-
 						// 4. M/D/YY  (e.g. 1/1/25 → 2025)
-						if (/^\d{1,2}\/\d{1,2}\/\d{2}$/.test(s)) {
-							const [mo, d, y] = s.split('/').map(Number);
-							return new Date(2000 + y, mo - 1, d);
+						else if (/^\d{1,2}\/\d{1,2}\/\d{2}$/.test(datePart)) {
+							const [mo, d, y] = datePart.split('/').map(Number);
+							base = new Date(2000 + y, mo - 1, d);
 						}
-
 						// 5. D-Mon-YYYY  (e.g. 1-Jan-2025)
-						if (/^\d{1,2}-[A-Za-z]{3}-\d{4}$/.test(s)) {
-							return new Date(s);
+						else if (/^\d{1,2}-[A-Za-z]{3}-\d{4}$/.test(datePart)) {
+							base = new Date(datePart);
+						}
+						// 6. Last resort — native constructor (keeps any time it can parse)
+						else {
+							const d = new Date(s);
+							return isNaN(d.getTime()) ? null : d;
 						}
 
-						// 6. Last resort — native constructor
-						const d = new Date(s);
-						return isNaN(d.getTime()) ? null : d;
+						// Apply the parsed time portion, if any.
+						if (base && timePart) {
+							const [hh, mm, ss] = timePart.split(':').map(Number);
+							let hours = hh;
+							if (meridiem) {
+								const isPm = /p/i.test(meridiem);
+								if (isPm && hours < 12) hours += 12;
+								if (!isPm && hours === 12) hours = 0;
+							}
+							base.setHours(hours, mm || 0, ss || 0, 0);
+						}
+
+						return base;
 					};
 
 					const date = parseDate(rawDate);
@@ -148,12 +179,12 @@ const FlowRateChart = ({
 						if (!date || isNaN(date.getTime()) || isNaN(flowRate) || flowRate < 0) return null;
 
 					return {
-						date: date.toISOString().split('T')[0],
+						timestamp: date.getTime(),
 						flowRate: Math.round(flowRate * 10) / 10,
 					};
 				})
 				.filter((d): d is FlowRateData => d !== null)
-				.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+				.sort((a, b) => a.timestamp - b.timestamp);
 
 			if (parsed.length === 0) {
 				setError('No valid flow rate data found in the spreadsheet.');
@@ -180,9 +211,8 @@ const FlowRateChart = ({
 		if (data.length === 0) return [];
 		const chunkMap = new Map<string, DataChunk>();
 
-		console.log('[CHUNK-MAP]:  ', data);
 		data.forEach((item) => {
-			const d = new Date(item.date);
+			const d = new Date(item.timestamp);
 			const year = d.getFullYear();
 
 			// console.log('[CHUNK-FULL-YEAR]:  ', year, item.date);
@@ -214,12 +244,34 @@ const FlowRateChart = ({
 	const currentChunk = chunks[currentChunkIndex];
 	const chunkData = currentChunk ? currentChunk.data : [];
 
-	const formatDate = (dateStr: string) => {
-		const date = new Date(dateStr);
-		return date.toLocaleDateString('en-US', {
-			month: 'short',
-			day: 'numeric',
-		});
+	// Show the time portion on the axis only when the data actually carries
+	// intraday timestamps (otherwise keep the cleaner date-only label).
+	const hasIntradayTimes = useMemo(
+		() =>
+			chunkData.some((d) => {
+				const dt = new Date(d.timestamp);
+				return (
+					dt.getHours() !== 0 ||
+					dt.getMinutes() !== 0 ||
+					dt.getSeconds() !== 0
+				);
+			}),
+		[chunkData]
+	);
+
+	const formatTimestamp = (ts: number) => {
+		const date = new Date(ts);
+		return date.toLocaleString(
+			'en-US',
+			hasIntradayTimes
+				? {
+						month: 'short',
+						day: 'numeric',
+						hour: '2-digit',
+						minute: '2-digit',
+				  }
+				: { month: 'short', day: 'numeric' }
+		);
 	};
 
 	const averageFlowRate = chunkData.length > 0
@@ -300,17 +352,11 @@ const FlowRateChart = ({
 							</div>
 
 							{/* Summary Stats relative to chunk */}
-							<div className='grid grid-cols-3 gap-4'>
+							{/* <div className='grid grid-cols-3 gap-4'>
 								<div className='bg-blue-50 rounded-lg p-3 text-center'>
 									<div className='text-xs text-muted-foreground'>Average</div>
 									<div className='text-xl md:text-2xl font-bold text-blue-600'>
 										{averageFlowRate} <span className="text-sm font-normal text-blue-600/70">L/min</span>
-									</div>
-								</div>
-								<div className='bg-green-50 rounded-lg p-3 text-center'>
-									<div className='text-xs text-muted-foreground'>Maximum</div>
-									<div className='text-xl md:text-2xl font-bold text-green-600'>
-										{maxFlowRate} <span className="text-sm font-normal text-green-600/70">L/min</span>
 									</div>
 								</div>
 								<div className='bg-orange-50 rounded-lg p-3 text-center'>
@@ -319,7 +365,7 @@ const FlowRateChart = ({
 										{minFlowRate} <span className="text-sm font-normal text-orange-600/70">L/min</span>
 									</div>
 								</div>
-							</div>
+							</div> */}
 
 							{/* Chart */}
 							<div className='h-64 mt-2'>
@@ -327,8 +373,8 @@ const FlowRateChart = ({
 									<LineChart data={chunkData}>
 										<CartesianGrid strokeDasharray='3 3' vertical={false} />
 										<XAxis
-											dataKey='date'
-											tickFormatter={formatDate}
+											dataKey='timestamp'
+											tickFormatter={formatTimestamp}
 											tick={{ fontSize: 12 }}
 											tickMargin={10}
 											minTickGap={30}
@@ -340,7 +386,7 @@ const FlowRateChart = ({
 										/>
 										<Tooltip
 											labelFormatter={(value) =>
-												`Date: ${formatDate(value as string)}`
+												`Timestamp: ${formatTimestamp(value as number)}`
 											}
 											formatter={(value) => [
 												`${value} L/min`,
