@@ -30,9 +30,9 @@ interface FlowRateData {
 	flowRate: number;
 }
 
-interface DataChunk {
+interface DayGroup {
+	key: string;
 	label: string;
-	year: number;
 	data: FlowRateData[];
 }
 
@@ -45,7 +45,7 @@ const FlowRateChart = ({
 	const [data, setData] = useState<FlowRateData[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
-	const [currentChunkIndex, setCurrentChunkIndex] = useState(0);
+	const [currentDayIndex, setCurrentDayIndex] = useState(0);
 
 	const fetchFlowRateData = useCallback(async () => {
 		if (!flowRateUrl) return;
@@ -206,83 +206,68 @@ const FlowRateChart = ({
 	}, [open, flowRateUrl, fetchFlowRateData]);
 
 
-	// Chunk data by 6-month periods
-	const chunks = useMemo(() => {
+	// Group readings by calendar day
+	const days = useMemo(() => {
 		if (data.length === 0) return [];
-		const chunkMap = new Map<string, DataChunk>();
+		const map = new Map<string, DayGroup>();
 
 		data.forEach((item) => {
 			const d = new Date(item.timestamp);
-			const year = d.getFullYear();
-
-			// console.log('[CHUNK-FULL-YEAR]:  ', year, item.date);
-
-			const isFirstHalf = d.getMonth() < 6;
-			const label = isFirstHalf ? 'Jan - Jun' : 'Jul - Dec';
-			const key = `${year}-${isFirstHalf ? 'H1' : 'H2'}`;
-
-			if (!chunkMap.has(key)) {
-				chunkMap.set(key, { label, year, data: [] });
-			}
-			chunkMap.get(key)!.data.push(item);
-		});
-
-		const sortedChunks = Array.from(chunkMap.values()).sort((a, b) => {
-			if (a.year !== b.year) return a.year - b.year;
-			return a.label === 'Jan - Jun' ? -1 : 1;
-		});
-
-		return sortedChunks;
-	}, [data]);
-
-	useEffect(() => {
-		if (chunks.length > 0) {
-			setCurrentChunkIndex(chunks.length - 1);
-		}
-	}, [chunks]);
-
-	const currentChunk = chunks[currentChunkIndex];
-	const chunkData = currentChunk ? currentChunk.data : [];
-
-	// Show the time portion on the axis only when the data actually carries
-	// intraday timestamps (otherwise keep the cleaner date-only label).
-	const hasIntradayTimes = useMemo(
-		() =>
-			chunkData.some((d) => {
-				const dt = new Date(d.timestamp);
-				return (
-					dt.getHours() !== 0 ||
-					dt.getMinutes() !== 0 ||
-					dt.getSeconds() !== 0
-				);
-			}),
-		[chunkData]
-	);
-
-	const formatTimestamp = (ts: number) => {
-		const date = new Date(ts);
-		return date.toLocaleString(
-			'en-US',
-			hasIntradayTimes
-				? {
+			const key = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+			if (!map.has(key)) {
+				map.set(key, {
+					key,
+					label: d.toLocaleDateString('en-US', {
+						weekday: 'short',
 						month: 'short',
 						day: 'numeric',
-						hour: '2-digit',
-						minute: '2-digit',
-				  }
-				: { month: 'short', day: 'numeric' }
-		);
-	};
+						year: 'numeric',
+					}),
+					data: [],
+				});
+			}
+			map.get(key)!.data.push(item);
+		});
 
-	const averageFlowRate = chunkData.length > 0
-		? Math.round((chunkData.reduce((sum, item) => sum + item.flowRate, 0) / chunkData.length) * 10) / 10
+		return Array.from(map.values()).sort(
+			(a, b) => a.data[0].timestamp - b.data[0].timestamp
+		);
+	}, [data]);
+
+	// Default to the most recent (current) day whenever the data changes.
+	useEffect(() => {
+		if (days.length > 0) {
+			setCurrentDayIndex(days.length - 1);
+		}
+	}, [days]);
+
+	const currentDay = days[currentDayIndex];
+	const dayData = currentDay ? currentDay.data : [];
+
+	// Within a single day the axis shows the time-of-day.
+	const formatTime = (ts: number) =>
+		new Date(ts).toLocaleTimeString('en-US', {
+			hour: '2-digit',
+			minute: '2-digit',
+		});
+
+	const formatTimestamp = (ts: number) =>
+		new Date(ts).toLocaleString('en-US', {
+			month: 'short',
+			day: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit',
+		});
+
+	const averageFlowRate = dayData.length > 0
+		? Math.round((dayData.reduce((sum, item) => sum + item.flowRate, 0) / dayData.length) * 10) / 10
 		: 0;
 
-	const maxFlowRate = chunkData.length > 0 ? Math.max(...chunkData.map((d) => d.flowRate)) : 0;
-	const minFlowRate = chunkData.length > 0 ? Math.min(...chunkData.map((d) => d.flowRate)) : 0;
+	const maxFlowRate = dayData.length > 0 ? Math.max(...dayData.map((d) => d.flowRate)) : 0;
+	const minFlowRate = dayData.length > 0 ? Math.min(...dayData.map((d) => d.flowRate)) : 0;
 
-	const handlePrev = () => setCurrentChunkIndex((prev) => Math.max(0, prev - 1));
-	const handleNext = () => setCurrentChunkIndex((prev) => Math.min(chunks.length - 1, prev + 1));
+	const handlePrev = () => setCurrentDayIndex((prev) => Math.max(0, prev - 1));
+	const handleNext = () => setCurrentDayIndex((prev) => Math.min(days.length - 1, prev + 1));
 
 	return (
 		<Dialog open={open} onOpenChange={onClose}>
@@ -317,26 +302,26 @@ const FlowRateChart = ({
 						</div>
 					)}
 
-					{!loading && !error && chunks.length > 0 && currentChunk && (
+					{!loading && !error && days.length > 0 && currentDay && (
 						<>
-							{/* Carousel Controls */}
+							{/* Day navigation */}
 							<div className='flex items-center justify-between bg-dashboard-panelElevated border rounded-xl p-3 shadow-sm'>
 								<Button
 									variant="ghost"
 									size="icon"
 									onClick={handlePrev}
-									disabled={currentChunkIndex === 0}
+									disabled={currentDayIndex === 0}
 									className="rounded-full hover:bg-blue-50 hover:text-blue-600"
 								>
 									<ChevronLeft className="w-5 h-5" />
 								</Button>
 
 								<div className="text-center flex flex-col items-center">
-									<h3 className="text-2xl tracking-tight font-extrabold text-blue-900 border-b-2 border-blue-200 pb-1 px-4 mb-1">
-										{currentChunk.year}
+									<h3 className="text-lg md:text-xl tracking-tight font-extrabold text-blue-900 border-b-2 border-blue-200 pb-1 px-4 mb-1">
+										{currentDay.label}
 									</h3>
 									<p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-										{currentChunk.label}
+										Day {currentDayIndex + 1} of {days.length}
 									</p>
 								</div>
 
@@ -344,7 +329,7 @@ const FlowRateChart = ({
 									variant="ghost"
 									size="icon"
 									onClick={handleNext}
-									disabled={currentChunkIndex === chunks.length - 1}
+									disabled={currentDayIndex === days.length - 1}
 									className="rounded-full hover:bg-blue-50 hover:text-blue-600"
 								>
 									<ChevronRight className="w-5 h-5" />
@@ -370,11 +355,11 @@ const FlowRateChart = ({
 							{/* Chart */}
 							<div className='h-64 mt-2'>
 								<ResponsiveContainer width='100%' height='100%'>
-									<LineChart data={chunkData}>
+									<LineChart data={dayData}>
 										<CartesianGrid strokeDasharray='3 3' vertical={false} />
 										<XAxis
 											dataKey='timestamp'
-											tickFormatter={formatTimestamp}
+											tickFormatter={formatTime}
 											tick={{ fontSize: 12 }}
 											tickMargin={10}
 											minTickGap={30}
@@ -418,7 +403,7 @@ const FlowRateChart = ({
 							{/* Data Source Info */}
 							<div className='text-xs text-muted-foreground bg-gray-50 p-2 rounded flex justify-between'>
 								<span><strong>Data Source:</strong> GeoTek Monitor System</span>
-								<span>{chunkData.length} active logs</span>
+								<span>{dayData.length} active logs</span>
 							</div>
 
 							{/* Footer Actions */}
@@ -434,7 +419,7 @@ const FlowRateChart = ({
 						</>
 					)}
 
-					{!loading && !error && chunks.length === 0 && (
+					{!loading && !error && days.length === 0 && (
 						<div className='text-center py-10'>
 							<p className="text-muted-foreground">No log data found for this site.</p>
 						</div>

@@ -21,6 +21,7 @@ export interface WaterSite {
 	scarcity?: boolean;
 	flowRate?: string; // URL to Google Sheets with flow rate data
 	movementRate?: string; // URL to Google Sheets with movement rate data (hand pumps)
+	waterQualityRate?: string; // URL to Google Sheets with water quality (hardness) data
 }
 
 export const waterSites: WaterSite[] = [

@@ -22,6 +22,7 @@ import {WaterSite} from '@/data/water-sites';
 import {cn} from '@/lib/utils';
 import FlowRateChart from './FlowRateChart';
 import MovementRateChart from './MovementRateChart';
+import WaterQualityChart from './WaterQualityChart';
 
 interface SiteDetailModalProps {
 	site: WaterSite | null;
@@ -32,12 +33,18 @@ interface SiteDetailModalProps {
 const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 	const [showFlowChart, setShowFlowChart] = useState(false);
 	const [showMovementChart, setShowMovementChart] = useState(false);
+	const [showWaterQualityChart, setShowWaterQualityChart] = useState(false);
 
 	if (!site) return null;
 
 	// Hand pumps are tracked by vertical movement rate; everything else by flow rate.
 	const isHandPump = (site.pumpType || '').toLowerCase().includes('hand');
 	const showMovementButton = isHandPump && !!site.movementRate;
+
+	// Motorized boreholes with a valid water quality link get a hardness graph.
+	const isMotorized = (site.pumpType || '').toLowerCase().includes('motor');
+	const showWaterQualityButton =
+		isMotorized && /^https?:\/\//.test(site.waterQualityRate || '');
 
 	const getStatusColor = (status: string) => {
 		switch (status) {
@@ -328,6 +335,19 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 							</div>
 						)
 					)}
+
+					{/* Water Quality Button — motorized boreholes with a valid link */}
+					{showWaterQualityButton && (
+						<div className='pt-2'>
+							<Button
+								onClick={() => setShowWaterQualityChart(true)}
+								className='w-full bg-blue-600 hover:bg-blue-700 flex items-center gap-2'
+							>
+								<Droplets className='w-4 h-4' />
+								Show Water Quality Analysis
+							</Button>
+						</div>
+					)}
 				</div>
 			</DialogContent>
 
@@ -344,6 +364,14 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 				open={showMovementChart}
 				onClose={() => setShowMovementChart(false)}
 				movementUrl={site.movementRate || ''}
+				siteName={site.name}
+			/>
+
+			{/* Water Quality Chart Modal */}
+			<WaterQualityChart
+				open={showWaterQualityChart}
+				onClose={() => setShowWaterQualityChart(false)}
+				waterQualityUrl={site.waterQualityRate || ''}
 				siteName={site.name}
 			/>
 		</Dialog>

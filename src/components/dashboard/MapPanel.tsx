@@ -131,6 +131,11 @@ const parseCSVToWaterSites = (csvText: string): WaterSite[] => {
 				data['MOVEMENT_RATE'].toUpperCase() !== 'NULL'
 					? data['MOVEMENT_RATE']
 					: '',
+			waterQualityRate:
+				data['WATER_QUALITY_RATE'] &&
+				data['WATER_QUALITY_RATE'].toUpperCase() !== 'NULL'
+					? data['WATER_QUALITY_RATE']
+					: '',
 		};
 	});
 };
