@@ -507,11 +507,8 @@ const MapPanel = ({
 											site.status
 										),
 										border: `2.5px solid ${getPumpTypeBorderColor(site.pumpType)}`,
-										boxShadow: isGeotekMonitored(site)
-											? '0 0 0 3px rgba(56,189,248,0.9), 0 0 10px rgba(56,189,248,0.7), 0 2px 4px rgba(0,0,0,0.3)'
-											: '0 2px 4px rgba(0,0,0,0.3)',
+										boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
 										animation:
-											isGeotekMonitored(site) ||
 											site.status === 'critical'
 												? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
 												: undefined,
@@ -772,10 +769,6 @@ const MapPanel = ({
 					<div className='flex items-center gap-2'>
 						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('GEOTEK') }} />
 						<span className='text-muted-foreground'>GEOTEK</span>
-					</div>
-					<div className='flex items-center gap-2'>
-						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', boxShadow: '0 0 0 2px rgba(56,189,248,0.9), 0 0 8px rgba(56,189,248,0.7)', ...getMarkerShape('GEOTEK') }} />
-						<span className='text-muted-foreground'>GEOTEK (Monitored)</span>
 					</div>
 					<div className='flex items-center gap-2'>
 						<div className='w-4 h-4 border-2 border-slate-200' style={{ backgroundColor: '#64748b', ...getMarkerShape('FALSE') }} />
