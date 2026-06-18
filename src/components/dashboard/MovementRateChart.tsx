@@ -304,7 +304,7 @@ const MovementRateChart = ({
 							</div>
 
 							{/* Summary Stats */}
-							<div className='grid grid-cols-3 gap-4'>
+							{/* <div className='grid grid-cols-3 gap-4'>
 								<div className='bg-blue-50 rounded-lg p-3 text-center'>
 									<div className='text-xs text-muted-foreground'>Average</div>
 									<div className='text-xl md:text-2xl font-bold text-blue-600'>
@@ -323,7 +323,7 @@ const MovementRateChart = ({
 										{minRate}
 									</div>
 								</div>
-							</div>
+							</div> */}
 
 							{/* Chart — movement varies on the Y axis over a continuous time X */}
 							<div className='h-64 mt-2'>
