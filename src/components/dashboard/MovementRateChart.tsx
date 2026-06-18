@@ -15,7 +15,7 @@ import {
 	Tooltip,
 	ResponsiveContainer,
 } from 'recharts';
-import { Waves } from 'lucide-react';
+import { Waves, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface MovementRateChartProps {
 	open: boolean;
@@ -27,6 +27,12 @@ interface MovementRateChartProps {
 interface MovementData {
 	timestamp: number; // epoch ms — full date + time
 	movementRate: number;
+}
+
+interface DayGroup {
+	key: string;
+	label: string;
+	data: MovementData[];
 }
 
 // Build a CSV export URL from any Google Sheets share/edit URL.
@@ -86,6 +92,7 @@ const MovementRateChart = ({
 	const [data, setData] = useState<MovementData[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [currentDayIndex, setCurrentDayIndex] = useState(0);
 
 	const fetchMovementData = useCallback(async () => {
 		if (!movementUrl) return;
@@ -165,31 +172,74 @@ const MovementRateChart = ({
 		}
 	}, [open, movementUrl, fetchMovementData]);
 
-	// Movement logs are high-frequency intraday readings, so the time-of-day
-	// is always meaningful on the axis.
-	const formatTimestamp = (ts: number) => {
-		const date = new Date(ts);
-		return date.toLocaleString('en-US', {
+	// Group readings by calendar day
+	const days = useMemo(() => {
+		if (data.length === 0) return [];
+		const map = new Map<string, DayGroup>();
+
+		data.forEach((item) => {
+			const d = new Date(item.timestamp);
+			const key = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+			if (!map.has(key)) {
+				map.set(key, {
+					key,
+					label: d.toLocaleDateString('en-US', {
+						weekday: 'short',
+						month: 'short',
+						day: 'numeric',
+						year: 'numeric',
+					}),
+					data: [],
+				});
+			}
+			map.get(key)!.data.push(item);
+		});
+
+		return Array.from(map.values()).sort(
+			(a, b) => a.data[0].timestamp - b.data[0].timestamp
+		);
+	}, [data]);
+
+	// Default to the most recent (current) day whenever the data changes.
+	useEffect(() => {
+		if (days.length > 0) {
+			setCurrentDayIndex(days.length - 1);
+		}
+	}, [days]);
+
+	const currentDay = days[currentDayIndex];
+	const dayData = currentDay ? currentDay.data : [];
+
+	const formatTime = (ts: number) =>
+		new Date(ts).toLocaleTimeString('en-US', {
+			hour: '2-digit',
+			minute: '2-digit',
+		});
+
+	const formatTimestamp = (ts: number) =>
+		new Date(ts).toLocaleString('en-US', {
 			month: 'short',
 			day: 'numeric',
 			hour: '2-digit',
 			minute: '2-digit',
 		});
-	};
 
-	const averageRate = useMemo(
-		() =>
-			data.length > 0
-				? Math.round(
-						(data.reduce((sum, item) => sum + item.movementRate, 0) /
-							data.length) *
-							100
-				  ) / 100
-				: 0,
-		[data]
-	);
-	const maxRate = data.length > 0 ? Math.max(...data.map((d) => d.movementRate)) : 0;
-	const minRate = data.length > 0 ? Math.min(...data.map((d) => d.movementRate)) : 0;
+	const handlePrev = () => setCurrentDayIndex((prev) => Math.max(0, prev - 1));
+	const handleNext = () =>
+		setCurrentDayIndex((prev) => Math.min(days.length - 1, prev + 1));
+
+	const averageRate =
+		dayData.length > 0
+			? Math.round(
+					(dayData.reduce((sum, item) => sum + item.movementRate, 0) /
+						dayData.length) *
+						100
+			  ) / 100
+			: 0;
+	const maxRate =
+		dayData.length > 0 ? Math.max(...dayData.map((d) => d.movementRate)) : 0;
+	const minRate =
+		dayData.length > 0 ? Math.min(...dayData.map((d) => d.movementRate)) : 0;
 
 	return (
 		<Dialog open={open} onOpenChange={onClose}>
@@ -222,8 +272,37 @@ const MovementRateChart = ({
 						</div>
 					)}
 
-					{!loading && !error && data.length > 0 && (
+					{!loading && !error && days.length > 0 && currentDay && (
 						<>
+							{/* Day navigation */}
+							<div className='flex items-center justify-between bg-dashboard-panelElevated border rounded-xl p-3 shadow-sm'>
+								<Button
+									variant='ghost'
+									size='icon'
+									onClick={handlePrev}
+									disabled={currentDayIndex === 0}
+									className='rounded-full hover:bg-blue-50 hover:text-blue-600'
+								>
+									<ChevronLeft className='w-5 h-5' />
+								</Button>
+
+								<div className='text-center flex flex-col items-center'>
+									<h3 className='text-lg md:text-xl tracking-tight font-extrabold text-blue-900 border-b-2 border-blue-200 pb-1 px-4 mb-1'>
+										{currentDay.label}
+									</h3>
+								</div>
+
+								<Button
+									variant='ghost'
+									size='icon'
+									onClick={handleNext}
+									disabled={currentDayIndex === days.length - 1}
+									className='rounded-full hover:bg-blue-50 hover:text-blue-600'
+								>
+									<ChevronRight className='w-5 h-5' />
+								</Button>
+							</div>
+
 							{/* Summary Stats */}
 							<div className='grid grid-cols-3 gap-4'>
 								<div className='bg-blue-50 rounded-lg p-3 text-center'>
@@ -249,11 +328,11 @@ const MovementRateChart = ({
 							{/* Chart — movement varies on the Y axis over a continuous time X */}
 							<div className='h-64 mt-2'>
 								<ResponsiveContainer width='100%' height='100%'>
-									<LineChart data={data}>
+									<LineChart data={dayData}>
 										<CartesianGrid strokeDasharray='3 3' vertical={false} />
 										<XAxis
 											dataKey='timestamp'
-											tickFormatter={formatTimestamp}
+											tickFormatter={formatTime}
 											tick={{ fontSize: 12 }}
 											tickMargin={10}
 											minTickGap={40}
@@ -301,7 +380,7 @@ const MovementRateChart = ({
 							{/* Data Source Info */}
 							<div className='text-xs text-muted-foreground bg-gray-50 p-2 rounded flex justify-between'>
 								<span><strong>Data Source:</strong> GeoTek Monitor System</span>
-								<span>{data.length} active logs</span>
+								<span>{dayData.length} active logs</span>
 							</div>
 
 							{/* Footer Actions */}
@@ -317,7 +396,7 @@ const MovementRateChart = ({
 						</>
 					)}
 
-					{!loading && !error && data.length === 0 && (
+					{!loading && !error && days.length === 0 && (
 						<div className='text-center py-10'>
 							<p className='text-muted-foreground'>No movement data found for this site.</p>
 						</div>
