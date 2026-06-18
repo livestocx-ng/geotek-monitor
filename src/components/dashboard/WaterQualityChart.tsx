@@ -13,7 +13,6 @@ import {
 	YAxis,
 	CartesianGrid,
 	Tooltip,
-	Legend,
 	ResponsiveContainer,
 } from 'recharts';
 import { Droplets, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -27,9 +26,7 @@ interface WaterQualityChartProps {
 
 interface WaterQualityData {
 	timestamp: number; // epoch ms — full date + time
-	total: number;
-	calcium: number;
-	magnesium: number;
+	tds: number; // TDS ppm (water_quality_rate)
 }
 
 interface DayGroup {
@@ -130,21 +127,16 @@ const WaterQualityChart = ({
 			}
 
 			const headers = lines[0].split(',').map((h) => h.trim());
-			const tsIdx = headers.findIndex((h) => /date|time|timestamp/i.test(h));
-			const totalIdx = headers.findIndex((h) =>
-				/water_quality|total/i.test(h)
+			const tsIdx = headers.findIndex((h) =>
+				/date|time|timestamp|datetime/i.test(h)
 			);
-			const calciumIdx = headers.findIndex((h) => /calcium/i.test(h));
-			const magnesiumIdx = headers.findIndex((h) => /magnesium/i.test(h));
+			const tdsIdx = headers.findIndex((h) =>
+				/water_quality|tds|ppm/i.test(h)
+			);
 
-			if (
-				tsIdx === -1 ||
-				totalIdx === -1 ||
-				calciumIdx === -1 ||
-				magnesiumIdx === -1
-			) {
+			if (tsIdx === -1 || tdsIdx === -1) {
 				throw new Error(
-					`Could not find expected columns. Found: ${headers.join(', ')}`
+					`Could not find datetime/TDS columns. Found: ${headers.join(', ')}`
 				);
 			}
 
@@ -153,24 +145,15 @@ const WaterQualityChart = ({
 				.map((line) => {
 					const cols = line.split(',');
 					const timestamp = parseTimestamp(cols[tsIdx] ?? '');
-					const total = parseFloat(String(cols[totalIdx] ?? ''));
-					const calcium = parseFloat(String(cols[calciumIdx] ?? ''));
-					const magnesium = parseFloat(String(cols[magnesiumIdx] ?? ''));
+					const tds = parseFloat(String(cols[tdsIdx] ?? ''));
 
-					if (
-						timestamp === null ||
-						isNaN(total) ||
-						isNaN(calcium) ||
-						isNaN(magnesium)
-					) {
+					if (timestamp === null || isNaN(tds) || tds < 0) {
 						return null;
 					}
 
 					return {
 						timestamp,
-						total: Math.round(total * 100) / 100,
-						calcium: Math.round(calcium * 100) / 100,
-						magnesium: Math.round(magnesium * 100) / 100,
+						tds: Math.round(tds * 100) / 100,
 					};
 				})
 				.filter((d): d is WaterQualityData => d !== null)
@@ -293,9 +276,9 @@ const WaterQualityChart = ({
 									<h3 className='text-lg md:text-xl tracking-tight font-extrabold text-blue-900 border-b-2 border-blue-200 pb-1 px-4 mb-1'>
 										{currentDay.label}
 									</h3>
-									<p className='text-sm font-semibold uppercase tracking-widest text-muted-foreground'>
+									{/* <p className='text-sm font-semibold uppercase tracking-widest text-muted-foreground'>
 										Day {currentDayIndex + 1} of {days.length}
-									</p>
+									</p> */}
 								</div>
 
 								<Button
@@ -309,11 +292,11 @@ const WaterQualityChart = ({
 								</Button>
 							</div>
 
-							{/* Chart — Total / Calcium / Magnesium hardness over time */}
+							{/* Chart — TDS (ppm) over time */}
 							<div className='h-80 mt-2'>
 								<ResponsiveContainer width='100%' height='100%'>
 									<LineChart data={dayData}>
-										<CartesianGrid strokeDasharray='3 3' />
+										<CartesianGrid strokeDasharray='3 3' vertical={false} />
 										<XAxis
 											dataKey='timestamp'
 											tickFormatter={formatTime}
@@ -326,7 +309,7 @@ const WaterQualityChart = ({
 											tickMargin={10}
 											domain={['auto', 'auto']}
 											label={{
-												value: 'Hardness (mg/L)',
+												value: 'TDS (ppm)',
 												angle: -90,
 												position: 'insideLeft',
 												style: { fontSize: 12, fill: '#64748b' },
@@ -334,42 +317,22 @@ const WaterQualityChart = ({
 										/>
 										<Tooltip
 											labelFormatter={(value) =>
-												`Timestamp: ${formatTimestamp(value as number)}`
+												`Datetime: ${formatTimestamp(value as number)}`
 											}
+											formatter={(value) => [`${value} ppm`, 'TDS']}
 											contentStyle={{
 												borderRadius: '12px',
 												border: 'none',
 												boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
 											}}
 										/>
-										<Legend />
 										<Line
 											type='linear'
-											dataKey='total'
-											name='Total Hardness'
-											stroke='#4472C4'
+											dataKey='tds'
+											name='TDS'
+											stroke='#2563eb'
 											strokeWidth={2}
-											dot={{ r: 3, fill: '#4472C4' }}
-											activeDot={{ r: 6 }}
-											isAnimationActive={false}
-										/>
-										<Line
-											type='linear'
-											dataKey='calcium'
-											name='Calcium Hardness'
-											stroke='#C00000'
-											strokeWidth={2}
-											dot={{ r: 3, fill: '#C00000' }}
-											activeDot={{ r: 6 }}
-											isAnimationActive={false}
-										/>
-										<Line
-											type='linear'
-											dataKey='magnesium'
-											name='Magnesium Hardness'
-											stroke='#70AD47'
-											strokeWidth={2}
-											dot={{ r: 3, fill: '#70AD47' }}
+											dot={{ r: 3, fill: '#2563eb' }}
 											activeDot={{ r: 6 }}
 											isAnimationActive={false}
 										/>

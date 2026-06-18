@@ -320,9 +320,9 @@ const FlowRateChart = ({
 									<h3 className="text-lg md:text-xl tracking-tight font-extrabold text-blue-900 border-b-2 border-blue-200 pb-1 px-4 mb-1">
 										{currentDay.label}
 									</h3>
-									<p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+									{/* <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
 										Day {currentDayIndex + 1} of {days.length}
-									</p>
+									</p> */}
 								</div>
 
 								<Button
@@ -368,6 +368,12 @@ const FlowRateChart = ({
 											tick={{ fontSize: 12 }}
 											tickMargin={10}
 											domain={['auto', 'auto']}
+											label={{
+												value: 'Flow Rate (L/min)',
+												angle: -90,
+												position: 'insideLeft',
+												style: { fontSize: 12, fill: '#64748b' },
+											}}
 										/>
 										<Tooltip
 											labelFormatter={(value) =>
