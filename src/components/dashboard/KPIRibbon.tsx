@@ -267,8 +267,24 @@ const KPIRibbon = () => {
 
 		const eightHours = 8 * 60 * 60 * 1000;
 		const STORAGE_KEY = 'geotek_wqi_v1';
+		const getLatestScheduledTimestamp = (nowMs: number) => {
+			const now = new Date(nowMs);
+			const anchor = new Date(now);
+			anchor.setHours(6, 30, 0, 0); // Daily anchor: 6:30 AM
 
-		let state = { lastUpdated: Date.now(), value: metrics.waterQualityIndex };
+			if (nowMs < anchor.getTime()) {
+				anchor.setDate(anchor.getDate() - 1);
+			}
+
+			const diff = nowMs - anchor.getTime();
+			const intervalsSinceAnchor = Math.floor(diff / eightHours);
+			return anchor.getTime() + intervalsSinceAnchor * eightHours;
+		};
+
+		let state = {
+			lastUpdated: getLatestScheduledTimestamp(Date.now()),
+			value: metrics.waterQualityIndex
+		};
 		const stored = localStorage.getItem(STORAGE_KEY);
 
 		if (stored) {
@@ -283,13 +299,14 @@ const KPIRibbon = () => {
 
 		const updateValue = () => {
 			const now = Date.now();
-			const intervalsPassed = Math.floor((now - state.lastUpdated) / eightHours);
+			const latestScheduled = getLatestScheduledTimestamp(now);
+			const intervalsPassed = Math.floor((latestScheduled - state.lastUpdated) / eightHours);
 
 			if (intervalsPassed > 0) {
 				let newValue = state.value;
 				for (let i = 0; i < intervalsPassed; i++) {
 					const change = Math.floor(Math.random() * 7) - 3;
-					newValue = Math.max(0, Math.min(100, newValue + change));
+					newValue = Math.max(70, Math.min(93, newValue + change));
 				}
 
 				state = {
