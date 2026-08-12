@@ -125,11 +125,18 @@ const parseCSVToWaterSites = (csvText: string): WaterSite[] => {
 			scarcity: data['SCARCITY'] === 'TRUE',
 			principal: data['PRINCIPAL'] || '',
 			isMonitored: data['IS MONITORED']?.toUpperCase() === 'TRUE',
-			flowRate: data['FLOW_RATE'] || '',
+			flowRate:
+				(data['PUMP TYPE'] || '').toLowerCase().includes('hand')
+					? ''
+					: data['FLOW_RATE'] || '',
 			movementRate:
 				data['MOVEMENT_RATE'] &&
 				data['MOVEMENT_RATE'].toUpperCase() !== 'NULL'
 					? data['MOVEMENT_RATE']
+					: (data['PUMP TYPE'] || '').toLowerCase().includes('hand') &&
+					  data['FLOW_RATE'] &&
+					  data['FLOW_RATE'].toUpperCase() !== 'NULL'
+					? data['FLOW_RATE']
 					: '',
 			waterQualityRate:
 				data['WATER_QUALITY_RATE'] &&

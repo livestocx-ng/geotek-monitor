@@ -39,7 +39,8 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 
 	// Hand pumps are tracked by vertical movement rate; everything else by flow rate.
 	const isHandPump = (site.pumpType || '').toLowerCase().includes('hand');
-	const showMovementButton = isHandPump && !!site.movementRate;
+	const movementUrl = site.movementRate || (isHandPump ? site.flowRate : undefined);
+	const showMovementButton = isHandPump && !!movementUrl;
 
 	// Motorized boreholes with a valid water quality link get a hardness graph.
 	const isMotorized = (site.pumpType || '').toLowerCase().includes('motor');
@@ -323,7 +324,7 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 							</Button>
 						</div>
 					) : (
-						site.flowRate && (
+						!isHandPump && site.flowRate && (
 							<div className='pt-2'>
 								<Button
 									onClick={() => setShowFlowChart(true)}
@@ -363,7 +364,7 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 			<MovementRateChart
 				open={showMovementChart}
 				onClose={() => setShowMovementChart(false)}
-				movementUrl={site.movementRate || ''}
+				movementUrl={movementUrl || ''}
 				siteName={site.name}
 			/>
 
