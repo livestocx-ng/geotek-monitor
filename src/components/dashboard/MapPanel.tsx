@@ -553,7 +553,7 @@ const MapPanel = ({
 					title='Show only monitored GEOTEK sites'
 				>
 					<Activity size={14} />
-					<span className='whitespace-nowrap'>Monitored</span>
+					<span className='whitespace-nowrap'>Updated Monitored</span>
 				</button>
 
 				{/* Hover Tooltip */}
