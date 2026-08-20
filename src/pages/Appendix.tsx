@@ -72,14 +72,14 @@ const appendixData: LoggEntry[] = [
         icon: Droplets,
         sensitivity: 'Normal'
     },
-    {
-        id: 'wq_6',
-        keyword: 'E. Coli / Coliforms',
-        category: 'Water Quality',
-        meaning: 'Biological indicators of fecal contamination. Their presence indicates a high risk of waterborne pathogens like Cholera or Typhoid.',
-        icon: ShieldAlert,
-        sensitivity: 'Critical'
-    },
+    // {
+    //     id: 'wq_6',
+    //     keyword: 'E. Coli / Coliforms',
+    //     category: 'Water Quality',
+    //     meaning: 'Biological indicators of fecal contamination. Their presence indicates a high risk of waterborne pathogens like Cholera or Typhoid.',
+    //     icon: ShieldAlert,
+    //     sensitivity: 'Critical'
+    // },
     {
         id: 'wq_7',
         keyword: 'Specific Conductance',
@@ -130,14 +130,14 @@ const appendixData: LoggEntry[] = [
         icon: TrendingDown,
         sensitivity: 'High'
     },
-    {
-        id: 'wa_4',
-        keyword: 'Aquifer Recharge Rate',
-        category: 'Water Availability',
-        meaning: 'The speed at which an underground water source refills after extraction. Essential for determining the sustainable "safe yield" of a borehole.',
-        icon: RefreshCw,
-        sensitivity: 'Normal'
-    },
+    // {
+    //     id: 'wa_4',
+    //     keyword: 'Aquifer Recharge Rate',
+    //     category: 'Water Availability',
+    //     meaning: 'The speed at which an underground water source refills after extraction. Essential for determining the sustainable "safe yield" of a borehole.',
+    //     icon: RefreshCw,
+    //     sensitivity: 'Normal'
+    // },
     {
         id: 'wa_5',
         keyword: 'Daily Water Production',
@@ -162,14 +162,14 @@ const appendixData: LoggEntry[] = [
         icon: ShieldAlert,
         sensitivity: 'Critical'
     },
-    {
-        id: 'wa_8',
-        keyword: 'Well Recovery Time',
-        category: 'Water Availability',
-        meaning: 'The time required for the water level to return to its static state after the pump is turned off.',
-        icon: Clock,
-        sensitivity: 'Normal'
-    },
+    // {
+    //     id: 'wa_8',
+    //     keyword: 'Well Recovery Time',
+    //     category: 'Water Availability',
+    //     meaning: 'The time required for the water level to return to its static state after the pump is turned off.',
+    //     icon: Clock,
+    //     sensitivity: 'Normal'
+    // },
     {
         id: 'wa_9',
         keyword: 'Stage (Gage Height)',

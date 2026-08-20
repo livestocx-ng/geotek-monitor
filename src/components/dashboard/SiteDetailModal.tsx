@@ -195,7 +195,7 @@ const SiteDetailModal = ({site, open, onClose}: SiteDetailModalProps) => {
 									{site.pumpType}
 								</span>
 							</div>
-							<div className='flex justify-between items-center'>
+							<div className={`flex justify-between items-center ${site.pumpType.toLowerCase() === 'hand pump' ? 'hidden' : ''}`}>
 								<span className='text-xs text-muted-foreground'>
 									Contamination:
 								</span>
